@@ -34,7 +34,7 @@ while (!WindowShouldClose())
 	}
 
 #if DEBUG
-	DrawFPS(0, 0);
+	DrawFPS(2, 2);
 #endif
 	EndDrawing();
 }
