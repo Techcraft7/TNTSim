@@ -1,0 +1,7 @@
+﻿global using Raylib_cs;
+
+global using TNTSim;
+global using TNTSim.Components;
+
+global using static Raylib_cs.Raylib;
+global using static TNTSim.Constants;
