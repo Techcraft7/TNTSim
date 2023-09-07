@@ -6,15 +6,18 @@ internal class DragHandler
     public int DeltaX { get; private set; }
     public int DeltaY { get; private set; }
 
+    private readonly MouseButton button;
     private int startX = 0;
     private int startY = 0;
 
-    public void Update(Func<bool>? startCondition = null)
+	public DragHandler(MouseButton button = MouseButton.MOUSE_BUTTON_LEFT) => this.button = button;
+
+	public void Update(Func<bool>? startCondition = null)
     {
-        bool isDown = IsMouseButtonDown(MouseButton.MOUSE_BUTTON_LEFT);
+        bool isDown = IsMouseButtonDown(button);
 
         // Start dragging on press
-        if (isDown && !IsDragging && (startCondition?.Invoke() ?? true))
+        if (IsMouseButtonPressed(button) && !IsDragging && (startCondition?.Invoke() ?? true))
         {
             startX = GetMouseX();
             startY = GetMouseY();
