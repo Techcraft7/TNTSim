@@ -5,6 +5,7 @@ internal sealed class BreadboardEditor : Component
 	public Breadboard Breadboard => breadboard;
 	private Breadboard breadboard = default;
 	private readonly int buttonSize;
+	private readonly ScrollHandler scroller = new(1f);
 
 	public BreadboardEditor(int x, int y, int w, int h) : base(x, y, w, h)
 	{
@@ -52,6 +53,13 @@ internal sealed class BreadboardEditor : Component
 		{
 			breadboard[slice, charge] = breadboard[slice, charge].Next();
 		}
+
+		scroller.Update();
+		if (scroller.HasScrolledOneTick(out int sign))
+		{
+            breadboard[slice, charge] = sign > 0 ? breadboard[slice, charge].Next() : breadboard[slice, charge].Previous();
+        }
+
 		if (IsMouseButtonDown(MouseButton.MOUSE_BUTTON_RIGHT))
 		{
 			breadboard[slice, charge] = Connection.NONE;

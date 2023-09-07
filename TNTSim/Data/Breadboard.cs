@@ -77,4 +77,19 @@ internal static class ConnectionExt
 		Connection.LEFT_OUT => Connection.NONE,
 		_ => Connection.NONE,
 	};
+
+    public static Connection Previous(this Connection c) => c switch
+    {
+        Connection.NONE => Connection.LEFT_OUT,
+        Connection.INPUT => Connection.NONE,
+        Connection.NEXT_CHARGE => Connection.INPUT,
+        Connection.RIGHT => Connection.NEXT_CHARGE,
+        Connection.PREV_CHARGE => Connection.RIGHT,
+        Connection.LEFT => Connection.PREV_CHARGE,
+        Connection.NEXT_OUT => Connection.LEFT,
+        Connection.RIGHT_OUT => Connection.NEXT_OUT,
+        Connection.PREV_OUT => Connection.RIGHT_OUT,
+        Connection.LEFT_OUT => Connection.PREV_OUT,
+        _ => Connection.NONE,
+    };
 }

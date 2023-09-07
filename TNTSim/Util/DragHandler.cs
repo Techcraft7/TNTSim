@@ -1,4 +1,4 @@
-﻿namespace TNTSim.Components;
+﻿namespace TNTSim.Util;
 
 internal class DragHandler
 {

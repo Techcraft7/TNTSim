@@ -4,6 +4,7 @@ global using TNTSim;
 global using TNTSim.Components;
 global using TNTSim.Screens;
 global using TNTSim.Data;
+global using TNTSim.Util;
 
 global using System.Numerics;
 
