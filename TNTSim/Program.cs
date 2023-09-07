@@ -5,6 +5,7 @@ SetTargetFPS(Enumerable.Range(0, GetMonitorCount()).Max(GetMonitorRefreshRate));
 
 Screen screen = Screen.CHARGES;
 CannonSettings settings = new();
+settings.LoadDefaults();
 
 while (!WindowShouldClose())
 {
