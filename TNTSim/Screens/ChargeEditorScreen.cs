@@ -2,7 +2,7 @@
 
 internal static class ChargeEditorScreen
 {
-    private const int START_Y = CONTROL_HEIGHT + PADDING + CONTROL_HEIGHT + PADDING;
+    private const int START_Y = CONTROL_HEIGHT + PADDING + PADDING;
     private const int CHARGE_LABEL_WIDTH = 100;
     private const string TITLE = "Charge Editor";
     private const string DEFAULTS_TEXT = "Defaults";
@@ -22,8 +22,8 @@ internal static class ChargeEditorScreen
 
     public static void UpdateAndDraw(ref CannonSettings settings)
     {
-        DrawText(TITLE, TITLE_X, PADDING, FONT_SIZE, Color.GRAY);
-        DrawLine(0, CONTROL_HEIGHT, WINDOW_WIDTH, CONTROL_HEIGHT, Color.GRAY);
+        DrawText(TITLE, TITLE_X, 2 * PADDING, FONT_SIZE, Color.GRAY);
+        DrawLine(0, CONTROL_HEIGHT + PADDING, WINDOW_WIDTH, CONTROL_HEIGHT + PADDING, Color.GRAY);
 
         for (int i = 0; i < 5; i++)
         {

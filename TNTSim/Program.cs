@@ -7,13 +7,19 @@ Screen screen = Screen.CHARGES;
 CannonSettings settings = new();
 settings.LoadDefaults();
 
+bool nextTabPressed = false;
+Button nextTabButton = new(">", WINDOW_WIDTH - PADDING - CONTROL_HEIGHT, PADDING / 2, CONTROL_HEIGHT, () => nextTabPressed = true);
+
 while (!WindowShouldClose())
 {
 	BeginDrawing();
 	ClearBackground(Color.RAYWHITE);
 
-	if (IsKeyPressed(KeyboardKey.KEY_TAB))
+	nextTabButton.UpdateAndDraw();
+
+	if (nextTabPressed || IsKeyPressed(KeyboardKey.KEY_TAB))
 	{
+		nextTabPressed = false;
 		screen = screen.Next();
 	}
 
@@ -34,7 +40,7 @@ while (!WindowShouldClose())
 	}
 
 #if DEBUG
-	DrawFPS(2, 2);
+	DrawFPS(PADDING, PADDING);
 #endif
 	EndDrawing();
 }
