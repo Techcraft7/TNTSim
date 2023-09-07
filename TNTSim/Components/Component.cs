@@ -42,4 +42,5 @@ internal abstract class Component
     }
 
     public int GetRightSide() => X + Width;
+    public int GetBottomSide() => Y + Height;
 }

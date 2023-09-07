@@ -3,7 +3,7 @@
 internal struct Charge : ICloneable<Charge>
 {
     public int tntCount, scheduleCount, fuse;
-    public bool cancelX, cancelY;
+    public bool cancelX, cancelZ;
     public bool single;
 
     public Charge Clone() => new()
@@ -12,7 +12,7 @@ internal struct Charge : ICloneable<Charge>
         scheduleCount = scheduleCount,
         fuse = fuse,
         cancelX = cancelX,
-        cancelY = cancelY,
+        cancelZ = cancelZ,
         single = single
     };
 }
