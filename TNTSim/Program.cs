@@ -8,8 +8,8 @@ CannonSettings settings = new();
 
 while (!WindowShouldClose())
 {
-    BeginDrawing();
-    ClearBackground(Color.RAYWHITE);
+	BeginDrawing();
+	ClearBackground(Color.RAYWHITE);
 
 	if (IsKeyPressed(KeyboardKey.KEY_TAB))
 	{
@@ -19,10 +19,10 @@ while (!WindowShouldClose())
 	switch (screen)
 	{
 		case Screen.CHARGES:
-			ChargeEditorGUI.UpdateAndDraw(ref settings);
+			ChargeEditorScreen.UpdateAndDraw(ref settings);
 			break;
 		case Screen.BREADBOARDS:
-			// TODO: BREADBOARDS
+			BreadboardEditorScreen.UpdateAndDraw();
 			break;
 		case Screen.SIMULATION:
 			// TODO: SIMULATION
@@ -35,7 +35,7 @@ while (!WindowShouldClose())
 #if DEBUG
 	DrawFPS(0, 0);
 #endif
-    EndDrawing();
+	EndDrawing();
 }
 
 CloseWindow();
