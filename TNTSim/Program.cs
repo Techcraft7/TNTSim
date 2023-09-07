@@ -29,7 +29,7 @@ while (!WindowShouldClose())
 			ChargeEditorScreen.UpdateAndDraw(ref settings);
 			break;
 		case Screen.BREADBOARDS:
-			BreadboardEditorScreen.UpdateAndDraw();
+			BreadboardEditorScreen.UpdateAndDraw(ref settings);
 			break;
 		case Screen.SIMULATION:
 			// TODO: SIMULATION

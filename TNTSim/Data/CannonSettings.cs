@@ -28,7 +28,7 @@ internal struct CannonSettings
         for (int i = 0; i < 5; i++)
         {
             continuationBoard[i, i] = Connection.INPUT;
-            continuationBoard[i, i + 1] = Connection.DOWN_OUT;
+            continuationBoard[i, i + 1] = Connection.NEXT_OUT;
         }
     }
 }

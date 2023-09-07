@@ -11,7 +11,7 @@ internal static class ChargeEditorScreen
 
     private static readonly CenteredText[] CHARGE_LABELS = Enumerable
         .Range(0, 5)
-        .Select(i => new CenteredText($"Charge #{i + 1}", START_X, START_Y + i * ChargeEditor.HEIGHT, CHARGE_LABEL_WIDTH, ChargeEditor.HEIGHT))
+        .Select(i => new CenteredText($"Charge #{i + 1}", START_X, START_Y + i * (ChargeEditor.HEIGHT + PADDING), CHARGE_LABEL_WIDTH, ChargeEditor.HEIGHT))
         .ToArray();
     private static readonly ChargeEditor[] CHARGE_EDITORS = Enumerable.Range(0, 5)
         .Select(i => new ChargeEditor(START_X + CHARGE_LABEL_WIDTH, CHARGE_LABELS[i].Y))

@@ -3,7 +3,7 @@
 internal static class Constants
 {
     public const int WINDOW_WIDTH = 800;
-    public const int WINDOW_HEIGHT = 600;
+    public const int WINDOW_HEIGHT = 800;
     public const int FONT_SIZE = 16;
     public const int PADDING = 4;
 	public const int CONTROL_HEIGHT = FONT_SIZE + (2 * PADDING);
