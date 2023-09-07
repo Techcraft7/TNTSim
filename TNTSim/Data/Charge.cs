@@ -1,4 +1,4 @@
-﻿namespace TNTSim;
+﻿namespace TNTSim.Data;
 
 internal struct Charge : ICloneable<Charge>
 {
