@@ -11,12 +11,13 @@ internal sealed class NumberBox : Component
 			this.value = Math.Clamp(value, min, max);
 			if (old != this.value)
 			{
-				valueText = value.ToString();
+				valueText = this.value.ToString();
 			}
 		}
 	}
 
-	private readonly DragHandler handler = new();
+	private readonly ScrollHandler scroller = new(1f);
+	private readonly DragHandler dragger = new();
 	private readonly int min;
 	private readonly int max;
 	private int value;
@@ -33,22 +34,27 @@ internal sealed class NumberBox : Component
 
 	public override void UpdateAndDraw()
 	{
-		handler.Update(IsMouseOverSelf);
+		dragger.Update(IsMouseOverSelf);
 
-		if (handler.IsDragging)
+		if (dragger.IsDragging)
 		{
-			int delta = -handler.DeltaY / 10;
-
-			int old = value;
-			value = Math.Clamp(valueOnDragStart + delta, min, max);
-			if (old != value)
-			{
-				valueText = value.ToString();
-			}
+			int delta = -dragger.DeltaY / 2;
+			Value = valueOnDragStart + delta;
 		}
 		else
 		{
 			valueOnDragStart = value;
+		}
+
+        scroller.Update(IsMouseOverSelf);
+        if (!dragger.IsDragging && scroller.HasScrolledOneTick(out int scrollSign))
+		{
+			Value += scrollSign;
+        }
+
+		if (IsMouseOverSelf() && IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_RIGHT))
+		{
+			Value = min;
 		}
 
 		DrawOutline(true);

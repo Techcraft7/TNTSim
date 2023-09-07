@@ -13,9 +13,17 @@ internal sealed class ScrollHandler
         this.amountPerTick = amountPerTick;
     }
 
-    public void Update()
+    public void Update(Func<bool>? incrementCondition = null)
     {
-        amount += GetMouseWheelMoveV().Y;
+        if (incrementCondition?.Invoke() ?? true)
+        {
+            amount += GetMouseWheelMoveV().Y;
+        }
+        else
+        {
+            amount = 0;
+            scrolled = 0;
+        }
 
         if (Math.Abs(amount) >= amountPerTick)
         {
