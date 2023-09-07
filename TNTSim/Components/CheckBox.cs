@@ -6,7 +6,7 @@ internal sealed class CheckBox : Component
     private const int INNER_BOX_SIZE = BOX_SIZE - (2 * PADDING);
     private const int TEXT_X = PADDING + BOX_SIZE + PADDING;
 
-	public bool Value { get; private set; }
+	public bool Value { get; set; }
     private readonly string text;
     
     public CheckBox(string text, int x, int y, int w, bool initial = false) : base(x, y, w, CONTROL_HEIGHT)

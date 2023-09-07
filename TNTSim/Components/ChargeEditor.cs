@@ -7,22 +7,30 @@ internal sealed class ChargeEditor : ComponentGroup
 
 	public Charge Charge => charge;
 	private Charge charge = new();
+	private readonly NumberBox tntCountBox, scheduleCountBox, fuseBox;
+	private readonly CheckBox cancelXCheck, cancelZCheck, singleCheck;
 
 	public ChargeEditor(int x, int y) : base(x, y, GetComponents(x, y))
 	{
+		tntCountBox = GetComponent<NumberBox>(1);
+		scheduleCountBox = GetComponent<NumberBox>(3);
+		fuseBox = GetComponent<NumberBox>(5);
 
+		cancelXCheck = GetComponent<CheckBox>(7);
+		cancelZCheck = GetComponent<CheckBox>(8);
+		singleCheck = GetComponent<CheckBox>(9);
 	}
 
 	public override void UpdateAndDraw()
 	{
 		base.UpdateAndDraw();
-		charge.tntCount = GetComponent<NumberBox>(1).Value;
-		charge.scheduleCount = GetComponent<NumberBox>(3).Value;
-		charge.fuse = GetComponent<NumberBox>(5).Value;
+		charge.tntCount = tntCountBox.Value;
+		charge.scheduleCount = scheduleCountBox.Value;
+		charge.fuse = fuseBox.Value;
 
-		charge.cancelX = GetComponent<CheckBox>(7).Value;
-		charge.cancelZ = GetComponent<CheckBox>(8).Value;
-		charge.single = GetComponent<CheckBox>(9).Value;
+		charge.cancelX = cancelXCheck.Value;
+		charge.cancelZ = cancelZCheck.Value;
+		charge.single = singleCheck.Value;
 	}
 
 	private static Component[] GetComponents(int x, int y) => new ComponentGroupBuilder()
@@ -34,8 +42,19 @@ internal sealed class ChargeEditor : ComponentGroup
 		.AddNumberBox(1, 80)
 		.EndRow()
 		.AddText("TNT Settings")
-		.AddCheckBox("Cancel X")
-		.AddCheckBox("Cancel Z")
+		.AddCheckBox("Cancel X", initial: true)
+		.AddCheckBox("Cancel Z", initial: true)
 		.AddCheckBox("Single")
 		.ToComponentArray(x, y);
+	
+	public void SetCharge(Charge newCharge)
+	{
+		tntCountBox.Value = newCharge.tntCount;
+		scheduleCountBox.Value = newCharge.scheduleCount;
+		fuseBox.Value = newCharge.fuse;
+
+		cancelXCheck.Value = newCharge.cancelX;
+		cancelZCheck.Value = newCharge.cancelZ;
+		singleCheck.Value = newCharge.single;
+	}
 }

@@ -5,7 +5,7 @@ internal sealed class NumberBox : Component
 	public int Value
 	{
 		get => value;
-		private set
+		set
 		{
 			int old = this.value;
 			this.value = Math.Clamp(value, min, max);
