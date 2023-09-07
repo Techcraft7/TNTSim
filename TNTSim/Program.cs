@@ -2,15 +2,38 @@
 
 SetTargetFPS(Enumerable.Range(0, GetMonitorCount()).Max(GetMonitorRefreshRate));
 
+
+Screen screen = Screen.CHARGES;
 CannonSettings settings = new();
 
 while (!WindowShouldClose())
 {
     BeginDrawing();
     ClearBackground(Color.RAYWHITE);
-    ChargeEditorGUI.UpdateAndDraw(ref settings);
+
+	if (IsKeyPressed(KeyboardKey.KEY_TAB))
+	{
+		screen = screen.Next();
+	}
+
+	switch (screen)
+	{
+		case Screen.CHARGES:
+			ChargeEditorGUI.UpdateAndDraw(ref settings);
+			break;
+		case Screen.BREADBOARDS:
+			// TODO: BREADBOARDS
+			break;
+		case Screen.SIMULATION:
+			// TODO: SIMULATION
+			break;
+		default:
+			screen = Screen.CHARGES;
+			break;
+	}
+
 #if DEBUG
-    DrawFPS(0, 0);
+	DrawFPS(0, 0);
 #endif
     EndDrawing();
 }
