@@ -11,13 +11,19 @@ internal static class BreadboardEditorScreen
     private const string TITLE = "Breadboard Editor";
     private const string SCHEDULING_TEXT = "Scheduling Breadboard";
     private const string CONTINUATION_TEXT = "Continuation Breadboard";
+    private const string DEFAULTS_TEXT = "Defaults";
     private static readonly int TITLE_X = (WINDOW_WIDTH - MeasureText(TITLE, FONT_SIZE)) / 2;
     private static readonly int SCHEDULING_X = (WINDOW_WIDTH - MeasureText(SCHEDULING_TEXT, FONT_SIZE)) / 2;
     private static readonly int CONTINUATION_X = (WINDOW_WIDTH - MeasureText(CONTINUATION_TEXT, FONT_SIZE)) / 2;
+    private static readonly int DEFAULTS_X = (WINDOW_WIDTH - Button.GetMinWidth(DEFAULTS_TEXT)) / 2;
 
     private static readonly BreadboardEditor schedEditor = new(BREADBOARD_X, START_Y + CONTROL_HEIGHT, BREADBOARD_WIDTH_REAL, BUTTON_SIZE * 6);
     private static readonly BreadboardEditor contEditor = new(BREADBOARD_X, schedEditor.GetBottomSide() + CONTROL_HEIGHT, BREADBOARD_WIDTH_REAL, BUTTON_SIZE * 6);
+    private static readonly Button defaultsButton = new(DEFAULTS_TEXT, DEFAULTS_X, contEditor.GetBottomSide(), Button.GetMinWidth(DEFAULTS_TEXT), () => loadDefaults = true);
+    
     private static bool first = true;
+    private static bool loadDefaults = false;
+
     public static void UpdateAndDraw(ref CannonSettings settings)
     {
         if (first)
@@ -25,6 +31,19 @@ internal static class BreadboardEditorScreen
             first = false;
             schedEditor.Load(settings.schedulingBoard);
             contEditor.Load(settings.continuationBoard);
+        }
+
+        if (loadDefaults)
+        {
+            loadDefaults = false;
+            schedEditor.Load(default);
+            Breadboard cont = new();
+            for (int i = 0; i < 5; i++)
+            {
+                cont[i, i] = Connection.INPUT;
+                cont[i, i + 1] = Connection.NEXT_OUT;
+            }
+            contEditor.Load(cont);
         }
 
         DrawText(TITLE, TITLE_X, 2 * PADDING, FONT_SIZE, Color.GRAY);
@@ -36,5 +55,7 @@ internal static class BreadboardEditorScreen
         DrawText(CONTINUATION_TEXT, CONTINUATION_X, schedEditor.GetBottomSide() + PADDING, FONT_SIZE, Color.GRAY);
         contEditor.UpdateAndDraw();
         settings.continuationBoard = contEditor.Breadboard;
+
+        defaultsButton.UpdateAndDraw();
     }
 }
