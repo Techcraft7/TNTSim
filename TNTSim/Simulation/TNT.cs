@@ -7,8 +7,7 @@ internal struct TNT
     private static uint NEXT_ID = 0;
 
     public readonly uint id;
-    public double x, y, z;
-    public double velX, velY, velZ;
+    public Vec3 position, velocity;
     public int fuse;
 
     public TNT()
@@ -19,13 +18,9 @@ internal struct TNT
 
     public void Tick(SimulationContext context)
     {
-        velY -= 0.04;
-        x += velX;
-        y += velY;
-        z += velZ;
-        velX *= 0.98;
-        velY *= 0.98;
-        velZ *= 0.98;
+        velocity.Y -= 0.04;
+        position += velocity;
+        velocity *= 0.98;
 
         fuse--;
         if (fuse <= 0)
@@ -37,32 +32,23 @@ internal struct TNT
 
     private readonly void Explode(SimulationContext context)
     {
-        const double CENTER = 0.98F * 0.0625D;
+		Vec3 center = position.Copy() + new Vec3(0, 0.98F * 0.0625D, 0);
 
-        for (int i = 0; i < context.Entities.Count; i++)
+        context.ModifyEntities((ref TNT other) =>
         {
-            TNT other = context.Entities[i];
-            double dx = x - other.x;
-            double dy = y + CENTER - other.y;
-            double dz = z - other.z;
+            Vec3 d = center - other.position;
+            double squareDist = d.SquareLength();
             // Not in 8 block radius
-            double squareDist = (dx * dx) + (dy * dy) + (dz * dz);
             if (squareDist > 64)
             {
-                continue;
+                return;
             }
             double dist = Math.Sqrt(squareDist);
-            dx /= dist;
-            dy /= dist;
-            dz /= dist;
-            dx *= (8 - dist) / 8;
-            dy *= (8 - dist) / 8;
-            dz *= (8 - dist) / 8;
+            d /= dist;
+            d *= (8 - dist) / 8;
 
-            other.velX += dx;
-            other.velY += dy;
-            other.velZ += dz;
-        }
+            other.velocity += d;
+        });
     }
 
     public static bool operator ==(TNT a, TNT b) => a.id == b.id;

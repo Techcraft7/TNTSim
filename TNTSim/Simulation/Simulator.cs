@@ -10,7 +10,7 @@ internal static class Simulator
 
         SimulationContext context = new(list);
 
-        TickOnceAndCap(list, context);
+        TickOnceAndCap(context);
 
         Run(list, context);
     }
@@ -48,13 +48,15 @@ internal static class Simulator
             Charge charge = copy.GetCharge(index);
             for (int i = 0; i < charge.tntCount; i++)
             {
-                list.Add(new()
+                double vx = charge.cancelX ? 0 : 0.2 * Math.Sin(Random.Shared.NextDouble() * Math.Tau);
+                double vz = charge.cancelZ ? 0 : 0.2 * Math.Sin(Random.Shared.NextDouble() * Math.Tau);
+
+				list.Add(new()
                 {
                     // Random momentum and fuse timer are mutually exclusive
                     fuse = 80 - (charge.cancelX && charge.cancelZ ? charge.fuse : 1) + 1,
-                    velX = charge.cancelX ? 0 : 0.2 * Math.Sin(Random.Shared.NextDouble() * Math.Tau),
-                    velZ = charge.cancelZ ? 0 : 0.2 * Math.Sin(Random.Shared.NextDouble() * Math.Tau),
-                    y = settings.payloadY
+                    velocity = new(vx, 0, vz),
+                    position = new(0, settings.payloadY, 0)
                 });
             }
 
@@ -76,18 +78,15 @@ internal static class Simulator
     /// <summary>
     /// Simulates the teleportation of the payload. Steps 1 tick, then caps velocity to 10m/s (component-wise)
     /// </summary>
-    private static void TickOnceAndCap(List<TNT> list, SimulationContext context)
-    {
-        for (int i = list.Count - 1; i >= 0; i--)
+    private static void TickOnceAndCap(SimulationContext context)
+	{
+        context.ModifyEntities((ref TNT tnt) =>
         {
-            TNT tnt = list[i];
             tnt.Tick(context);
-            list[i] = tnt with
-            {
-                velX = Math.Clamp(tnt.velX, -10, 10),
-                velY = Math.Clamp(tnt.velY, -10, 10),
-                velZ = Math.Clamp(tnt.velZ, -10, 10)
-            };
-        }
+
+            tnt.velocity.X = Math.Clamp(tnt.velocity.X, -10, 10);
+            tnt.velocity.Y = Math.Clamp(tnt.velocity.Y, -10, 10);
+            tnt.velocity.Z = Math.Clamp(tnt.velocity.Z, -10, 10);
+        });
     }
 }
