@@ -1,4 +1,4 @@
-﻿namespace TNTSim.Data;
+﻿namespace TNTSim.Cannon;
 
 internal struct Breadboard : ICloneable<Breadboard>
 {

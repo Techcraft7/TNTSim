@@ -1,4 +1,4 @@
-﻿namespace TNTSim.Data;
+﻿namespace TNTSim.Screens;
 
 internal enum Screen
 {

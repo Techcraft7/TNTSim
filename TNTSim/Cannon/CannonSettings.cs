@@ -1,6 +1,6 @@
-﻿namespace TNTSim.Data;
+﻿namespace TNTSim.Cannon;
 
-internal struct CannonSettings
+internal struct CannonSettings : ICloneable<CannonSettings>
 {
     public Charge charge1, charge2, charge3, charge4, charge5;
     public Breadboard schedulingBoard, continuationBoard;
@@ -31,4 +31,15 @@ internal struct CannonSettings
             continuationBoard[i, i + 1] = Connection.NEXT_OUT;
         }
     }
+
+    public CannonSettings Clone() => new()
+    {
+        charge1 = charge1.Clone(),
+        charge2 = charge2.Clone(),
+        charge3 = charge3.Clone(),
+        charge4 = charge4.Clone(),
+        charge5 = charge5.Clone(),
+        schedulingBoard = schedulingBoard.Clone(),
+        continuationBoard = continuationBoard.Clone()
+    };
 }
