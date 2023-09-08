@@ -7,7 +7,7 @@ internal sealed class CheckBox : Component
     private const int TEXT_X = PADDING + BOX_SIZE + PADDING;
     private const int BOX_MAX = PADDING + BOX_SIZE;
 
-    public bool Value { get; private set; }
+    public bool Value { get; set; }
     private readonly string text;
 
     public CheckBox(string text, int x, int y, int w, bool initial = false) : base(x, y, w, CONTROL_HEIGHT)
@@ -39,6 +39,8 @@ internal sealed class CheckBox : Component
 
         DrawText(text, X + TEXT_X, Y + PADDING, FONT_SIZE, PrimaryColor);
     }
+
+    public static int GetMinWidth(string text) => PADDING + BOX_SIZE + PADDING + MeasureText(text, FONT_SIZE) + PADDING;
 
     public static CheckBox WithMinSize(string text, int x, int y, bool initial = false) =>
         new(text, x, y, PADDING + BOX_SIZE + PADDING + MeasureText(text, FONT_SIZE) + PADDING, initial);
