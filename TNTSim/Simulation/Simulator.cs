@@ -4,30 +4,20 @@ internal static class Simulator
 {
     public static void Simulate(SimulationSettings settings)
     {
-        List<TNT> list = new();
-
-        CreatePayload(settings, list);
+        List<TNT> list = CreatePayload(settings);
 
         SimulationContext context = new(list);
 
         TickOnceAndCap(context);
 
-        Run(list, context);
+        Run(context);
     }
 
-    private static void Run(List<TNT> list, SimulationContext context)
-    {
-        while (list.Any())
+    private static void Run(SimulationContext context)
+	{
+        while (context.HasTNT)
         {
-            for (int i = list.Count - 1; i >= 0; i--)
-            {
-                TNT tnt = list[i];
-                tnt.Tick(context);
-                if (i < list.Count && tnt.id == list[i].id)
-                {
-                    list[i] = tnt;
-                }
-            }
+            context.ModifyEntities((ref TNT tnt) => tnt.Tick(context));
             // TODO: collect info
         }
 
@@ -37,8 +27,10 @@ internal static class Simulator
     /// <summary>
     /// Spawns the TNT of the payload
     /// </summary>
-    private static void CreatePayload(SimulationSettings settings, List<TNT> list)
+    private static List<TNT> CreatePayload(SimulationSettings settings)
     {
+        List<TNT> list = new();
+
         // Make changes on this, so we can keep the original
         CannonSettings copy = settings.cannonSettings.Clone();
 
@@ -73,6 +65,8 @@ internal static class Simulator
                 index = BreadboardFollower.FollowBreadboard(index, settings.cannonSettings.continuationBoard);
             }
         }
+
+        return list;
     }
 
     /// <summary>
