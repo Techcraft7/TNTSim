@@ -3,11 +3,16 @@
 internal sealed class SimulationContext
 {
 	public bool HasTNT => tnt.Count > 0;
+	public SimulationSettings Settings { get; init; }
 
 	private readonly IList<TNT> tnt;
 	private readonly List<TNT> toRemove = new();
 
-	public SimulationContext(IList<TNT> tnt) => this.tnt = tnt;
+	public SimulationContext(SimulationSettings settings, IList<TNT> tnt)
+	{
+		Settings = settings;
+		this.tnt = tnt;
+	}
 
 	public void Remove(TNT entity) => toRemove.Add(entity);
 

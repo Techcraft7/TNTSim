@@ -4,9 +4,9 @@ internal static class Simulator
 {
     public static void Simulate(SimulationSettings settings)
     {
-        List<TNT> list = CreatePayload(settings);
+        List<TNT> payload = CreatePayload(settings);
 
-        SimulationContext context = new(list);
+        SimulationContext context = new(settings, payload);
 
         TickOnceAndCap(context);
 
