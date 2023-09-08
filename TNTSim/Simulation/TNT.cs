@@ -68,5 +68,6 @@ internal struct TNT
     public static bool operator ==(TNT a, TNT b) => a.id == b.id;
     public static bool operator !=(TNT a, TNT b) => a.id != b.id;
 
-    public override readonly bool Equals([NotNullWhen(true)] object? obj) => obj is TNT other ? this == other : false;
+	public override readonly bool Equals([NotNullWhen(true)] object? obj) => obj is TNT other && this == other;
+	public override readonly int GetHashCode() => id.GetHashCode();
 }

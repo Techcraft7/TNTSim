@@ -1,6 +1,4 @@
-﻿using TNTSim.Cannon;
-
-InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "TNT Sim");
+﻿InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "TNT Sim");
 
 SetTargetFPS(Enumerable.Range(0, GetMonitorCount()).Max(GetMonitorRefreshRate));
 

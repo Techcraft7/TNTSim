@@ -8,7 +8,7 @@ internal static class Simulator
 
         CreatePayload(settings, list);
 
-        SimulationContext context = new(list, new());
+        SimulationContext context = new(list);
 
         TickOnceAndCap(list, context);
 

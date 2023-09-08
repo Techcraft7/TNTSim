@@ -1,4 +1,6 @@
-﻿namespace TNTSim.Cannon;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace TNTSim.Cannon;
 
 internal struct Breadboard : ICloneable<Breadboard>
 {
@@ -65,6 +67,10 @@ internal struct Breadboard : ICloneable<Breadboard>
         a.data2 == b.data2;
 
     public static bool operator !=(Breadboard a, Breadboard b) => !(a == b);
+
+	public override readonly bool Equals([NotNullWhen(true)] object? obj) => obj is Breadboard other && this == other;
+
+	public override readonly int GetHashCode() => data0.GetHashCode() ^ data1.GetHashCode() ^ data2.GetHashCode();
 }
 
 internal static class ConnectionExt
