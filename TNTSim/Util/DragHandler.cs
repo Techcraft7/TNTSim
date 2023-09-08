@@ -10,9 +10,9 @@ internal class DragHandler
     private int startX = 0;
     private int startY = 0;
 
-	public DragHandler(MouseButton button = MouseButton.MOUSE_BUTTON_LEFT) => this.button = button;
+    public DragHandler(MouseButton button = MouseButton.MOUSE_BUTTON_LEFT) => this.button = button;
 
-	public void Update(Func<bool>? startCondition = null)
+    public void Update(Func<bool>? startCondition = null)
     {
         bool isDown = IsMouseButtonDown(button);
 

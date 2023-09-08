@@ -12,37 +12,37 @@ Button nextTabButton = new(">", WINDOW_WIDTH - PADDING - CONTROL_HEIGHT, PADDING
 
 while (!WindowShouldClose())
 {
-	BeginDrawing();
-	ClearBackground(Color.RAYWHITE);
+    BeginDrawing();
+    ClearBackground(Color.RAYWHITE);
 
-	nextTabButton.UpdateAndDraw();
+    nextTabButton.UpdateAndDraw();
 
-	if (nextTabPressed || IsKeyPressed(KeyboardKey.KEY_TAB))
-	{
-		nextTabPressed = false;
-		screen = screen.Next();
-	}
+    if (nextTabPressed || IsKeyPressed(KeyboardKey.KEY_TAB))
+    {
+        nextTabPressed = false;
+        screen = screen.Next();
+    }
 
-	switch (screen)
-	{
-		case Screen.CHARGES:
-			ChargeEditorScreen.UpdateAndDraw(ref settings);
-			break;
-		case Screen.BREADBOARDS:
-			BreadboardEditorScreen.UpdateAndDraw(ref settings);
-			break;
-		case Screen.SIMULATION:
-			// TODO: SIMULATION
-			break;
-		default:
-			screen = Screen.CHARGES;
-			break;
-	}
+    switch (screen)
+    {
+        case Screen.CHARGES:
+            ChargeEditorScreen.UpdateAndDraw(ref settings);
+            break;
+        case Screen.BREADBOARDS:
+            BreadboardEditorScreen.UpdateAndDraw(ref settings);
+            break;
+        case Screen.SIMULATION:
+            // TODO: SIMULATION
+            break;
+        default:
+            screen = Screen.CHARGES;
+            break;
+    }
 
 #if DEBUG
-	DrawFPS(PADDING, PADDING);
+    DrawFPS(PADDING, PADDING);
 #endif
-	EndDrawing();
+    EndDrawing();
 }
 
 CloseWindow();

@@ -1,6 +1,4 @@
-﻿using System.Reflection.Metadata;
-
-namespace TNTSim.Util;
+﻿namespace TNTSim.Util;
 
 internal sealed class ScrollHandler
 {

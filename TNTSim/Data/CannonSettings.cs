@@ -5,7 +5,7 @@ internal struct CannonSettings
     public Charge charge1, charge2, charge3, charge4, charge5;
     public Breadboard schedulingBoard, continuationBoard;
 
-	public void SetCharge(int i, Charge newCharge) => _ = i switch
+    public void SetCharge(int i, Charge newCharge) => _ = i switch
     {
         0 => charge1 = newCharge,
         1 => charge2 = newCharge,
