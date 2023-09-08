@@ -80,34 +80,34 @@ internal sealed class BreadboardEditor : Component
             case Connection.NEXT_CHARGE:
                 DrawLine(centerX, centerY, centerX, y, Color.RED);
                 break;
-            case Connection.RIGHT:
+            case Connection.NEXT_SLICE:
                 DrawLine(centerX, centerY, x + buttonSize, centerY, Color.RED);
                 break;
             case Connection.PREV_CHARGE:
                 DrawLine(centerX, centerY, centerX, y + buttonSize, Color.RED);
                 break;
-            case Connection.LEFT:
+            case Connection.PREV_SLICE:
                 DrawLine(centerX, centerY, x, centerY, Color.RED);
                 break;
-            case Connection.NEXT_OUT:
+            case Connection.NEXT_CHARGE_OUT:
                 DrawLine(centerX - diagonal, centerY - diagonal, centerX + diagonal, centerY + diagonal, Color.RED);
                 DrawLine(centerX - diagonal, centerY + diagonal, centerX + diagonal, centerY - diagonal, Color.RED);
                 DrawConnection(Connection.NEXT_CHARGE, x, y);
                 break;
-            case Connection.RIGHT_OUT:
+            case Connection.NEXT_SLICE_OUT:
                 DrawLine(centerX - diagonal, centerY - diagonal, centerX + diagonal, centerY + diagonal, Color.RED);
                 DrawLine(centerX - diagonal, centerY + diagonal, centerX + diagonal, centerY - diagonal, Color.RED);
-                DrawConnection(Connection.RIGHT, x, y);
+                DrawConnection(Connection.NEXT_SLICE, x, y);
                 break;
-            case Connection.PREV_OUT:
+            case Connection.PREV_CHARGE_OUT:
                 DrawLine(centerX - diagonal, centerY - diagonal, centerX + diagonal, centerY + diagonal, Color.RED);
                 DrawLine(centerX - diagonal, centerY + diagonal, centerX + diagonal, centerY - diagonal, Color.RED);
                 DrawConnection(Connection.PREV_CHARGE, x, y);
                 break;
-            case Connection.LEFT_OUT:
+            case Connection.PREV_SLICE_OUT:
                 DrawLine(centerX - diagonal, centerY - diagonal, centerX + diagonal, centerY + diagonal, Color.RED);
                 DrawLine(centerX - diagonal, centerY + diagonal, centerX + diagonal, centerY - diagonal, Color.RED);
-                DrawConnection(Connection.LEFT, x, y);
+                DrawConnection(Connection.PREV_SLICE, x, y);
                 break;
         }
     }

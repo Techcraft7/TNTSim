@@ -50,14 +50,21 @@ internal struct Breadboard : ICloneable<Breadboard>
         NONE = 0,
         INPUT = 1,
         NEXT_CHARGE = 2,
-        RIGHT = 3,
+        NEXT_SLICE = 3,
         PREV_CHARGE = 4,
-        LEFT = 5,
-        NEXT_OUT = 6,
-        RIGHT_OUT = 7,
-        PREV_OUT = 8,
-        LEFT_OUT = 9,
+        PREV_SLICE = 5,
+        NEXT_CHARGE_OUT = 6,
+        NEXT_SLICE_OUT = 7,
+        PREV_CHARGE_OUT = 8,
+        PREV_SLICE_OUT = 9,
     }
+
+    public static bool operator ==(Breadboard a, Breadboard b) =>
+        a.data0 == b.data0 &&
+        a.data1 == b.data1 &&
+        a.data2 == b.data2;
+
+    public static bool operator !=(Breadboard a, Breadboard b) => !(a == b);
 }
 
 internal static class ConnectionExt
@@ -66,29 +73,29 @@ internal static class ConnectionExt
     {
         Connection.NONE => Connection.INPUT,
         Connection.INPUT => Connection.NEXT_CHARGE,
-        Connection.NEXT_CHARGE => Connection.RIGHT,
-        Connection.RIGHT => Connection.PREV_CHARGE,
-        Connection.PREV_CHARGE => Connection.LEFT,
-        Connection.LEFT => Connection.NEXT_OUT,
-        Connection.NEXT_OUT => Connection.RIGHT_OUT,
-        Connection.RIGHT_OUT => Connection.PREV_OUT,
-        Connection.PREV_OUT => Connection.LEFT_OUT,
-        Connection.LEFT_OUT => Connection.NONE,
+        Connection.NEXT_CHARGE => Connection.NEXT_SLICE,
+        Connection.NEXT_SLICE => Connection.PREV_CHARGE,
+        Connection.PREV_CHARGE => Connection.PREV_SLICE,
+        Connection.PREV_SLICE => Connection.NEXT_CHARGE_OUT,
+        Connection.NEXT_CHARGE_OUT => Connection.NEXT_SLICE_OUT,
+        Connection.NEXT_SLICE_OUT => Connection.PREV_CHARGE_OUT,
+        Connection.PREV_CHARGE_OUT => Connection.PREV_SLICE_OUT,
+        Connection.PREV_SLICE_OUT => Connection.NONE,
         _ => Connection.NONE,
     };
 
     public static Connection Previous(this Connection c) => c switch
     {
-        Connection.NONE => Connection.LEFT_OUT,
+        Connection.NONE => Connection.PREV_SLICE_OUT,
         Connection.INPUT => Connection.NONE,
         Connection.NEXT_CHARGE => Connection.INPUT,
-        Connection.RIGHT => Connection.NEXT_CHARGE,
-        Connection.PREV_CHARGE => Connection.RIGHT,
-        Connection.LEFT => Connection.PREV_CHARGE,
-        Connection.NEXT_OUT => Connection.LEFT,
-        Connection.RIGHT_OUT => Connection.NEXT_OUT,
-        Connection.PREV_OUT => Connection.RIGHT_OUT,
-        Connection.LEFT_OUT => Connection.PREV_OUT,
+        Connection.NEXT_SLICE => Connection.NEXT_CHARGE,
+        Connection.PREV_CHARGE => Connection.NEXT_SLICE,
+        Connection.PREV_SLICE => Connection.PREV_CHARGE,
+        Connection.NEXT_CHARGE_OUT => Connection.PREV_SLICE,
+        Connection.NEXT_SLICE_OUT => Connection.NEXT_CHARGE_OUT,
+        Connection.PREV_CHARGE_OUT => Connection.NEXT_SLICE_OUT,
+        Connection.PREV_SLICE_OUT => Connection.PREV_CHARGE_OUT,
         _ => Connection.NONE,
     };
 }

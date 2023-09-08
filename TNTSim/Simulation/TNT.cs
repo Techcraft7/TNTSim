@@ -8,7 +8,7 @@ internal struct TNT
 
     public TNT() => fuse = 80;
 
-    public void Tick()
+    public void Tick(SimulationContext context)
     {
         velY -= 0.04;
         x += velX;

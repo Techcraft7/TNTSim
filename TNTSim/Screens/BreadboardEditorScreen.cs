@@ -41,7 +41,7 @@ internal static class BreadboardEditorScreen
             for (int i = 0; i < 5; i++)
             {
                 cont[i, i] = Connection.INPUT;
-                cont[i, i + 1] = Connection.NEXT_OUT;
+                cont[i, i + 1] = Connection.NEXT_CHARGE_OUT;
             }
             contEditor.Load(cont);
         }

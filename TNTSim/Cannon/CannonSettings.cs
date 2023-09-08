@@ -15,6 +15,16 @@ internal struct CannonSettings : ICloneable<CannonSettings>
         _ => default
     };
 
+    public readonly Charge GetCharge(int i) => i switch
+    {
+        0 => charge1,
+        1 => charge2,
+        2 => charge3,
+        3 => charge4,
+        4 => charge5,
+        _ => default
+    };
+
     public void LoadDefaults()
     {
         charge1 = Charge.DEFAULT.Clone();
@@ -28,7 +38,7 @@ internal struct CannonSettings : ICloneable<CannonSettings>
         for (int i = 0; i < 5; i++)
         {
             continuationBoard[i, i] = Connection.INPUT;
-            continuationBoard[i, i + 1] = Connection.NEXT_OUT;
+            continuationBoard[i, i + 1] = Connection.NEXT_CHARGE_OUT;
         }
     }
 
