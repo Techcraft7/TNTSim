@@ -27,13 +27,13 @@ internal struct CannonSettings : ICloneable<CannonSettings>
 
     public void LoadDefaults()
     {
-        charge1 = Charge.DEFAULT.Clone();
-        charge2 = Charge.DEFAULT.Clone();
-        charge3 = Charge.DEFAULT.Clone();
-        charge4 = Charge.DEFAULT.Clone();
-        charge5 = Charge.DEFAULT.Clone();
+        for (int i = 0; i < 5; i++)
+        {
+            SetCharge(i, NukeSettings.CHARGES[i].Clone());
+        }
 
-        schedulingBoard = default;
+        schedulingBoard = NukeSettings.SCHED_BREADBOARD.Clone();
+
         continuationBoard = default;
         for (int i = 0; i < 5; i++)
         {

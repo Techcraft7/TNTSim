@@ -1,7 +1,7 @@
 ﻿namespace TNTSim.Simulation;
 
-internal readonly struct SimulationSettings
+internal struct SimulationSettings
 {
-    public readonly CannonSettings cannonSettings;
-    public readonly int payloadY;
+    public CannonSettings cannonSettings;
+    public double payloadY;
 }

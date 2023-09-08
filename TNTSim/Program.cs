@@ -1,4 +1,6 @@
-﻿InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "TNT Sim");
+﻿using TNTSim.Cannon;
+
+InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "TNT Sim");
 
 SetTargetFPS(Enumerable.Range(0, GetMonitorCount()).Max(GetMonitorRefreshRate));
 
@@ -32,7 +34,14 @@ while (!WindowShouldClose())
             BreadboardEditorScreen.UpdateAndDraw(ref settings);
             break;
         case Screen.SIMULATION:
-            // TODO: SIMULATION
+            if (IsKeyPressed(KeyboardKey.KEY_SPACE))
+            {
+                Simulator.Simulate(new()
+                {
+                    cannonSettings = settings,
+                    payloadY = 319
+                });
+            }
             break;
         default:
             screen = Screen.CHARGES;

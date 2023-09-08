@@ -18,10 +18,30 @@ internal static class ChargeEditorScreen
         .ToArray();
     private static readonly Button DEFAULTS_BUTTON = new(DEFAULTS_TEXT, (WINDOW_WIDTH - Button.GetMinWidth(DEFAULTS_TEXT)) / 2, CHARGE_EDITORS[^1].GetBottomSide() + PADDING, Button.GetMinWidth(DEFAULTS_TEXT), () => shouldLoadDefaults = true);
 
+    private static bool first = true;
     private static bool shouldLoadDefaults = false;
 
     public static void UpdateAndDraw(ref CannonSettings settings)
     {
+        if (first)
+        {
+            first = false;
+            for (int i = 0; i < 5; i++)
+            {
+                CHARGE_EDITORS[i].SetCharge(settings.GetCharge(i));
+            }
+        }
+
+        if (shouldLoadDefaults)
+        {
+            shouldLoadDefaults = false;
+            for (int i = 0; i < 5; i++)
+            {
+                settings.SetCharge(i, Charge.DEFAULT);
+                CHARGE_EDITORS[i].SetCharge(Charge.DEFAULT);
+            }
+        }
+
         DrawText(TITLE, TITLE_X, 2 * PADDING, FONT_SIZE, Color.GRAY);
         DrawLine(0, CONTROL_HEIGHT + PADDING, WINDOW_WIDTH, CONTROL_HEIGHT + PADDING, Color.GRAY);
 
@@ -35,15 +55,5 @@ internal static class ChargeEditorScreen
         DEFAULTS_BUTTON.UpdateAndDraw();
 
         DrawText("*Mutally exclusive with any random momentum", PADDING, WINDOW_HEIGHT - FONT_SIZE - PADDING, FONT_SIZE, Color.GRAY);
-
-        if (shouldLoadDefaults)
-        {
-            shouldLoadDefaults = false;
-            for (int i = 0; i < 5; i++)
-            {
-                settings.SetCharge(i, Charge.DEFAULT);
-                CHARGE_EDITORS[i].SetCharge(Charge.DEFAULT);
-            }
-        }
     }
 }

@@ -36,10 +36,7 @@ internal static class BreadboardFollower
 
     private static int FollowFrom(int startCharge, int startSlice, Breadboard breadboard)
     {
-        List<(int s, int c)> seen = new()
-        {
-            (startSlice, startCharge)
-        };
+        List<(int s, int c)> seen = new();
         Queue<(int s, int c)> open = new();
         HashSet<int> ends = new();
         open.Enqueue((startSlice, startCharge));
@@ -64,7 +61,7 @@ internal static class BreadboardFollower
             if (breadboard[s + ds, c + dc] == end)
             {
                 seen.Add(t);
-                ends.Add(c);
+                ends.Add(c + dc);
             }
         }
 
@@ -75,6 +72,7 @@ internal static class BreadboardFollower
             AddNeighboors(s, c, -1, 0, Connection.PREV_SLICE, Connection.PREV_SLICE_OUT);
             AddNeighboors(s, c, 0, 1, Connection.NEXT_CHARGE, Connection.NEXT_CHARGE_OUT);
             AddNeighboors(s, c, 0, -1, Connection.PREV_CHARGE, Connection.PREV_CHARGE_OUT);
+            seen.Add((startSlice, startCharge));
         }
 
         return ends.Count switch

@@ -8,19 +8,27 @@ internal static class Simulator
 
         CreatePayload(settings, list);
 
-        SimulationContext context = new(list);
+        SimulationContext context = new(list, new());
 
         TickOnceAndCap(list, context);
 
-        // TODO: extract method
-        // THEN run
+        Run(list, context);
+    }
+
+    private static void Run(List<TNT> list, SimulationContext context)
+    {
         while (list.Any())
         {
-            foreach (TNT tnt in list)
+            for (int i = list.Count - 1; i >= 0; i--)
             {
+                TNT tnt = list[i];
                 tnt.Tick(context);
+                if (i < list.Count && tnt.id == list[i].id)
+                {
+                    list[i] = tnt;
+                }
             }
-            // TODO: do something with this idk
+            // TODO: collect info
         }
 
         // TODO: return something idk
@@ -46,10 +54,12 @@ internal static class Simulator
                     fuse = 80 - (charge.cancelX && charge.cancelZ ? charge.fuse : 1) + 1,
                     velX = charge.cancelX ? 0 : 0.2 * Math.Sin(Random.Shared.NextDouble() * Math.Tau),
                     velZ = charge.cancelZ ? 0 : 0.2 * Math.Sin(Random.Shared.NextDouble() * Math.Tau),
+                    y = settings.payloadY
                 });
             }
 
             charge.scheduleCount--;
+            copy.SetCharge(index, charge);
             if (charge.scheduleCount > 0)
             {
                 index = BreadboardFollower.FollowBreadboard(index, settings.cannonSettings.schedulingBoard);
@@ -68,13 +78,10 @@ internal static class Simulator
     /// </summary>
     private static void TickOnceAndCap(List<TNT> list, SimulationContext context)
     {
-        foreach (TNT tnt in list)
-        {
-            tnt.Tick(context);
-        }
-        for (int i = 0; i < list.Count; i++)
+        for (int i = list.Count - 1; i >= 0; i--)
         {
             TNT tnt = list[i];
+            tnt.Tick(context);
             list[i] = tnt with
             {
                 velX = Math.Clamp(tnt.velX, -10, 10),
