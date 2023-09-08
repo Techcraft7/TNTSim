@@ -34,6 +34,8 @@ internal static class ChargeEditorScreen
 
         DEFAULTS_BUTTON.UpdateAndDraw();
 
+        DrawText("*Mutally exclusive with any random momentum", PADDING, WINDOW_HEIGHT - FONT_SIZE - PADDING, FONT_SIZE, Color.GRAY);
+
         if (shouldLoadDefaults)
         {
             shouldLoadDefaults = false;

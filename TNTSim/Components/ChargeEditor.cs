@@ -31,6 +31,10 @@ internal sealed class ChargeEditor : ComponentGroup
         charge.cancelX = cancelXCheck.Value;
         charge.cancelZ = cancelZCheck.Value;
         charge.single = singleCheck.Value;
+        if (!(charge.cancelX && charge.cancelZ))
+        {
+            charge.fuse = fuseBox.Value = 1;
+        }
     }
 
     private static Component[] GetComponents(int x, int y) => new ComponentGroupBuilder()
@@ -38,7 +42,7 @@ internal sealed class ChargeEditor : ComponentGroup
         .AddNumberBox(0, DROPPER_COUNT)
         .AddText("Schedule Count")
         .AddNumberBox(1, DROPPER_COUNT)
-        .AddText("Fuse Timer")
+        .AddText("Fuse Timer*")
         .AddNumberBox(1, 80)
         .EndRow()
         .AddText("TNT Settings")
