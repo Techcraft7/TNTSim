@@ -6,6 +6,7 @@ internal struct TNT
 {
     private static uint NEXT_ID = 0;
 
+    public bool Removed { get; private set; } = false;
     public readonly uint id;
     public Vec3 position, velocity;
     public int fuse;
@@ -25,6 +26,7 @@ internal struct TNT
         fuse--;
         if (fuse <= 0)
         {
+            Removed = true;
             context.Remove(this);
             Explode(context);
         }

@@ -22,8 +22,11 @@ internal sealed class SimulationContext
 		{
 			TNT item = tnt[i];
 			func(ref item);
-			tnt[i] = item;
-		}
+			if (!item.Removed)
+            {
+                tnt[i] = item;
+            }
+        }
 		toRemove.ForEach(e => tnt.Remove(e));
 		toRemove.Clear();
 	}
