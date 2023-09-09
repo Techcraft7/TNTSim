@@ -15,7 +15,9 @@ internal static class Simulator
 
     private static void Run(SimulationContext context)
 	{
-        while (context.HasTNT)
+        // The simulation can run for 80 ticks at most
+        // (assuming to commands were used set the fuse higher than 80)
+        for (int i = 0; context.HasTNT && i < 80; i++)
         {
             context.ModifyEntities((ref TNT tnt) => tnt.Tick(context));
             // TODO: collect info
