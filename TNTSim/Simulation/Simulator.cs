@@ -43,7 +43,7 @@ internal static class Simulator
             for (int i = 0; i < charge.tntCount; i++)
             {
                 double vx = charge.cancelX ? 0 : 0.2 * Math.Sin(Random.Shared.NextDouble() * Math.Tau);
-                double vz = charge.cancelZ ? 0 : 0.2 * Math.Sin(Random.Shared.NextDouble() * Math.Tau);
+                double vz = charge.cancelZ ? 0 : 0.2 * Math.Cos(Random.Shared.NextDouble() * Math.Tau);
 
 				list.Add(new()
                 {
