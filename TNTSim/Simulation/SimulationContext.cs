@@ -24,15 +24,18 @@ internal sealed class SimulationContext
 		for (int i = 0; i < tnt.Count; i++)
 		{
 			TNT item = tnt[i];
-			func(ref item);
-			if (!item.Removed)
+            if (item.Removed)
+            {
+                continue;
+            }
+            func(ref item);
+            if (!item.Removed)
             {
                 tnt[i] = item;
             }
         }
-		toRemove.ForEach(e => tnt.Remove(e));
-		toRemove.Clear();
-	}
+        RemoveExploded();
+    }
 
     public void LogExplosion(Vec3 center)
     {
@@ -45,7 +48,16 @@ internal sealed class SimulationContext
 
     public void Tick() => ModifyEntities(TickTNT);
 
-	// Adding method to prevent closure
+    private void RemoveExploded()
+    {
+        if (toRemove.Count > 0)
+        {
+            toRemove.ForEach(e => tnt.Remove(e));
+            toRemove.Clear();
+        }
+    }
+
+    // Adding method to prevent closure
     private void TickTNT(ref TNT tnt) => tnt.Tick(this);
 }
 

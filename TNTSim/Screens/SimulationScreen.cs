@@ -33,6 +33,7 @@ internal static class SimulationScreen
     };
     private static SimulationContext? current = null;
     private static bool shouldStart = false;
+    private static double lastMSPT = 0;
 
     public static void UpdateAndDraw(ref CannonSettings settings)
     {
@@ -74,10 +75,13 @@ internal static class SimulationScreen
 
         if (TIMER.ElapsedMilliseconds >= 50)
         {
+            TimeSpan start = TIMER.Elapsed;
             current.Tick();
+            TimeSpan end = TIMER.Elapsed;
+            lastMSPT = (end - start).TotalMilliseconds;
             TIMER.Restart();
         }
-        NewMethod();
+        DrawEntities();
 
         EndMode3D();
 
@@ -91,11 +95,13 @@ internal static class SimulationScreen
         }
         DrawText(CONTROLS, (int)CONTROLS_V.X, (int)CONTROLS_V.Y, FONT_SIZE, Color.BLACK);
 
+        DrawText($"MSPT: {lastMSPT}ms", PADDING, WINDOW_HEIGHT - FONT_SIZE - PADDING, FONT_SIZE, Color.BLACK);
+
         UpdateCameraControls();
         UpdateSimulationControls();
     }
 
-    private static void NewMethod()
+    private static void DrawEntities()
     {
         if (current is null)
         {

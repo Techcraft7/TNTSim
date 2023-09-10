@@ -40,8 +40,15 @@ internal struct TNT
 		Vec3 center = position + new Vec3(0, 0.98F * 0.0625D, 0);
         context.LogExplosion(center);
 
+        uint thisID = id;
+
         context.ModifyEntities((ref TNT other) =>
         {
+            if (other.id == thisID)
+            {
+                return;
+            }
+
             double distanceNormalized = center.DistanceTo(other.position) / 8;
 
             if (distanceNormalized >= 1.0)
@@ -55,7 +62,7 @@ internal struct TNT
                 return;
             }
 
-            dir.NormalizeFast();
+            dir.Normalize();
 
             const double EXPOSURE = 1.0;
             dir = dir * (1.0 - distanceNormalized) * EXPOSURE;
