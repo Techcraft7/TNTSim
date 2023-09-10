@@ -77,12 +77,7 @@ internal static class SimulationScreen
             current.Tick();
             TIMER.Restart();
         }
-        foreach (TNT tnt in current.TNT)
-        {
-            Vec3 offset = tnt.velocity * (TIMER.ElapsedTicks / (50.0 * TimeSpan.TicksPerMillisecond));
-            Vec3 pos = tnt.position + offset;
-            DrawCube(pos, 0.98f, 0.98f, 0.98f, Color.RED);
-        }
+        NewMethod();
 
         EndMode3D();
 
@@ -100,6 +95,25 @@ internal static class SimulationScreen
         UpdateSimulationControls();
     }
 
+    private static void NewMethod()
+    {
+        if (current is null)
+        {
+            return;
+        }
+        foreach (TNT tnt in current.TNT)
+        {
+            Vec3 offset = tnt.velocity * (TIMER.ElapsedTicks / (50.0 * TimeSpan.TicksPerMillisecond));
+            Vec3 pos = tnt.position + offset;
+            DrawCubeWires(pos, 0.98f, 0.98f, 0.98f, Color.RED);
+            DrawLine3D(pos, pos + tnt.velocity, Color.GREEN);
+        }
+        foreach (Vec3 exp in current.Explosions)
+        {
+            DrawCircle3D(exp, 5.2f, Vector3.UnitX, 90f, Color.ORANGE);
+        }
+    }
+
     private static void UpdateCameraControls()
     {
         if (current == null)
@@ -107,12 +121,13 @@ internal static class SimulationScreen
             TraceLog(TraceLogLevel.LOG_WARNING, "Attempted to update simulation when there is no current simulation");
             return;
         }
-        float speed = 15f * GetFrameTime();
+        float speed = 50f * GetFrameTime();
 
         bool space = IsKeyDown(KeyboardKey.KEY_SPACE);
         bool shift = IsKeyDown(KeyboardKey.KEY_LEFT_SHIFT) || IsKeyDown(KeyboardKey.KEY_RIGHT_SHIFT);
 
-        UpdateCamera(ref camera, CameraMode.CAMERA_CUSTOM);
+        UpdateCamera(ref camera, CameraMode.CAMERA_FIRST_PERSON);
+        UpdateCamera(ref camera, CameraMode.CAMERA_FIRST_PERSON);
         camera.up = Vector3.UnitY;
 
         if (space && !shift)

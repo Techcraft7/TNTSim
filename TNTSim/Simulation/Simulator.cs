@@ -34,13 +34,23 @@ internal static class Simulator
                 double vx = charge.cancelX ? 0 : 0.2 * Math.Sin(theta);
                 double vz = charge.cancelZ ? 0 : 0.2 * Math.Cos(theta);
 
-				list.Add(new()
+                TNT tnt = new()
                 {
                     // Random momentum and fuse timer are mutually exclusive
-                    fuse = 80 - (charge.cancelX && charge.cancelZ ? charge.fuse : 1) + 1,
-                    velocity = new(vx, 0, vz),
+                    fuse = 80 - (charge.cancelX && charge.cancelZ ? charge.fuse : 1),
                     position = new(0, settings.payloadY, 0)
-                });
+                };
+
+                if (!charge.cancelX)
+                {
+                    tnt.velocity += new Vec3(vx, 0, 0);
+                }
+                if (!charge.cancelZ)
+                {
+                    tnt.velocity += new Vec3(0, 0, vz);
+                }
+
+				list.Add(tnt);
             }
 
             charge.scheduleCount--;
@@ -65,13 +75,21 @@ internal static class Simulator
     /// </summary>
     private static void TickOnceAndCap(SimulationContext context)
 	{
+        context.ModifyEntities((ref TNT tnt) => tnt.Tick(context));
         context.ModifyEntities((ref TNT tnt) =>
         {
-            tnt.Tick(context);
-
-            tnt.velocity.X = Math.Abs(tnt.velocity.X) >= 10 ? 0 : tnt.velocity.X;
-            tnt.velocity.Y = Math.Abs(tnt.velocity.Y) >= 10 ? 0 : tnt.velocity.Y;
-            tnt.velocity.Z = Math.Abs(tnt.velocity.Z) >= 10 ? 0 : tnt.velocity.Z;
+            if (Math.Abs(tnt.velocity.X) > 10)
+            {
+                tnt.velocity.X = 0;
+            }
+            if (Math.Abs(tnt.velocity.Y) > 10)
+            {
+                tnt.velocity.Y = 0;
+            }
+            if (Math.Abs(tnt.velocity.Z) > 10)
+            {
+                tnt.velocity.Z = 0;
+            }
         });
     }
 }

@@ -21,9 +21,10 @@ internal record struct Vec3(double X, double Y, double Z)
 
 	public Vec3 Normalize()
 	{
-		X /= Length();
-		Y /= Length();
-		Z /= Length();
+		double l = Length();
+        X /= l;
+		Y /= l;
+		Z /= l;
 		return this;
 	}
 
@@ -54,7 +55,9 @@ internal record struct Vec3(double X, double Y, double Z)
 		return this;
 	}
 
-	public static Vec3 operator *(Vec3 v, double x)
+	public readonly double DistanceTo(Vec3 v) => Math.Sqrt(SquareDistanceTo(v));
+
+    public static Vec3 operator *(Vec3 v, double x)
 	{
 		v.X *= x;
 		v.Y *= x;

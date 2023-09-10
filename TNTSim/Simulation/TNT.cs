@@ -23,6 +23,9 @@ internal struct TNT
         position += velocity;
         velocity *= 0.98;
 
+        // Do not go under ground
+        position.Y = Math.Max(0, position.Y);
+
         fuse--;
         if (fuse <= 0)
         {
@@ -34,22 +37,30 @@ internal struct TNT
 
     private readonly void Explode(SimulationContext context)
     {
-		Vec3 center = position.Copy() + new Vec3(0, 0.98F * 0.0625D, 0);
+		Vec3 center = position + new Vec3(0, 0.98F * 0.0625D, 0);
+        context.LogExplosion(center);
 
         context.ModifyEntities((ref TNT other) =>
         {
-            Vec3 d = other.position - center;
-            double squareDist = d.SquareLength();
-            // Not in 8 block radius
-            if (squareDist > 64)
+            double distanceNormalized = center.DistanceTo(other.position) / 8;
+
+            if (distanceNormalized >= 1.0)
             {
                 return;
             }
-            double dist = Math.Sqrt(squareDist);
-            d /= dist;
-            d *= (8 - dist) / 8;
 
-            other.velocity += d;
+            Vec3 dir = other.position - center;
+            if (dir.SquareLength() == 0.0)
+            {
+                return;
+            }
+
+            dir.NormalizeFast();
+
+            const double EXPOSURE = 1.0;
+            dir = dir * (1.0 - distanceNormalized) * EXPOSURE;
+
+            other.velocity += dir;
         });
     }
 

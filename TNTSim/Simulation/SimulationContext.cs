@@ -3,11 +3,13 @@
 internal sealed class SimulationContext
 {
 	public ICollection<TNT> TNT => tnt;
+	public ICollection<Vec3> Explosions => explosions;
 	public bool HasTNT => tnt.Count > 0;
 	public SimulationSettings Settings { get; init; }
 
 	private readonly IList<TNT> tnt;
 	private readonly List<TNT> toRemove = new();
+	private readonly List<Vec3> explosions = new();
 
 	public SimulationContext(SimulationSettings settings, IList<TNT> tnt)
 	{
@@ -31,6 +33,15 @@ internal sealed class SimulationContext
 		toRemove.ForEach(e => tnt.Remove(e));
 		toRemove.Clear();
 	}
+
+    public void LogExplosion(Vec3 center)
+    {
+		// We only care about the explosions that hit the ground
+		if (center.Y < 10)
+		{
+            explosions.Add(center);
+        }
+    }
 
     public void Tick() => ModifyEntities(TickTNT);
 
