@@ -2,7 +2,7 @@
 
 internal static class Simulator
 {
-    public static void Simulate(SimulationSettings settings)
+    public static SimulationContext Create(SimulationSettings settings)
     {
         List<TNT> payload = CreatePayload(settings);
 
@@ -10,20 +10,7 @@ internal static class Simulator
 
         TickOnceAndCap(context);
 
-        Run(context);
-    }
-
-    private static void Run(SimulationContext context)
-	{
-        // The simulation can run for 80 ticks at most
-        // (assuming to commands were used set the fuse higher than 80)
-        for (int i = 0; context.HasTNT && i < 80; i++)
-        {
-            context.ModifyEntities((ref TNT tnt) => tnt.Tick(context));
-            // TODO: collect info
-        }
-
-        // TODO: return something idk
+        return context;
     }
 
     /// <summary>

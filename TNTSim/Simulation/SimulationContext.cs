@@ -2,6 +2,7 @@
 
 internal sealed class SimulationContext
 {
+	public ICollection<TNT> TNT => tnt;
 	public bool HasTNT => tnt.Count > 0;
 	public SimulationSettings Settings { get; init; }
 
@@ -30,6 +31,11 @@ internal sealed class SimulationContext
 		toRemove.ForEach(e => tnt.Remove(e));
 		toRemove.Clear();
 	}
+
+    public void Tick() => ModifyEntities(TickTNT);
+
+	// Adding method to prevent closure
+    private void TickTNT(ref TNT tnt) => tnt.Tick(this);
 }
 
 internal delegate void TNTModifier(ref TNT other);

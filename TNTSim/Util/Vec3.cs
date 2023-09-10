@@ -79,4 +79,6 @@ internal record struct Vec3(double X, double Y, double Z)
 		v.Z = -v.Z;
 		return v;
 	}
+
+	public static implicit operator System.Numerics.Vector3(Vec3 v) => new((float)v.X, (float)v.Y, (float)v.Z);
 }

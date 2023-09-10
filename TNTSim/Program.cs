@@ -1,7 +1,7 @@
 ﻿InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "TNT Sim");
+SetExitKey(KeyboardKey.KEY_NULL);
 
 SetTargetFPS(Enumerable.Range(0, GetMonitorCount()).Max(GetMonitorRefreshRate));
-
 
 Screen screen = Screen.CHARGES;
 CannonSettings settings = new();
@@ -32,14 +32,7 @@ while (!WindowShouldClose())
             BreadboardEditorScreen.UpdateAndDraw(ref settings);
             break;
         case Screen.SIMULATION:
-            if (IsKeyPressed(KeyboardKey.KEY_SPACE))
-            {
-                Simulator.Simulate(new()
-                {
-                    cannonSettings = settings,
-                    payloadY = 319
-                });
-            }
+            SimulationScreen.UpdateAndDraw(ref settings);
             break;
         default:
             screen = Screen.CHARGES;
