@@ -38,7 +38,7 @@ internal struct TNT
 
         context.ModifyEntities((ref TNT other) =>
         {
-            Vec3 d = center - other.position;
+            Vec3 d = other.position - center;
             double squareDist = d.SquareLength();
             // Not in 8 block radius
             if (squareDist > 64)

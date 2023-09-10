@@ -22,7 +22,7 @@ internal static class SimulationScreen
     private static Camera3D camera = new()
     {
         fovy = 90f,
-        position = new(50, 275, 50),
+        position = new(0.1f, 300, 0.1f),
         projection = CameraProjection.CAMERA_PERSPECTIVE,
         target = Vector3.Zero,
         up = Vector3.UnitY
@@ -79,7 +79,7 @@ internal static class SimulationScreen
         }
         foreach (TNT tnt in current.TNT)
         {
-            Vec3 offset = tnt.velocity * (TIMER.ElapsedMilliseconds / 50.0);
+            Vec3 offset = tnt.velocity * (TIMER.ElapsedTicks / (50.0 * TimeSpan.TicksPerMillisecond));
             Vec3 pos = tnt.position + offset;
             DrawCube(pos, 0.98f, 0.98f, 0.98f, Color.RED);
         }
@@ -147,7 +147,7 @@ internal static class SimulationScreen
         {
             current.Tick();
         }
-        if (IsKeyPressed(KeyboardKey.KEY_ESCAPE))
+        if (IsKeyPressed(KeyboardKey.KEY_ESCAPE) || IsKeyPressed(KeyboardKey.KEY_TAB))
         {
             current = null;
         }

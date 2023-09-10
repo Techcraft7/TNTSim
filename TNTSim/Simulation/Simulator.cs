@@ -27,10 +27,12 @@ internal static class Simulator
         while (index is >= 0 and < 5)
         {
             Charge charge = copy.GetCharge(index);
+            charge.tntCount *= charge.single ? 1 : 8;
             for (int i = 0; i < charge.tntCount; i++)
             {
-                double vx = charge.cancelX ? 0 : 0.2 * Math.Sin(Random.Shared.NextDouble() * Math.Tau);
-                double vz = charge.cancelZ ? 0 : 0.2 * Math.Cos(Random.Shared.NextDouble() * Math.Tau);
+                double theta = Random.Shared.NextDouble() * Math.Tau;
+                double vx = charge.cancelX ? 0 : 0.2 * Math.Sin(theta);
+                double vz = charge.cancelZ ? 0 : 0.2 * Math.Cos(theta);
 
 				list.Add(new()
                 {
@@ -59,7 +61,7 @@ internal static class Simulator
     }
 
     /// <summary>
-    /// Simulates the teleportation of the payload. Steps 1 tick, then caps velocity to 10m/s (component-wise)
+    /// Simulates the teleportation of the payload. Steps 1 tick, then cancels velocity greater than 10m/s (component-wise)
     /// </summary>
     private static void TickOnceAndCap(SimulationContext context)
 	{
@@ -67,9 +69,9 @@ internal static class Simulator
         {
             tnt.Tick(context);
 
-            tnt.velocity.X = Math.Clamp(tnt.velocity.X, -10, 10);
-            tnt.velocity.Y = Math.Clamp(tnt.velocity.Y, -10, 10);
-            tnt.velocity.Z = Math.Clamp(tnt.velocity.Z, -10, 10);
+            tnt.velocity.X = Math.Abs(tnt.velocity.X) >= 10 ? 0 : tnt.velocity.X;
+            tnt.velocity.Y = Math.Abs(tnt.velocity.Y) >= 10 ? 0 : tnt.velocity.Y;
+            tnt.velocity.Z = Math.Abs(tnt.velocity.Z) >= 10 ? 0 : tnt.velocity.Z;
         });
     }
 }
