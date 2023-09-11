@@ -24,7 +24,13 @@ internal struct TNT
         velocity *= 0.98;
 
         // Do not go under ground
-        position.Y = Math.Max(0, position.Y);
+        if (position.Y < 0)
+        {
+            position.Y = 0;
+            velocity.X *= 0.7;
+            velocity.Z *= 0.7;
+            velocity.Y = 0;
+        }
 
         fuse--;
         if (fuse <= 0)
@@ -37,6 +43,7 @@ internal struct TNT
 
     private readonly void Explode(SimulationContext context)
     {
+        //TraceLog(TraceLogLevel.LOG_INFO, $"BEGIN {id} EXPLODE");
 		Vec3 center = position + new Vec3(0, 0.98F * 0.0625D, 0);
         context.LogExplosion(center);
 
@@ -62,10 +69,12 @@ internal struct TNT
                 return;
             }
 
-            dir = dir.NormalizeFast();
+            dir = dir.Normalize();
             dir *= 1 - (dir.Length() / 8.0);
 
             other.velocity += dir;
+
+            //TraceLog(TraceLogLevel.LOG_INFO, $"TNT {other.id} exploded by {thisID}: added {dir.Y} | centerY = {center.Y} | otherY = {other.position.Y}");
         });
     }
 
