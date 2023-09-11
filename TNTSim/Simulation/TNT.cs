@@ -30,8 +30,8 @@ internal struct TNT
         position += velocity;
         velocity *= 0.98;
 
-        // Do not go under ground
-        if (position.Y < 0)
+        // If on ground
+        if (position.Y <= 0)
         {
             position.Y = 0;
             velocity.X *= 0.7;
