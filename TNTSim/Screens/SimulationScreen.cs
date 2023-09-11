@@ -19,14 +19,7 @@ internal static class SimulationScreen
     private static readonly Vector2 CONTROLS_V = new Vector2(WINDOW_WIDTH - PADDING, WINDOW_HEIGHT - PADDING) - MeasureTextEx(GetFontDefault(), CONTROLS, FONT_SIZE, 1.0f);
 
     private static readonly Stopwatch TIMER = new();
-    private static Camera3D camera = new()
-    {
-        fovy = 90f,
-        position = new(0.1f, 300, 0.1f),
-        projection = CameraProjection.CAMERA_PERSPECTIVE,
-        target = Vector3.Zero,
-        up = Vector3.UnitY
-    };
+    private static Camera3D camera;
     private static readonly Button runButton = new(RUN_BTN_TEXT, RUN_BTN_X, START_Y, RUN_BTN_WIDTH, () => shouldStart = true)
     {
         PrimaryColor = Color.RED
@@ -52,6 +45,14 @@ internal static class SimulationScreen
 
         if (shouldStart)
         {
+            camera = new()
+            {
+                fovy = 90f,
+                position = new(10, 255, 10),
+                target = default,
+                up = Vector3.UnitY,
+                projection = CameraProjection.CAMERA_PERSPECTIVE
+            };
             shouldStart = false;
             TIMER.Reset();
             current = Simulator.Create(new()
@@ -132,6 +133,7 @@ internal static class SimulationScreen
         bool space = IsKeyDown(KeyboardKey.KEY_SPACE);
         bool shift = IsKeyDown(KeyboardKey.KEY_LEFT_SHIFT) || IsKeyDown(KeyboardKey.KEY_RIGHT_SHIFT);
 
+        DisableCursor();
         UpdateCamera(ref camera, CameraMode.CAMERA_FIRST_PERSON);
         UpdateCamera(ref camera, CameraMode.CAMERA_FIRST_PERSON);
         camera.up = Vector3.UnitY;
@@ -171,6 +173,7 @@ internal static class SimulationScreen
         if (IsKeyPressed(KeyboardKey.KEY_ESCAPE) || IsKeyPressed(KeyboardKey.KEY_TAB))
         {
             current = null;
+            EnableCursor();
         }
     }
 }
