@@ -27,13 +27,13 @@ internal static class Simulator
         while (index is >= 0 and < 5)
         {
             Charge charge = copy.GetCharge(index);
-            charge.tntCount *= charge.single ? 1 : 8;
-            for (int i = 0; i < charge.tntCount; i++)
+            int count = charge.tntCount * (charge.single ? 1 : 8);
+            for (int i = 0; i < count; i++)
             {
                 double theta = Random.Shared.NextDouble() * Math.Tau;
                 double vx = charge.cancelX ? 0 : 0.2 * Math.Sin(theta);
                 double vz = charge.cancelZ ? 0 : 0.2 * Math.Cos(theta);
-
+                 
                 TNT tnt = new()
                 {
                     // Random momentum and fuse timer are mutually exclusive
