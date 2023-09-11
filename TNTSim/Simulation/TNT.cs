@@ -17,9 +17,16 @@ internal struct TNT
         id = NEXT_ID++;
     }
 
-    public void Tick(SimulationContext context, bool isInPowderedSnow = false)
+    public void Tick(SimulationContext context, bool isWarpingToTarget = false)
     {
         velocity.Y -= 0.04;
+
+        // Powdered snow scaling
+        if (isWarpingToTarget)
+        {
+            velocity *= 0.9;
+        }
+
         position += velocity;
         velocity *= 0.98;
 
@@ -40,7 +47,8 @@ internal struct TNT
             Explode(context);
         }
 
-        if (isInPowderedSnow)
+        // Powdered snow canceling velocity
+        if (isWarpingToTarget)
         {
             velocity = default;
         }
@@ -61,21 +69,16 @@ internal struct TNT
                 return;
             }
 
-            double squareDist = center.SquareDistanceTo(other.position);
-
-            if (squareDist >= 64)
-            {
-                return;
-            }
-
             Vec3 dir = other.position - center;
-            if (dir.SquareLength() == 0.0)
+            double sqaureDistance = dir.SquareLength();
+
+            if (sqaureDistance is 0 or >= 64)
             {
                 return;
             }
 
             dir = dir.Normalize();
-            dir *= 1 - (dir.Length() / 8.0);
+            dir *= 1 - (Math.Sqrt(sqaureDistance) / 8.0);
 
             other.velocity += dir;
 
