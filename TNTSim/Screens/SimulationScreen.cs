@@ -53,7 +53,7 @@ internal static class SimulationScreen
             camera = new()
             {
                 fovy = 90f,
-                position = new(10, 255, 10),
+                position = 255 * new Vector3(0.8f, 1.25f, 0.8f),
                 target = default,
                 up = Vector3.UnitY,
                 projection = CameraProjection.CAMERA_PERSPECTIVE
@@ -77,7 +77,7 @@ internal static class SimulationScreen
         }
         BeginMode3D(camera);
 
-        DrawGrid(100, 1f);
+        DrawGrid(640, 1);
 
         if (TIMER.ElapsedMilliseconds >= 50)
         {
@@ -124,7 +124,7 @@ internal static class SimulationScreen
         }
         foreach (Vec3 exp in current.Explosions)
         {
-            DrawCircle3D(exp, 5.2f, Vector3.UnitX, 90f, Color.ORANGE);
+            DrawCircle3D(exp, MathF.Sqrt(16 - MathF.Pow((float)exp.Y, 2)), Vector3.UnitX, 90f, Color.ORANGE);
         }
     }
 

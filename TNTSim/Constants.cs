@@ -10,4 +10,6 @@ internal static class Constants
 
     public const int DROPPER_COUNT = 64 * 9;
     public const int HOPPER_COUNT = 64 * 5;
+
+    public const float EXPLOSION_SIZE = 4.0f;
 }
