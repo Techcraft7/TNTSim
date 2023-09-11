@@ -1,4 +1,6 @@
-﻿namespace TNTSim.Simulation;
+﻿using System.Diagnostics;
+
+namespace TNTSim.Simulation;
 
 internal sealed class SimulationContext
 {
@@ -21,20 +23,16 @@ internal sealed class SimulationContext
 
 	public void ModifyEntities(TNTModifier func)
 	{
-		for (int i = 0; i < tnt.Count; i++)
-		{
-			TNT item = tnt[i];
+        for (int i = 0; i < tnt.Count; i++)
+        {
+            TNT item = tnt[i];
             if (item.Removed)
             {
                 continue;
             }
             func(ref item);
-            if (!item.Removed)
-            {
-                tnt[i] = item;
-            }
+            tnt[i] = item;
         }
-        RemoveExploded();
     }
 
     public void LogExplosion(Vec3 center)
@@ -46,7 +44,11 @@ internal sealed class SimulationContext
         }
     }
 
-    public void Tick() => ModifyEntities(TickTNT);
+    public void Tick()
+    {
+        ModifyEntities(TickTNT);
+        RemoveExploded();
+    }
 
     private void RemoveExploded()
     {

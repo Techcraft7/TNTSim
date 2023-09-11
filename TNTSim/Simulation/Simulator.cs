@@ -31,8 +31,8 @@ internal static class Simulator
             for (int i = 0; i < count; i++)
             {
                 double theta = Random.Shared.NextDouble() * Math.Tau;
-                double vx = charge.cancelX ? 0 : 0.2 * Math.Sin(theta);
-                double vz = charge.cancelZ ? 0 : 0.2 * Math.Cos(theta);
+                double vx = charge.cancelX ? 0 : (0.02f * Math.Sin(theta));
+                double vz = charge.cancelZ ? 0 : (0.02f * Math.Cos(theta));
                  
                 TNT tnt = new()
                 {
@@ -75,9 +75,9 @@ internal static class Simulator
     /// </summary>
     private static void TickOnceAndCap(SimulationContext context)
 	{
-        context.Tick();
         context.ModifyEntities((ref TNT tnt) =>
         {
+            tnt.Tick(context);
             if (Math.Abs(tnt.velocity.X) > 10)
             {
                 tnt.velocity.X = 0;
