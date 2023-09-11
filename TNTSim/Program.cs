@@ -15,14 +15,6 @@ while (!WindowShouldClose())
     BeginDrawing();
     ClearBackground(Color.RAYWHITE);
 
-    nextTabButton.UpdateAndDraw();
-
-    if (nextTabPressed || IsKeyPressed(KeyboardKey.KEY_TAB))
-    {
-        nextTabPressed = false;
-        screen = screen.Next();
-    }
-
     switch (screen)
     {
         case Screen.CHARGES:
@@ -37,6 +29,17 @@ while (!WindowShouldClose())
         default:
             screen = Screen.CHARGES;
             break;
+    }
+
+    nextTabButton.UpdateAndDraw();
+    if (nextTabPressed || IsKeyPressed(KeyboardKey.KEY_TAB))
+    {
+        nextTabPressed = false;
+        screen = screen.Next();
+        if (IsCursorHidden())
+        {
+            EnableCursor();
+        }
     }
 
 #if DEBUG
