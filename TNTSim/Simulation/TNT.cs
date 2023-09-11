@@ -49,9 +49,9 @@ internal struct TNT
                 return;
             }
 
-            double distanceNormalized = center.DistanceTo(other.position) / 8;
+            double squareDist = center.SquareDistanceTo(other.position);
 
-            if (distanceNormalized >= 1.0)
+            if (squareDist >= 64)
             {
                 return;
             }
@@ -62,10 +62,8 @@ internal struct TNT
                 return;
             }
 
-            dir.Normalize();
-
-            const double EXPOSURE = 1.0;
-            dir = dir * (1.0 - distanceNormalized) * EXPOSURE;
+            dir = dir.NormalizeFast();
+            dir *= 1 - (dir.Length() / 8.0);
 
             other.velocity += dir;
         });

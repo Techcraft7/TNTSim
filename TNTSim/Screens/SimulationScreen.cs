@@ -32,10 +32,15 @@ internal static class SimulationScreen
     {
         if (current != null)
         {
+            DisableCursor();
             UpdateSimulation();
         }
         else
         {
+            if (IsCursorHidden())
+            {
+                EnableCursor();
+            }
             runButton.UpdateAndDraw();
         }
 
@@ -135,7 +140,6 @@ internal static class SimulationScreen
         bool space = IsKeyDown(KeyboardKey.KEY_SPACE);
         bool shift = IsKeyDown(KeyboardKey.KEY_LEFT_SHIFT) || IsKeyDown(KeyboardKey.KEY_RIGHT_SHIFT);
 
-        DisableCursor();
         UpdateCamera(ref camera, CameraMode.CAMERA_FIRST_PERSON);
         UpdateCamera(ref camera, CameraMode.CAMERA_FIRST_PERSON);
         camera.up = Vector3.UnitY;
@@ -175,7 +179,6 @@ internal static class SimulationScreen
         if (IsKeyPressed(KeyboardKey.KEY_ESCAPE) || IsKeyPressed(KeyboardKey.KEY_TAB))
         {
             current = null;
-            EnableCursor();
         }
     }
 }
