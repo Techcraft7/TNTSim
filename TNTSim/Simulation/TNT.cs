@@ -17,7 +17,7 @@ internal struct TNT
         id = NEXT_ID++;
     }
 
-    public void Tick(SimulationContext context)
+    public void Tick(SimulationContext context, bool isInPowderedSnow = false)
     {
         velocity.Y -= 0.04;
         position += velocity;
@@ -38,6 +38,11 @@ internal struct TNT
             Removed = true;
             context.Remove(this);
             Explode(context);
+        }
+
+        if (isInPowderedSnow)
+        {
+            velocity = default;
         }
     }
 
