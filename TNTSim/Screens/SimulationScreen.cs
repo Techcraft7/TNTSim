@@ -113,7 +113,8 @@ internal static class SimulationScreen
         {
             Vec3 offset = tnt.velocity * (TIMER.ElapsedTicks / (50.0 * TimeSpan.TicksPerMillisecond));
             Vec3 pos = tnt.position + offset;
-            DrawCubeWires(pos, 0.98f, 0.98f, 0.98f, Color.RED);
+
+            DrawCube(pos, 0.98f, 0.98f, 0.98f, tnt.fuse / 5 % 2 == 0 ? Color.WHITE : Color.RED);
             DrawLine3D(pos, pos + tnt.velocity, Color.GREEN);
         }
         foreach (Vec3 exp in current.Explosions)
