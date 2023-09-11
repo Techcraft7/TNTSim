@@ -75,9 +75,9 @@ internal static class Simulator
     /// </summary>
     private static void TickOnceAndCap(SimulationContext context)
 	{
+        context.Tick();
         context.ModifyEntities((ref TNT tnt) =>
         {
-            tnt.Tick(context);
             if (Math.Abs(tnt.velocity.X) > 10)
             {
                 tnt.velocity.X = 0;
