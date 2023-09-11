@@ -53,7 +53,7 @@ internal static class SimulationScreen
             camera = new()
             {
                 fovy = 90f,
-                position = 255 * new Vector3(0.8f, 1.25f, 0.8f),
+                position = new Vector3(10, 275, 10),
                 target = default,
                 up = Vector3.UnitY,
                 projection = CameraProjection.CAMERA_PERSPECTIVE
