@@ -68,10 +68,17 @@ internal static class BreadboardFollower
         while (open.TryDequeue(out var t))
         {
             (int s, int c) = t;
-            AddNeighboors(s, c, 1, 0, Connection.NEXT_SLICE, Connection.NEXT_SLICE_OUT);
-            AddNeighboors(s, c, -1, 0, Connection.PREV_SLICE, Connection.PREV_SLICE_OUT);
-            AddNeighboors(s, c, 0, 1, Connection.NEXT_CHARGE, Connection.NEXT_CHARGE_OUT);
-            AddNeighboors(s, c, 0, -1, Connection.PREV_CHARGE, Connection.PREV_CHARGE_OUT);
+            if (breadboard[s, c] == Connection.IN_AND_OUT)
+            {
+                ends.Add(c);
+            }
+            else
+            {
+                AddNeighboors(s, c, 1, 0, Connection.NEXT_SLICE, Connection.NEXT_SLICE_OUT);
+                AddNeighboors(s, c, -1, 0, Connection.PREV_SLICE, Connection.PREV_SLICE_OUT);
+                AddNeighboors(s, c, 0, 1, Connection.NEXT_CHARGE, Connection.NEXT_CHARGE_OUT);
+                AddNeighboors(s, c, 0, -1, Connection.PREV_CHARGE, Connection.PREV_CHARGE_OUT);
+            }
             seen.Add((startSlice, startCharge));
         }
 

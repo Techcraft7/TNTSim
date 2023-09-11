@@ -109,6 +109,11 @@ internal sealed class BreadboardEditor : Component
                 DrawLine(centerX - diagonal, centerY + diagonal, centerX + diagonal, centerY - diagonal, Color.RED);
                 DrawConnection(Connection.PREV_SLICE, x, y);
                 break;
+            case Connection.IN_AND_OUT:
+                DrawLine(centerX - diagonal, centerY - diagonal, centerX + diagonal, centerY + diagonal, Color.RED);
+                DrawLine(centerX - diagonal, centerY + diagonal, centerX + diagonal, centerY - diagonal, Color.RED);
+                DrawConnection(Connection.INPUT, x, y);
+                break;
         }
     }
 

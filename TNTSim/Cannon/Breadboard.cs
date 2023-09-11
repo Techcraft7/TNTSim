@@ -59,6 +59,7 @@ internal struct Breadboard : ICloneable<Breadboard>
         NEXT_SLICE_OUT = 7,
         PREV_CHARGE_OUT = 8,
         PREV_SLICE_OUT = 9,
+        IN_AND_OUT = 10
     }
 
     public static bool operator ==(Breadboard a, Breadboard b) =>
@@ -86,13 +87,14 @@ internal static class ConnectionExt
         Connection.NEXT_CHARGE_OUT => Connection.NEXT_SLICE_OUT,
         Connection.NEXT_SLICE_OUT => Connection.PREV_CHARGE_OUT,
         Connection.PREV_CHARGE_OUT => Connection.PREV_SLICE_OUT,
-        Connection.PREV_SLICE_OUT => Connection.NONE,
+        Connection.PREV_SLICE_OUT => Connection.IN_AND_OUT,
+        Connection.IN_AND_OUT => Connection.NONE,
         _ => Connection.NONE,
     };
 
     public static Connection Previous(this Connection c) => c switch
     {
-        Connection.NONE => Connection.PREV_SLICE_OUT,
+        Connection.NONE => Connection.IN_AND_OUT,
         Connection.INPUT => Connection.NONE,
         Connection.NEXT_CHARGE => Connection.INPUT,
         Connection.NEXT_SLICE => Connection.NEXT_CHARGE,
@@ -102,6 +104,7 @@ internal static class ConnectionExt
         Connection.NEXT_SLICE_OUT => Connection.NEXT_CHARGE_OUT,
         Connection.PREV_CHARGE_OUT => Connection.NEXT_SLICE_OUT,
         Connection.PREV_SLICE_OUT => Connection.PREV_CHARGE_OUT,
+        Connection.IN_AND_OUT => Connection.PREV_SLICE_OUT,
         _ => Connection.NONE,
     };
 }
