@@ -4,6 +4,7 @@ namespace TNTSim.Simulation;
 
 internal struct TNT
 {
+    private static readonly Vec3 CENTER_OFFSET = new(0, 0.98F * 0.0625D, 0);
     private static uint NEXT_ID = 0;
 
     public bool Removed { get; private set; } = false;
@@ -56,36 +57,27 @@ internal struct TNT
         }
     }
 
-    private readonly void Explode(SimulationContext context)
+    private readonly void Explode(SimulationContext context) => context.ModifyEntities(ExplodeOnto);
+
+    public readonly void ExplodeOnto(ref TNT other)
     {
-        //TraceLog(TraceLogLevel.LOG_INFO, $"BEGIN {id} EXPLODE");
-		Vec3 center = position + new Vec3(0, 0.98F * 0.0625D, 0);
-        context.LogExplosion(center);
-
-        uint thisID = id;
-
-        context.ModifyEntities((ref TNT other) =>
+        if (other.id == id)
         {
-            if (other.id == thisID)
-            {
-                return;
-            }
+            return;
+        }
 
-            Vec3 dir = other.position - center; // This is D_e and D_f because everything is TNT
-            double sqaureDistance = dir.SquareLength(); // No sqrt needed
+        Vec3 dir = other.position - (position + CENTER_OFFSET); // This is D_e and D_f because everything is TNT
+        double sqaureDistance = dir.SquareLength(); // No sqrt needed
 
-            if (sqaureDistance is 0 or >= 64) // If on top of eachother or too far away
-            {
-                return;
-            }
+        if (sqaureDistance is 0 or >= 64) // If on top of eachother or too far away
+        {
+            return;
+        }
 
-            dir = dir.Normalize(); // \hat{D_e}
-            dir *= 1 - (Math.Sqrt(sqaureDistance) / 8.0); // (2P - ||D_f||)/2P = 1 - (||D_f||/2P)
+        dir = dir.Normalize(); // \hat{D_e}
+        dir *= 1 - (Math.Sqrt(sqaureDistance) / 8.0); // (2P - ||D_f||)/2P = 1 - (||D_f||/2P)
 
-			other.velocity += dir;
-
-            //TraceLog(TraceLogLevel.LOG_INFO, $"TNT {other.id} exploded by {thisID}: added {dir.Y} | centerY = {center.Y} | otherY = {other.position.Y}");
-        });
+        other.velocity += dir;
     }
 
     public static bool operator ==(TNT a, TNT b) => a.id == b.id;
