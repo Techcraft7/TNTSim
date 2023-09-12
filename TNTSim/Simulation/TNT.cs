@@ -24,7 +24,9 @@ internal struct TNT
         // Powdered snow scaling
         if (isWarpingToTarget)
         {
-            velocity *= 0.9;
+            velocity.X *= 0.9f;
+            velocity.Y *= 1.5;
+            velocity.Z *= 0.9f;
         }
 
         position += velocity;
