@@ -54,7 +54,7 @@ internal struct TNT
 
         // This is D_e and D_f because everything is TNT
         double dx = other.position.X - position.X;
-        double dy = other.position.Y - position.Y - CENTER_OFFSET;
+        double dy = other.position.Y - position.Y;
         double dz = other.position.Z - position.Z;
         double squareDistance = (dx * dx) + (dy * dy) + (dz * dz);
 
@@ -63,6 +63,8 @@ internal struct TNT
             return;
         }
 
+        // Same as d = d - dy^2 + (dy + offset)^2 
+        squareDistance += (2 * dy * CENTER_OFFSET) + (CENTER_OFFSET * CENTER_OFFSET);
         double l = Math.Sqrt(squareDistance);
         double lInv = 1 / l;
         double k = lInv - 0.125; // lInv * (1 - (l / 8)) = lInv - 1/8
