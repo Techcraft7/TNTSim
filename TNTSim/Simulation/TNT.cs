@@ -69,18 +69,18 @@ internal struct TNT
                 return;
             }
 
-            Vec3 dir = other.position - center;
-            double sqaureDistance = dir.SquareLength();
+            Vec3 dir = other.position - center; // This is D_e and D_f because everything is TNT
+            double sqaureDistance = dir.SquareLength(); // No sqrt needed
 
-            if (sqaureDistance is 0 or >= 64)
+            if (sqaureDistance is 0 or >= 64) // If on top of eachother or too far away
             {
                 return;
             }
 
-            dir = dir.Normalize();
-            dir *= 1 - (Math.Sqrt(sqaureDistance) / 8.0);
+            dir = dir.Normalize(); // \hat{D_e}
+            dir *= 1 - (Math.Sqrt(sqaureDistance) / 8.0); // (2P - ||D_f||)/2P = 1 - (||D_f||/2P)
 
-            other.velocity += dir;
+			other.velocity += dir;
 
             //TraceLog(TraceLogLevel.LOG_INFO, $"TNT {other.id} exploded by {thisID}: added {dir.Y} | centerY = {center.Y} | otherY = {other.position.Y}");
         });
