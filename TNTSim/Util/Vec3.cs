@@ -1,9 +1,15 @@
 ﻿namespace TNTSim.Util;
 
-internal record struct Vec3(double X, double Y, double Z)
+internal struct Vec3
 {
-	// Bypass CS8859
-	public readonly Vec3 Copy() => new(X, Y, Z);
+	public double X, Y, Z;
+
+	public Vec3(double x, double y, double z)
+	{
+		X = x;
+		Y = y;
+		Z = z;
+	}
 
 	public readonly double Dot(Vec3 v) => (X * v.X) + (Y * v.Y) + (Z * v.Z);
 
@@ -15,9 +21,9 @@ internal record struct Vec3(double X, double Y, double Z)
 		return (dx * dx) + (dy * dy) + (dz * dz);
 	}
 
-	public readonly double SquareLength() => SquareDistanceTo(default);
+	public readonly double SquareLength() => (X * X) + (Y * Y) + (Z * Z);
 
-	public readonly double Length() => Math.Sqrt(SquareDistanceTo(default));
+	public readonly double Length() => Math.Sqrt(SquareLength());
 
 	public Vec3 Normalize()
 	{
@@ -32,7 +38,7 @@ internal record struct Vec3(double X, double Y, double Z)
 	{
 		// Math.ReciprocalSqrtEstimate only works on ARM for some reason
 		// So use the Quake 3 method
-		float number = (float)SquareDistanceTo(default);
+		float number = (float)SquareLength();
 		const float THREE_HALFS = 3f / 2f;
 
 		float x2 = number * 0.5f;
