@@ -18,17 +18,9 @@ internal struct TNT
         id = NEXT_ID++;
     }
 
-    public void Tick(SimulationContext context, bool isWarpingToTarget = false)
+    public void Tick(SimulationContext context, bool firstTick = false)
     {
         velocity.Y -= 0.04;
-
-        // Powdered snow scaling
-        if (isWarpingToTarget)
-        {
-            velocity.X *= 0.9f;
-            velocity.Y *= 1.5;
-            velocity.Z *= 0.9f;
-        }
 
         position += velocity;
         velocity *= 0.98;
@@ -49,12 +41,6 @@ internal struct TNT
             context.Remove(this);
             Explode(context);
         }
-
-        // Powdered snow canceling velocity
-        if (isWarpingToTarget)
-        {
-            velocity = default;
-        }
     }
 
     private readonly void Explode(SimulationContext context) => context.ModifyEntities(ExplodeOnto);
@@ -68,7 +54,7 @@ internal struct TNT
 
         // This is D_e and D_f because everything is TNT
         double dx = other.position.X - position.X;
-        double dy = other.position.Y - position.Y + CENTER_OFFSET;
+        double dy = other.position.Y - position.Y - CENTER_OFFSET;
         double dz = other.position.Z - position.Z;
         double squareDistance = (dx * dx) + (dy * dy) + (dz * dz);
 

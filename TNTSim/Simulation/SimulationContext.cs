@@ -44,9 +44,9 @@ internal sealed class SimulationContext
         }
     }
 
-    public void Tick()
+    public void Tick(bool isFirst = false)
     {
-        ModifyEntities(TickTNT);
+        ModifyEntities(isFirst ? TickTNTFirstTime : TickTNT);
         RemoveExploded();
     }
 
@@ -61,6 +61,7 @@ internal sealed class SimulationContext
 
     // Adding method to prevent closure
     private void TickTNT(ref TNT tnt) => tnt.Tick(this);
+    private void TickTNTFirstTime(ref TNT tnt) => tnt.Tick(this, true);
 }
 
 internal delegate void TNTModifier(ref TNT other);
