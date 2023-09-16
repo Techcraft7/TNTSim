@@ -23,6 +23,13 @@ internal static class Simulator
         // Make changes on this, so we can keep the original
         CannonSettings copy = settings.cannonSettings.Clone();
 
+        for (int i = 0; i < 5; i++)
+        {
+            Charge c = copy.GetCharge(i);
+            c.scheduleCount *= 2; // For some reason the cannon creates 2x the schedule count
+            copy.SetCharge(i, c);
+        }
+
         int index = 0;
         while (index is >= 0 and < 5)
         {
@@ -57,14 +64,19 @@ internal static class Simulator
             copy.SetCharge(index, charge);
             if (charge.scheduleCount > 0)
             {
+                int oldIndex = index;
                 index = BreadboardFollower.FollowBreadboard(index, settings.cannonSettings.schedulingBoard);
+                // If found then use it
+                if (index is >= 0 and < 5)
+                {
+                    continue;
+                }
+                index = oldIndex; // Else use continuation board
             }
-            else
-            {
-                // Reset for next use
-                copy.SetCharge(index, settings.cannonSettings.GetCharge(index));
-                index = BreadboardFollower.FollowBreadboard(index, settings.cannonSettings.continuationBoard);
-            }
+
+            // Reset for next use
+            copy.SetCharge(index, settings.cannonSettings.GetCharge(index));
+            index = BreadboardFollower.FollowBreadboard(index, settings.cannonSettings.continuationBoard);
         }
 
         return list;

@@ -59,38 +59,19 @@ internal struct TNT
         }
     }
 
-    private readonly void Explode(SimulationContext context) => context.ModifyEntities(ExplodeOnto);
-
-    public readonly void ExplodeOnto(ref TNT other)
+    private readonly void Explode(SimulationContext context)
     {
-        if (other.id == id || !other.loaded)
-        {
-            return;
-        }
-
         Vec3 center = position + new Vec3(0, CENTER_OFFSET, 0);
-        double distanceNormalized = other.position.DistanceTo(center) / 8.0;
-        if (distanceNormalized > 1)
+        context.LogExplosion(center);
+        uint thisID = id;
+        context.ModifyEntities((ref TNT other) =>
         {
-            return;
-        }
-
-        Vec3 dir = other.position - center;
-
-        double length = dir.Length();
-        if (length == 0)
-        {
-            return;
-        }
-
-        dir /= length;
-
-        const double EXPOSURE = 1.0;
-        double magnitude = (1 - distanceNormalized) * EXPOSURE;
-
-        dir *= magnitude;
-
-        other.velocity += dir;
+            if (other.id == thisID || !other.loaded)
+            {
+                return;
+            }
+            other.velocity += ExplosionCalculator.GetVelocity(center, other.position);
+        }, true);
     }
 
     public static bool operator ==(TNT a, TNT b) => a.id == b.id;
