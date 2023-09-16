@@ -42,9 +42,7 @@ while (!WindowShouldClose())
         }
     }
 
-#if DEBUG
     DrawFPS(PADDING, PADDING);
-#endif
     EndDrawing();
 }
 
