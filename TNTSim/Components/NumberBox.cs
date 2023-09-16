@@ -61,5 +61,15 @@ internal sealed class NumberBox : Component
         DrawText(valueText, X + PADDING, Y + PADDING, FONT_SIZE, PrimaryColor);
     }
 
-    public static int GetMinWidth(int min, int max) => (2 * PADDING) + Math.Max(MeasureText(min.ToString(), FONT_SIZE), MeasureText(max.ToString(), FONT_SIZE));
+    public static int GetMinWidth(int min, int max) => (2 * PADDING) + Math.Max(MeasureText(new string('0', GetMaxNumberSize(min, max)), FONT_SIZE), MeasureText(max.ToString(), FONT_SIZE));
+
+    private static int GetMaxNumberSize(int a, int b)
+    {
+        int mag = (int)Math.Ceiling(Math.Log10(Math.MaxMagnitude(a, b)));
+        if (a < 0 || b < 0)
+        {
+            mag++;
+        }
+        return mag;
+    }
 }

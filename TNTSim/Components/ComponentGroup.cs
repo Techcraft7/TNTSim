@@ -15,7 +15,7 @@ internal class ComponentGroup : Component
         }
     }
 
-    protected T GetComponent<T>(int index) where T : Component =>
+    public T GetComponent<T>(int index) where T : Component =>
         components[index] as T ?? throw new ArgumentException($"Component was not a {typeof(T)}");
 
     private static int GetWidth(Component[] components)

@@ -51,7 +51,7 @@ internal sealed class ComponentGroupBuilder
         return this;
     }
 
-    public Component Build(int x, int y)
+    public ComponentGroup Build(int x, int y)
     {
         ComponentGroup g = new(x, y, ToComponentArray(x, y));
         if (color.HasValue)
@@ -59,6 +59,12 @@ internal sealed class ComponentGroupBuilder
             g.PrimaryColor = color.Value;
         }
         return g;
+    }
+
+    public ComponentGroup Build(int y)
+    {
+        ComponentGroup g = new(0, y, ToComponentArray(0, y));
+        return Build((WINDOW_WIDTH - g.Width) / 2, y);
     }
 
     public Component[] ToComponentArray(int x, int y)

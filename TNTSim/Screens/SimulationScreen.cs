@@ -7,23 +7,23 @@ internal static class SimulationScreen
 {
     private const int START_Y = CONTROL_HEIGHT + PADDING + PADDING;
     private const string TITLE = "Simulator";
-    private const string RUN_BTN_TEXT = "KABOOM!";
     private const string PAUSED = "Paused";
     private const string RUNNING = "Running";
     private const string CONTROLS = "WASD - Move\nSpace - Up\nShift - Down\nArrows - Rotate\nP - Pause/Play\nT - Step 1 tick\nEscape - Exit";
     private static readonly int TITLE_X = (WINDOW_WIDTH - MeasureText(TITLE, FONT_SIZE)) / 2;
-    private static readonly int RUN_BTN_WIDTH = Button.GetMinWidth(RUN_BTN_TEXT);
-    private static readonly int RUN_BTN_X = (WINDOW_WIDTH - RUN_BTN_WIDTH) / 2;
     private static readonly int PAUSED_X = (WINDOW_WIDTH - MeasureText(PAUSED, FONT_SIZE)) / 2;
     private static readonly int RUNNING_X = (WINDOW_WIDTH - MeasureText(RUNNING, FONT_SIZE)) / 2;
     private static readonly Vector2 CONTROLS_V = new Vector2(WINDOW_WIDTH - PADDING, WINDOW_HEIGHT - PADDING) - MeasureTextEx(GetFontDefault(), CONTROLS, FONT_SIZE, 1.0f);
+    private static readonly ComponentGroup SETTINGS = new ComponentGroupBuilder()
+        .AddButton("KABOOM!", onClick: () => shouldStart = true)
+        .EndRow()
+        .AddText("Payload Y")
+        .AddNumberBox(0, 319, initial: 255)
+        .EndRow()
+        .Build(START_Y);
 
     private static readonly Stopwatch TIMER = new();
     private static Camera3D camera;
-    private static readonly Button runButton = new(RUN_BTN_TEXT, RUN_BTN_X, START_Y, RUN_BTN_WIDTH, () => shouldStart = true)
-    {
-        PrimaryColor = Color.RED
-    };
     private static SimulationContext? current = null;
     private static bool shouldStart = false;
     private static double lastMSPT = 0;
@@ -41,7 +41,7 @@ internal static class SimulationScreen
             {
                 EnableCursor();
             }
-            runButton.UpdateAndDraw();
+            SETTINGS.UpdateAndDraw();
         }
 
         DrawRectangle(0, 0, WINDOW_WIDTH, CONTROL_HEIGHT + PADDING, Color.WHITE);
@@ -50,21 +50,22 @@ internal static class SimulationScreen
 
         if (shouldStart)
         {
+            shouldStart = false;
+            TIMER.Reset();
+            SimulationSettings simSettings = new()
+            {
+                cannonSettings = settings,
+                payloadY = SETTINGS.GetComponent<NumberBox>(2).Value
+            };
             camera = new()
             {
                 fovy = 90f,
-                position = new Vector3(10, 275, 10),
+                position = new Vector3(10, (float)simSettings.payloadY + 20, 10),
                 target = default,
                 up = Vector3.UnitY,
                 projection = CameraProjection.CAMERA_PERSPECTIVE
             };
-            shouldStart = false;
-            TIMER.Reset();
-            current = Simulator.Create(new()
-            {
-                cannonSettings = settings,
-                payloadY = 255 // TODO: make this configurable
-            });
+            current = Simulator.Create(simSettings);
         }
     }
 
@@ -77,7 +78,7 @@ internal static class SimulationScreen
         }
         BeginMode3D(camera);
 
-        DrawGrid(640, 1);
+        DrawGrid(10, 100);
 
         if (TIMER.ElapsedMilliseconds >= 50)
         {
