@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace TNTSim.Simulation;
+﻿namespace TNTSim.Simulation;
 
 internal sealed class SimulationContext
 {
@@ -9,11 +7,11 @@ internal sealed class SimulationContext
 	public bool HasTNT => tnt.Count > 0;
 	public SimulationSettings Settings { get; init; }
 
-	private readonly IList<TNT> tnt;
+	private readonly List<TNT> tnt;
 	private readonly List<TNT> toRemove = new();
 	private readonly List<Vec3> explosions = new();
 
-	public SimulationContext(SimulationSettings settings, IList<TNT> tnt)
+	public SimulationContext(SimulationSettings settings, List<TNT> tnt)
 	{
 		Settings = settings;
 		this.tnt = tnt;
@@ -60,6 +58,14 @@ internal sealed class SimulationContext
 
     public void Tick(bool isFirst = false)
     {
+        if (tnt.Count == 0)
+        {
+            if (tnt.Capacity > 0)
+            {
+                tnt.Capacity = 0;
+            }
+            return;
+        }
         ModifyEntities(isFirst ? TickTNTFirstTime : TickTNT);
         RemoveExploded();
     }
@@ -70,6 +76,7 @@ internal sealed class SimulationContext
         {
             toRemove.ForEach(e => tnt.Remove(e));
             toRemove.Clear();
+            toRemove.Capacity = 0;
         }
     }
 
