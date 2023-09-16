@@ -16,6 +16,7 @@ internal static class SimulationScreen
     private static readonly Vector2 CONTROLS_V = new Vector2(WINDOW_WIDTH - PADDING, WINDOW_HEIGHT - PADDING) - MeasureTextEx(GetFontDefault(), CONTROLS, FONT_SIZE, 1.0f);
     private static readonly ComponentGroup SETTINGS = new ComponentGroupBuilder()
         .AddButton("KABOOM!", onClick: () => shouldStart = true)
+        .AddButton("Analyze", onClick: () => throw new NotImplementedException())
         .EndRow()
         .AddText("Payload Y")
         .AddNumberBox(0, 319, initial: 255)
