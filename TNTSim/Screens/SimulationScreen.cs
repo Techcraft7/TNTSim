@@ -21,15 +21,10 @@ internal static class SimulationScreen
     {
         if (started)
         {
-            DisableCursor();
             started = SimPreviewScreen.UpdateAndDraw(ref settings);
         }
         else
         {
-            if (IsCursorHidden())
-            {
-                EnableCursor();
-            }
             SETTINGS.UpdateAndDraw();
         }
 
