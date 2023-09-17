@@ -5,19 +5,18 @@ namespace TNTSim.Simulation;
 internal sealed class TNT
 {
     private const double CENTER_OFFSET = 0.98F * 0.0625D;
-    private static uint NEXT_ID = 0;
 
 
     public bool Removed { get; private set; } = false;
-    public readonly uint id;
+    public uint order;
     public Vec3 position, velocity;
     public int fuse;
     public bool loaded;
 
-    public TNT()
+    public TNT(uint order)
     {
         fuse = 80;
-        id = NEXT_ID++;
+        this.order = order;
     }
 
     public void Tick(SimulationContext context, bool firstTick = false)
@@ -63,20 +62,20 @@ internal sealed class TNT
     {
         Vec3 center = position + new Vec3(0, CENTER_OFFSET, 0);
         context.LogExplosion(center);
-        uint thisID = id;
+        uint thisID = order;
         context.ModifyEntities((ref TNT other) =>
         {
-            if (other.id == thisID || !other.loaded)
+            if (other.order == thisID || !other.loaded)
             {
                 return;
             }
             other.velocity += ExplosionCalculator.GetVelocity(center, other.position);
-        }, true);
+        });
     }
 
-    public static bool operator ==(TNT a, TNT b) => a.id == b.id;
-    public static bool operator !=(TNT a, TNT b) => a.id != b.id;
+    public static bool operator ==(TNT a, TNT b) => a.order == b.order;
+    public static bool operator !=(TNT a, TNT b) => a.order != b.order;
 
     public override bool Equals([NotNullWhen(true)] object? obj) => obj is TNT other && this == other;
-    public override int GetHashCode() => id.GetHashCode();
+    public override int GetHashCode() => order.GetHashCode();
 }

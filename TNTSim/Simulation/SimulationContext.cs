@@ -19,30 +19,15 @@ internal sealed class SimulationContext
 
 	public void Remove(TNT entity) => toRemove.Add(entity);
 
-	public void ModifyEntities(TNTModifier func, bool async = false)
-	{
-        if (async)
+	public void ModifyEntities(TNTModifier func)
+    {
+        for (int i = 0; i < tnt.Count; i++)
         {
-            Parallel.For(0, tnt.Count, i =>
+            TNT item = tnt[i];
+            if (!item.Removed)
             {
-                TNT item = tnt[i];
-                if (!item.Removed)
-                {
-                    func(ref item);
-                    tnt[i] = item;
-                }
-            });
-        }
-        else
-        {
-            for (int i = 0; i < tnt.Count; i++)
-            {
-                TNT item = tnt[i];
-                if (!item.Removed)
-                {
-                    func(ref item);
-                    tnt[i] = item;
-                }
+                func(ref item);
+                tnt[i] = item;
             }
         }
     }

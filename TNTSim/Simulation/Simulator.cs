@@ -30,6 +30,7 @@ internal static class Simulator
             copy.SetCharge(i, c);
         }
 
+        uint tntOrder = 0;
         int index = 0;
         while (index is >= 0 and < 5)
         {
@@ -41,7 +42,7 @@ internal static class Simulator
                 double vx = charge.cancelX ? 0 : (0.02f * Math.Sin(theta));
                 double vz = charge.cancelZ ? 0 : (0.02f * Math.Cos(theta));
                  
-                TNT tnt = new()
+                TNT tnt = new(tntOrder++)
                 {
                     // Random momentum and fuse timer are mutually exclusive
                     fuse = 80 - (charge.cancelX && charge.cancelZ ? charge.fuse : 1),
