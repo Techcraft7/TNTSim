@@ -37,7 +37,7 @@ internal static class SimPreviewScreen
         current = Simulator.Create(settings);
     }
 
-    public static bool UpdateAndDraw(ref CannonSettings settings)
+    public static bool UpdateAndDraw()
     {
         if (current == null)
         {

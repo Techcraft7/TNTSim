@@ -21,7 +21,7 @@ internal static class SimulationScreen
     {
         if (started)
         {
-            started = SimPreviewScreen.UpdateAndDraw(ref settings);
+            started = SimPreviewScreen.UpdateAndDraw();
         }
         else
         {
