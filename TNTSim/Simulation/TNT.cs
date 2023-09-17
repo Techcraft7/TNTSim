@@ -2,7 +2,7 @@
 
 namespace TNTSim.Simulation;
 
-internal struct TNT
+internal sealed class TNT
 {
     private const double CENTER_OFFSET = 0.98F * 0.0625D;
     private static uint NEXT_ID = 0;
@@ -59,7 +59,7 @@ internal struct TNT
         }
     }
 
-    private readonly void Explode(SimulationContext context)
+    private void Explode(SimulationContext context)
     {
         Vec3 center = position + new Vec3(0, CENTER_OFFSET, 0);
         context.LogExplosion(center);
@@ -77,6 +77,6 @@ internal struct TNT
     public static bool operator ==(TNT a, TNT b) => a.id == b.id;
     public static bool operator !=(TNT a, TNT b) => a.id != b.id;
 
-    public override readonly bool Equals([NotNullWhen(true)] object? obj) => obj is TNT other && this == other;
-    public override readonly int GetHashCode() => id.GetHashCode();
+    public override bool Equals([NotNullWhen(true)] object? obj) => obj is TNT other && this == other;
+    public override int GetHashCode() => id.GetHashCode();
 }
