@@ -12,6 +12,7 @@ internal sealed class TNT
     public Vec3 position, velocity;
     public int fuse;
     public bool loaded;
+    public Vec3B spatialBucket;
 
     public TNT(uint order)
     {
@@ -32,6 +33,13 @@ internal sealed class TNT
         }
 
         position += velocity;
+        Vec3B oldBucket = spatialBucket;
+        Vec3B newBucket = Vec3B.FromPosition(position);
+        if (newBucket != oldBucket)
+        {
+            context.MoveToSpatialBucket(this, newBucket);
+            spatialBucket = newBucket;
+        }
 
         if (firstTick)
         {
@@ -53,7 +61,6 @@ internal sealed class TNT
         if (fuse <= 0)
         {
             Removed = true;
-            context.Remove(this);
             Explode(context);
         }
     }
@@ -63,19 +70,28 @@ internal sealed class TNT
         Vec3 center = position + new Vec3(0, CENTER_OFFSET, 0);
         context.LogExplosion(center);
         uint thisID = order;
-        context.ModifyEntities((ref TNT other) =>
+        for (int i = 0; i < 27; i++)
         {
-            if (other.order == thisID || !other.loaded)
+            Vec3B offset = new()
+            { 
+                X = (sbyte)((i % 3) - 1),
+                Y = (sbyte)((i / 3 % 3) - 1),
+                Z = (sbyte)((i / 9) - 1),
+            };
+            context.ModifyEntitiesInBucket(spatialBucket + offset, (ref TNT other) =>
             {
-                return;
-            }
-            other.velocity += ExplosionCalculator.GetVelocity(center, other.position);
-        });
+                if (other.order == thisID || !other.loaded)
+                {
+                    return;
+                }
+                other.velocity += ExplosionCalculator.GetVelocity(center, other.position);
+            });
+        }
     }
 
     public static bool operator ==(TNT a, TNT b) => a.order == b.order;
     public static bool operator !=(TNT a, TNT b) => a.order != b.order;
 
-    public override bool Equals([NotNullWhen(true)] object? obj) => obj is TNT other && this == other;
+    public override bool Equals([NotNullWhen(true)] object? obj) => obj is TNT other && this.order == other.order;
     public override int GetHashCode() => order.GetHashCode();
 }

@@ -2,35 +2,33 @@
 
 internal sealed class SimulationContext
 {
-	public ICollection<TNT> TNT => tnt;
+    public IReadOnlyCollection<TNT> TNT => tnt;
 	public ICollection<Vec3> Explosions => explosions;
-	public bool HasTNT => tnt.Count > 0;
 	public SimulationSettings Settings { get; init; }
 
-	private readonly List<TNT> tnt;
-	private readonly List<TNT> toRemove = new();
+    private readonly SpatialTNTList tnt;
 	private readonly List<Vec3> explosions = new();
 
 	public SimulationContext(SimulationSettings settings, List<TNT> tnt)
 	{
 		Settings = settings;
-		this.tnt = tnt;
+		this.tnt = new(tnt);
 	}
 
-	public void Remove(TNT entity) => toRemove.Add(entity);
-
-	public void ModifyEntities(TNTModifier func)
+    public void ModifyEntitiesInBucket(Vec3B bucket, TNTModifier func)
     {
-        for (int i = 0; i < tnt.Count; i++)
+        var list = tnt.GetBucket(bucket);
+        for (int i = 0; i < list.Count; i++)
         {
-            TNT item = tnt[i];
-            if (!item.Removed)
-            {
-                func(ref item);
-                tnt[i] = item;
-            }
+            TNT x = list[i];
+            func(ref x);
         }
     }
+
+    public void MoveToSpatialBucket(TNT tnt, Vec3B to) => this.tnt.MoveTo(tnt, to);
+
+
+    public void ModifyEntitiesInOrder(TNTModifier func) => tnt.ModifyInOrder(func);
 
     public void LogExplosion(Vec3 center)
     {
@@ -43,26 +41,8 @@ internal sealed class SimulationContext
 
     public void Tick(bool isFirst = false)
     {
-        if (tnt.Count == 0)
-        {
-            if (tnt.Capacity > 0)
-            {
-                tnt.Capacity = 0;
-            }
-            return;
-        }
-        ModifyEntities(isFirst ? TickTNTFirstTime : TickTNT);
-        RemoveExploded();
-    }
-
-    private void RemoveExploded()
-    {
-        if (toRemove.Count > 0)
-        {
-            toRemove.ForEach(e => tnt.Remove(e));
-            toRemove.Clear();
-            toRemove.Capacity = 0;
-        }
+        ModifyEntitiesInOrder(isFirst ? TickTNTFirstTime : TickTNT);
+        tnt.RemoveExploded();
     }
 
     // Adding method to prevent closure
