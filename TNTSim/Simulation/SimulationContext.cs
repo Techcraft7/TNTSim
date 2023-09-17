@@ -32,9 +32,8 @@ internal sealed class SimulationContext
 
     public void LogExplosion(Vec3 center)
     {
-		// We only care about the explosions that hit the ground
-		if (center.Y <= EXPLOSION_SIZE)
-		{
+        if (center.Y < 10 && explosions.All(x => center.SquareDistanceTo(x) >= 16))
+        {
             explosions.Add(center);
         }
     }

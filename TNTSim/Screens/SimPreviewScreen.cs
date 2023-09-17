@@ -99,7 +99,7 @@ internal static class SimPreviewScreen
         }
         foreach (Vec3 exp in current.Explosions)
         {
-            DrawCircle3D(exp, MathF.Sqrt(16 - MathF.Pow((float)exp.Y, 2)), Vector3.UnitX, 90f, Color.ORANGE);
+            DrawCircle3D(exp, EXPLOSION_SIZE, Vector3.UnitX, 90f, Color.ORANGE);
         }
     }
 
