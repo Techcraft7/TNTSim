@@ -90,7 +90,10 @@ internal static class SimPreviewScreen
             Vec3 pos = tnt.position + offset;
 
             DrawCube(pos, 0.98f, 0.98f, 0.98f, tnt.fuse / 5 % 2 == 0 ? Color.WHITE : Color.RED);
-            DrawLine3D(pos, pos + tnt.velocity, Color.GREEN);
+            if (current.Settings.showVelocity)
+            {
+				DrawLine3D(pos, pos + tnt.velocity, Color.GREEN);
+			}
         }
         foreach (Vec3 exp in current.Explosions)
         {

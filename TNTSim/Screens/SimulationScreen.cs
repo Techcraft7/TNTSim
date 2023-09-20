@@ -16,7 +16,9 @@ internal static class SimulationScreen
         .EndRow()
         .AddCheckBox("Even Spacing")
         .EndRow()
-        .Build(START_Y);
+		.AddCheckBox("Show Velocity", initial: true)
+		.EndRow()
+		.Build(START_Y);
 
     private static bool shouldStart = false;
     private static bool started = false;
@@ -42,7 +44,8 @@ internal static class SimulationScreen
 			{
 				cannonSettings = cannonSettings,
 				payloadY = SETTINGS.GetComponent<NumberBox>(3).Value,
-				evenSpacing = SETTINGS.GetComponent<CheckBox>(4).Value
+				evenSpacing = SETTINGS.GetComponent<CheckBox>(4).Value,
+				showVelocity = SETTINGS.GetComponent<CheckBox>(5).Value,
 			};
 			SimPreviewScreen.Start(settings);
             shouldStart = false;
