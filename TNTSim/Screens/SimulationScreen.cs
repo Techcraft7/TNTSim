@@ -9,7 +9,7 @@ internal static class SimulationScreen
     private static readonly int TITLE_X = (WINDOW_WIDTH - MeasureText(TITLE, FONT_SIZE)) / 2;
     private static readonly ComponentGroup SETTINGS = new ComponentGroupBuilder()
         .AddButton("KABOOM!", onClick: () => shouldStart = true)
-        .AddButton("Analyze", onClick: () => throw new NotImplementedException())
+        .AddButton("Analyze", onClick: () => { })
         .EndRow()
         .AddText("Payload Y")
         .AddNumberBox(0, 319, initial: 255)
