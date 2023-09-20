@@ -18,14 +18,9 @@ internal static class SimPreviewScreen
     private static double lastMSPT = 0;
     static float cameraYaw = 5f * MathF.PI / 4f, cameraPitch = MathF.PI / 4f;
 
-    public static void Start(ref CannonSettings cannonSettings, ComponentGroup simSettingsGroup)
+    public static void Start(SimulationSettings settings)
     {
         TIMER.Reset();
-        SimulationSettings settings = new()
-        {
-            cannonSettings = cannonSettings,
-            payloadY = simSettingsGroup.GetComponent<NumberBox>(3).Value
-        };
         camera = new()
         {
             fovy = 90f,

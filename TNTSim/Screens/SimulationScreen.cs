@@ -1,4 +1,6 @@
-﻿namespace TNTSim.Screens;
+﻿using TNTSim.Cannon;
+
+namespace TNTSim.Screens;
 
 internal static class SimulationScreen
 {
@@ -12,12 +14,14 @@ internal static class SimulationScreen
         .AddText("Payload Y")
         .AddNumberBox(0, 319, initial: 255)
         .EndRow()
+        .AddCheckBox("Even Spacing")
+        .EndRow()
         .Build(START_Y);
 
     private static bool shouldStart = false;
     private static bool started = false;
 
-    public static void UpdateAndDraw(ref CannonSettings settings)
+    public static void UpdateAndDraw(ref CannonSettings cannonSettings)
     {
         if (started)
         {
@@ -34,7 +38,13 @@ internal static class SimulationScreen
 
         if (shouldStart)
         {
-            SimPreviewScreen.Start(ref settings, SETTINGS);
+			SimulationSettings settings = new()
+			{
+				cannonSettings = cannonSettings,
+				payloadY = SETTINGS.GetComponent<NumberBox>(3).Value,
+				evenSpacing = SETTINGS.GetComponent<CheckBox>(4).Value
+			};
+			SimPreviewScreen.Start(settings);
             shouldStart = false;
             started = true;
         }

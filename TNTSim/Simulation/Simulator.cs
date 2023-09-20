@@ -39,6 +39,10 @@ internal static class Simulator
             for (int i = 0; i < count; i++)
             {
                 double theta = Random.Shared.NextDouble() * Math.Tau;
+                if (settings.evenSpacing)
+                {
+                    theta = i * Math.Tau / count;
+                }
                 double vx = charge.cancelX ? 0 : (0.02f * Math.Sin(theta));
                 double vz = charge.cancelZ ? 0 : (0.02f * Math.Cos(theta));
                  
