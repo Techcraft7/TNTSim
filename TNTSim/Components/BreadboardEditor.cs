@@ -78,42 +78,50 @@ internal sealed class BreadboardEditor : Component
                 DrawCircleLines(centerX, centerY, r, Color.RED);
                 break;
             case Connection.NEXT_CHARGE:
-                DrawLine(centerX, centerY, centerX, y, Color.RED);
+                DrawLine(centerX, centerY, centerX - diagonal, centerY - diagonal, Color.RED);
+                DrawLine(centerX, centerY, centerX + diagonal, centerY - diagonal, Color.RED);
                 break;
             case Connection.NEXT_SLICE:
-                DrawLine(centerX, centerY, x + buttonSize, centerY, Color.RED);
-                break;
+				DrawLine(centerX, centerY, centerX - diagonal, centerY + diagonal, Color.RED);
+				DrawLine(centerX, centerY, centerX - diagonal, centerY - diagonal, Color.RED);
+				break;
             case Connection.PREV_CHARGE:
-                DrawLine(centerX, centerY, centerX, y + buttonSize, Color.RED);
-                break;
+				DrawLine(centerX, centerY, centerX - diagonal, centerY + diagonal, Color.RED);
+				DrawLine(centerX, centerY, centerX + diagonal, centerY + diagonal, Color.RED);
+				break;
             case Connection.PREV_SLICE:
-                DrawLine(centerX, centerY, x, centerY, Color.RED);
-                break;
+				DrawLine(centerX, centerY, centerX + diagonal, centerY + diagonal, Color.RED);
+				DrawLine(centerX, centerY, centerX + diagonal, centerY - diagonal, Color.RED);
+				break;
             case Connection.NEXT_CHARGE_OUT:
                 DrawLine(centerX - diagonal, centerY - diagonal, centerX + diagonal, centerY + diagonal, Color.RED);
                 DrawLine(centerX - diagonal, centerY + diagonal, centerX + diagonal, centerY - diagonal, Color.RED);
-                DrawConnection(Connection.NEXT_CHARGE, x, y);
-                break;
+				DrawLine(centerX, centerY - 5, centerX - diagonal, centerY - diagonal - 5, Color.RED);
+				DrawLine(centerX, centerY - 5, centerX + diagonal, centerY - diagonal - 5, Color.RED);
+				break;
             case Connection.NEXT_SLICE_OUT:
                 DrawLine(centerX - diagonal, centerY - diagonal, centerX + diagonal, centerY + diagonal, Color.RED);
                 DrawLine(centerX - diagonal, centerY + diagonal, centerX + diagonal, centerY - diagonal, Color.RED);
-                DrawConnection(Connection.NEXT_SLICE, x, y);
-                break;
+				DrawLine(centerX - 5, centerY, centerX - diagonal - 5, centerY + diagonal, Color.RED);
+				DrawLine(centerX - 5, centerY, centerX - diagonal - 5, centerY - diagonal, Color.RED);
+				break;
             case Connection.PREV_CHARGE_OUT:
                 DrawLine(centerX - diagonal, centerY - diagonal, centerX + diagonal, centerY + diagonal, Color.RED);
                 DrawLine(centerX - diagonal, centerY + diagonal, centerX + diagonal, centerY - diagonal, Color.RED);
-                DrawConnection(Connection.PREV_CHARGE, x, y);
-                break;
+				DrawLine(centerX, centerY + 5, centerX - diagonal, centerY + diagonal + 5, Color.RED);
+				DrawLine(centerX, centerY + 5, centerX + diagonal, centerY + diagonal + 5, Color.RED);
+				break;
             case Connection.PREV_SLICE_OUT:
                 DrawLine(centerX - diagonal, centerY - diagonal, centerX + diagonal, centerY + diagonal, Color.RED);
                 DrawLine(centerX - diagonal, centerY + diagonal, centerX + diagonal, centerY - diagonal, Color.RED);
-                DrawConnection(Connection.PREV_SLICE, x, y);
-                break;
+				DrawLine(centerX + 5, centerY, centerX + diagonal + 5, centerY + diagonal, Color.RED);
+				DrawLine(centerX + 5, centerY, centerX + diagonal + 5, centerY - diagonal, Color.RED);
+				break;
             case Connection.IN_AND_OUT:
                 DrawLine(centerX - diagonal, centerY - diagonal, centerX + diagonal, centerY + diagonal, Color.RED);
                 DrawLine(centerX - diagonal, centerY + diagonal, centerX + diagonal, centerY - diagonal, Color.RED);
-                DrawConnection(Connection.INPUT, x, y);
-                break;
+				DrawCircleLines(centerX, centerY, r, Color.RED);
+				break;
         }
     }
 
