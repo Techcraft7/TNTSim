@@ -4,7 +4,8 @@ internal enum Screen
 {
     CHARGES = 0,
     BREADBOARDS = 1,
-    SIMULATION = 2
+    SIMULATION = 2,
+    HELP = 3,
 }
 
 internal static class ScreenExt
@@ -13,7 +14,8 @@ internal static class ScreenExt
     {
         Screen.CHARGES => Screen.BREADBOARDS,
         Screen.BREADBOARDS => Screen.SIMULATION,
-        Screen.SIMULATION => Screen.CHARGES,
+        Screen.SIMULATION => Screen.HELP,
+        Screen.HELP => Screen.CHARGES,
         _ => Screen.CHARGES
     };
 }

@@ -26,6 +26,9 @@ while (!WindowShouldClose())
         case Screen.SIMULATION:
             SimulationScreen.UpdateAndDraw(ref settings);
             break;
+        case Screen.HELP:
+            HelpScreen.UpdateAndDraw();
+            break;
         default:
             screen = Screen.CHARGES;
             break;
