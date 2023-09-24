@@ -1,6 +1,4 @@
-﻿using TNTSim.Cannon;
-
-namespace TNTSim.Screens;
+﻿namespace TNTSim.Screens;
 
 internal static class SimulationScreen
 {
@@ -16,19 +14,15 @@ internal static class SimulationScreen
         .EndRow()
         .AddCheckBox("Even Spacing")
         .EndRow()
-		.AddCheckBox("Show Velocity", initial: true)
-		.EndRow()
-		.Build(START_Y);
+        .AddCheckBox("Show Velocity", initial: true)
+        .EndRow()
+        .Build(START_Y);
 
     private static Subscreen subscreen = Subscreen.MAIN;
     private static bool first = false;
 
     public static void UpdateAndDraw(ref CannonSettings cannonSettings)
     {
-        DrawRectangle(0, 0, WINDOW_WIDTH, CONTROL_HEIGHT + PADDING, Color.RAYWHITE);
-        DrawText(TITLE, TITLE_X, 2 * PADDING, FONT_SIZE, Color.GRAY);
-        DrawLine(0, CONTROL_HEIGHT + PADDING, WINDOW_WIDTH, CONTROL_HEIGHT + PADDING, Color.GRAY);
-
         switch (subscreen)
         {
             case Subscreen.MAIN:
@@ -60,6 +54,9 @@ internal static class SimulationScreen
                 break;
         }
 
+        DrawRectangle(0, 0, WINDOW_WIDTH, CONTROL_HEIGHT + PADDING, Color.RAYWHITE);
+        DrawText(TITLE, TITLE_X, 2 * PADDING, FONT_SIZE, Color.GRAY);
+        DrawLine(0, CONTROL_HEIGHT + PADDING, WINDOW_WIDTH, CONTROL_HEIGHT + PADDING, Color.GRAY);
     }
 
     private static SimulationSettings GetSimSettings(CannonSettings cannonSettings) => new()
