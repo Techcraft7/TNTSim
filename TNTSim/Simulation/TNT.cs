@@ -25,13 +25,6 @@ internal sealed class TNT
         loaded = true;
         velocity.Y -= 0.04;
 
-        if (firstTick)
-        {
-            velocity.X *= 0.9;
-            velocity.Y *= 1.5;
-            velocity.Z *= 0.9;
-        }
-
         position += velocity;
         Vec3B oldBucket = spatialBucket;
         Vec3B newBucket = Vec3B.FromPosition(position);
