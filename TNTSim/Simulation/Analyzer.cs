@@ -24,7 +24,6 @@ internal class Analyzer
     {
         // Measure TNT counts and MSPT
         Stopwatch sw = new();
-        TimeSpan last = TimeSpan.Zero;
         while (currentTick < 80)
         {
             tntCounts[currentTick] = context.TNT.Count;
@@ -33,8 +32,7 @@ internal class Analyzer
             context.Tick();
             
             TimeSpan elapsed = sw.Elapsed;
-            mspt[currentTick] = (elapsed - last).TotalMilliseconds;
-            last = elapsed;
+            mspt[currentTick] = elapsed.TotalMilliseconds;
 
             currentTick++;
         }
