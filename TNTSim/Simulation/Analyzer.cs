@@ -4,7 +4,7 @@ namespace TNTSim.Simulation;
 
 internal class Analyzer
 {
-    public double PercentComplete => currentTick / 80.0 * 100.0;
+    public double PercentComplete => currentTick / 80.0;
     public IReadOnlyList<double> MSPT => mspt;
     public IReadOnlyList<int> TNTCounts => tntCounts;
 
