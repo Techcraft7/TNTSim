@@ -11,6 +11,7 @@ internal sealed class Analysis : Component
     public const int MAX_Y = MIN_Y + CONTROL_HEIGHT;
     public const int GRAPH_Y_PAD = PADDING * 10;
     public const int GRAPH_X_PAD = PADDING * 5;
+    public const int AXIS_FONT_SIZE = FONT_SIZE / 3;
     public const int SPECIAL_MIN = 0;
     public const int SPECIAL_MAX = 1;
     public const int SPECIAL_MED = 2;
@@ -117,10 +118,20 @@ internal sealed class Analysis : Component
         }
     }
 
-    private static void DrawAxes(int startX, int startY, int width)
+    private void DrawAxes(int startX, int startY, int width)
     {
-        DrawLine(startX, startY, startX, startY + GRAPH_HEIGHT + 1, Color.GRAY);
-        DrawLine(startX, startY + GRAPH_HEIGHT, startX + width, startY + GRAPH_HEIGHT, Color.GRAY);
+        const int TEXT_OFFSET = AXIS_FONT_SIZE + PADDING;
+        int bottomY = startY + GRAPH_HEIGHT - TEXT_OFFSET;
+        DrawLine(startX, startY + TEXT_OFFSET, startX, bottomY + 1, PrimaryColor);
+        DrawLine(startX, bottomY, startX + width, bottomY, PrimaryColor);
+
+        string text = max.ToString("F0");
+        int textX = startX - (MeasureText(text, AXIS_FONT_SIZE) / 2);
+        DrawText(text, textX, startY, AXIS_FONT_SIZE, PrimaryColor);
+
+        text = min.ToString("F0");
+        textX = startX - (MeasureText(text, AXIS_FONT_SIZE) / 2);
+        DrawText(text, textX, bottomY + PADDING, AXIS_FONT_SIZE, PrimaryColor);
     }
 
     private void DrawAverageLine(int startX, int startY, int width)
