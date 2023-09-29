@@ -131,12 +131,12 @@ internal sealed class Analysis : Component
 
     private void DrawAverageLine(int startX, int startY, int width)
     {
-        double temp2 = average;
-        temp2 *= (GRAPH_HEIGHT - GRAPH_Y_PAD) / (max - min);
-        temp2 -= min;
-        temp2 += GRAPH_Y_PAD / 2;
-        temp2 = startY + GRAPH_HEIGHT - temp2;
-        int yAverage = (int)temp2;
-        DrawLine(startX + (GRAPH_X_PAD / 2), yAverage, startX + width - (GRAPH_X_PAD / 2), yAverage, Color.GRAY);
+        double temp = average;
+        temp *= (GRAPH_HEIGHT - GRAPH_Y_PAD) / (max - min);
+        temp -= min;
+        temp += GRAPH_Y_PAD / 2;
+        temp = startY + GRAPH_HEIGHT - temp;
+        int y = (int)temp;
+        DrawLine(startX + (GRAPH_X_PAD / 2), y, startX + width - (GRAPH_X_PAD / 2), y, Color.GRAY);
     }
 }
