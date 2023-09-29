@@ -46,7 +46,7 @@ internal sealed class Analysis : Component
     {
         this.name = name;
         textX = X + ((Width - MeasureText(name, FONT_SIZE)) / 2);
-        graphStartX = X + (Width / 4);
+        graphStartX = X + PADDING + (Width / 4);
     }
 
     public override void UpdateAndDraw()
@@ -59,7 +59,7 @@ internal sealed class Analysis : Component
         DrawText($"Maximum: {max:F2}", PADDING, Y + MAX_Y, FONT_SIZE, SPECIAL_POINT_COLORS[SPECIAL_MAX]);
 
         int width = (Width - graphStartX - (PADDING * 4)) / 2;
-        DrawLineChart(graphStartX + PADDING, Y + GRAPH_Y, width);
+        DrawLineChart(graphStartX, Y + GRAPH_Y, width);
 
         // TODO: draw bar chart
     }
