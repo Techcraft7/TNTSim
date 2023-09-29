@@ -28,12 +28,6 @@ internal sealed class Analysis : Component
             max = data.Max();
             median = data.Order().ElementAtOrDefault(data.Count / 2);
 
-            // "Average" is biggest
-            graphStartX = MeasureText("Average: ", FONT_SIZE)
-                + new double[] { average, min, max, median }
-                .Max(static d => MeasureText(d.ToString("F2"), FONT_SIZE))
-                + (PADDING * 3) ;
-
             minPos = data.Zip(Enumerable.Range(0, data.Count)).OrderBy(static t => t.First).FirstOrDefault().Second;
             maxPos = data.Zip(Enumerable.Range(0, data.Count)).OrderBy(static t => t.First).LastOrDefault().Second;
             medianPos = data.Zip(Enumerable.Range(0, data.Count)).Where(t => t.First == median).FirstOrDefault().Second;
@@ -45,12 +39,13 @@ internal sealed class Analysis : Component
     private IReadOnlyList<double> data = Array.Empty<double>();
     private double average, min, max, median;
     private int minPos, maxPos, medianPos;
-    private int graphStartX;
+    private readonly int graphStartX;
 
     public Analysis(string name, int y) : base(PADDING, y, WINDOW_WIDTH - (PADDING * 2), HEIGHT)
     {
         this.name = name;
         textX = X + ((Width - MeasureText(name, FONT_SIZE)) / 2);
+        graphStartX = X + (Width / 4);
     }
 
     public override void UpdateAndDraw()
@@ -62,9 +57,8 @@ internal sealed class Analysis : Component
         DrawText($"Minimum: {min:F2}", PADDING, Y + MIN_Y, FONT_SIZE, SPECIAL_POINT_COLORS[SPECIAL_MIN]);
         DrawText($"Maximum: {max:F2}", PADDING, Y + MAX_Y, FONT_SIZE, SPECIAL_POINT_COLORS[SPECIAL_MAX]);
 
-        int graphPaddingX = PADDING * 2;
-        int width = (Width - graphStartX - graphPaddingX) / 2;
-        DrawLineChart(graphStartX, Y + GRAPH_Y, width);
+        int width = (Width - graphStartX - (PADDING * 4)) / 2;
+        DrawLineChart(graphStartX + PADDING, Y + GRAPH_Y, width);
 
         // TODO: draw bar chart
     }
