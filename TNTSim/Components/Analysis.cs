@@ -62,6 +62,7 @@ internal sealed class Analysis : Component
         DrawLineChart(graphStartX + PADDING, Y + GRAPH_Y, width);
 
         // TODO: draw bar chart
+        DrawText("TODO: bar chart / histogram", graphStartX + PADDING + width + PADDING, Y + GRAPH_Y, FONT_SIZE, Color.RED);
     }
 
     private void DrawLineChart(int startX, int startY, int width)
