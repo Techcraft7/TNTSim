@@ -16,7 +16,7 @@ internal static class SimPreviewScreen
     private static Camera3D camera;
     private static SimulationContext? current = null;
     private static double lastMSPT = 0;
-    static float cameraYaw = 5f * MathF.PI / 4f, cameraPitch = MathF.PI / 4f;
+    static float cameraYaw, cameraPitch;
 
     public static void Start(SimulationSettings settings)
     {
@@ -30,7 +30,9 @@ internal static class SimPreviewScreen
             projection = CameraProjection.CAMERA_PERSPECTIVE
         };
         current = Simulator.Create(settings);
-    }
+        cameraPitch = MathF.PI / 4f;
+        cameraYaw = 5f * MathF.PI / 4f;
+	}
 
     public static bool UpdateAndDraw()
     {
