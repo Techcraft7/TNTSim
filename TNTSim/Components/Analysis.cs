@@ -16,7 +16,8 @@ internal sealed class Analysis : Component
     public const int SPECIAL_MAX = 1;
     public const int SPECIAL_MED = 2;
     public const float SPECIAL_POINT_SIZE = 2.5f;
-    private static readonly Color[] SPECIAL_POINT_COLORS = new Color[3] { Color.RED, Color.BLUE, Color.ORANGE };
+	public const int AXIS_TEXT_OFFSET = AXIS_FONT_SIZE + PADDING;
+	private static readonly Color[] SPECIAL_POINT_COLORS = new Color[3] { Color.RED, Color.BLUE, Color.ORANGE };
 
     public IReadOnlyList<double> Data
     {
@@ -57,6 +58,8 @@ internal sealed class Analysis : Component
         DrawText($"Median: {median:F2}", PADDING, Y + MED_Y, FONT_SIZE, SPECIAL_POINT_COLORS[SPECIAL_MED]);
         DrawText($"Minimum: {min:F2}", PADDING, Y + MIN_Y, FONT_SIZE, SPECIAL_POINT_COLORS[SPECIAL_MIN]);
         DrawText($"Maximum: {max:F2}", PADDING, Y + MAX_Y, FONT_SIZE, SPECIAL_POINT_COLORS[SPECIAL_MAX]);
+        DrawText($"Left: value over time", PADDING, Y + MAX_Y + CONTROL_HEIGHT, FONT_SIZE, PrimaryColor);
+        DrawText($"Right: # of occurances", PADDING, Y + MAX_Y + (CONTROL_HEIGHT * 2), FONT_SIZE, PrimaryColor);
 
         int width = (Width - graphStartX - (PADDING * 4)) / 2;
         DrawLineChart(graphStartX + PADDING, Y + GRAPH_Y, width);
@@ -66,12 +69,16 @@ internal sealed class Analysis : Component
 
     private void DrawHistogram(int startX, int startY, int width)
     {
-        Span<double> heights = stackalloc double[width];
+        int bottomY = startY + GRAPH_HEIGHT - AXIS_TEXT_OFFSET;
+		DrawLine(startX, startY + AXIS_TEXT_OFFSET, startX, bottomY + 1, SPECIAL_POINT_COLORS[SPECIAL_MIN]);
+		DrawLine(startX + width, startY + AXIS_TEXT_OFFSET, startX + width, bottomY + 1, SPECIAL_POINT_COLORS[SPECIAL_MAX]);
+
+        Span<double> heights = stackalloc double[width / 4];
         double maxH = 1;
         for (int i = 0; i < data.Count; i++)
         {
-            double x = (data[i] - min) / (max - min) * width;
-            int j = int.Clamp((int)x, 0, data.Count - 1);
+            double x = (data[i] - min) / (max - min) * (heights.Length + 2);
+            int j = (int)double.Clamp(x, 0, heights.Length - 1e-9);
             heights[j]++;
             if (heights[j] > maxH)
             {
@@ -79,30 +86,73 @@ internal sealed class Analysis : Component
             }
         }
 
-        // TODO: use these
         int first = heights.IndexOfAnyExcept(0);
+        if (first < 0)
+        {
+            first = 0;
+        }
         int last = heights.LastIndexOfAnyExcept(0);
+        if (last >= heights.Length)
+        {
+            last = heights.Length - 1;
+        }
         int count = last - first;
         if (count == 0)
         {
             return;
         }
-		int rectW = width - count;
+        count++;
+		float rectW = (float)width / count;
 
-        for (int i = 0; i < heights.Length; i++)
+        first = first * data.Count / heights.Length;
+        last = last * data.Count / heights.Length;
+
+		string text = maxH.ToString("F0");
+		int textX = startX - (MeasureText(text, AXIS_FONT_SIZE) / 2);
+		DrawText(text, textX, startY, AXIS_FONT_SIZE, PrimaryColor);
+
+        text = data.Order().ElementAt(first).ToString("F0");
+		textX = startX - (MeasureText(text, AXIS_FONT_SIZE) / 2);
+		DrawText(text, textX, bottomY, AXIS_FONT_SIZE, PrimaryColor);
+
+        text = data.Order().ElementAt(last).ToString("F0");
+		textX = startX + width - (MeasureText(text, AXIS_FONT_SIZE) / 2);
+		DrawText(text, textX, bottomY, AXIS_FONT_SIZE, PrimaryColor);
+
+		startY += AXIS_TEXT_OFFSET;
+        int gh = GRAPH_HEIGHT - (AXIS_TEXT_OFFSET * 2);
+
+        int medPos = int.Clamp((int)Math.Round((median - min) / (max - min) * width), 0, heights.Length - 1);
+        int avgPos = int.Clamp((int)Math.Round((average - min) / (max - min) * width), 0, heights.Length - 1);
+
+        for (int i = 0; i < count; i++)
         {
-            int h = (int)(heights[i] * GRAPH_HEIGHT / maxH);
-            int x = startX + i;
-            int y = startY + GRAPH_HEIGHT;
-            DrawLine(x, y, x, y - h, Color.GREEN);
-        }
-    }
+            double raw = heights[first + i];
+            float h = (float)(raw * gh / maxH);
+            float x = startX + (i * rectW);
+            float y = startY + gh - h;
+            DrawRectangleRec(new(x, y, rectW, h), Color.GREEN);
 
-    private void DrawLineChart(int startX, int startY, int width)
+            int x2 = (int)(x + (rectW / 2));
+            if (i == avgPos)
+            {
+                DrawLine(x2, startY, x2, bottomY, Color.GRAY);
+            }
+            if (i == medPos)
+            {
+                DrawLine(x2, startY, x2, bottomY, SPECIAL_POINT_COLORS[SPECIAL_MED]);
+            }
+        }
+
+        // Draw bottom line after
+		DrawLine(startX, bottomY, startX + width, bottomY, Color.GRAY);
+	}
+
+	private void DrawLineChart(int startX, int startY, int width)
     {
         DrawAxes(startX, startY, width);
 
-        DrawAverageLine(startX, startY, width);
+		DrawAverageLine(startX, startY, width);
 
         double dx = (width - GRAPH_X_PAD) / (data.Count - 1.0);
 
@@ -154,9 +204,8 @@ internal sealed class Analysis : Component
 
     private void DrawAxes(int startX, int startY, int width)
     {
-        const int TEXT_OFFSET = AXIS_FONT_SIZE + PADDING;
-        int bottomY = startY + GRAPH_HEIGHT - TEXT_OFFSET;
-        DrawLine(startX, startY + TEXT_OFFSET, startX, bottomY + 1, PrimaryColor);
+        int bottomY = startY + GRAPH_HEIGHT - AXIS_TEXT_OFFSET;
+        DrawLine(startX, startY + AXIS_TEXT_OFFSET, startX, bottomY + 1, PrimaryColor);
         DrawLine(startX, bottomY, startX + width, bottomY, PrimaryColor);
 
         string text = max.ToString("F0");
