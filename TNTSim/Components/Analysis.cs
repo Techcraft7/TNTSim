@@ -61,8 +61,41 @@ internal sealed class Analysis : Component
         int width = (Width - graphStartX - (PADDING * 4)) / 2;
         DrawLineChart(graphStartX + PADDING, Y + GRAPH_Y, width);
 
-        // TODO: draw bar chart
-        DrawText("TODO: bar chart / histogram", graphStartX + PADDING + width + PADDING, Y + GRAPH_Y, FONT_SIZE, Color.RED);
+        DrawHistogram(graphStartX + PADDING + width + PADDING, Y + GRAPH_Y, width);
+    }
+
+    private void DrawHistogram(int startX, int startY, int width)
+    {
+        Span<double> heights = stackalloc double[width];
+        double maxH = 1;
+        for (int i = 0; i < data.Count; i++)
+        {
+            double x = (data[i] - min) / (max - min) * width;
+            int j = int.Clamp((int)x, 0, data.Count - 1);
+            heights[j]++;
+            if (heights[j] > maxH)
+            {
+                maxH = heights[j];
+            }
+        }
+
+        // TODO: use these
+        int first = heights.IndexOfAnyExcept(0);
+        int last = heights.LastIndexOfAnyExcept(0);
+        int count = last - first;
+        if (count == 0)
+        {
+            return;
+        }
+		int rectW = width - count;
+
+        for (int i = 0; i < heights.Length; i++)
+        {
+            int h = (int)(heights[i] * GRAPH_HEIGHT / maxH);
+            int x = startX + i;
+            int y = startY + GRAPH_HEIGHT;
+            DrawLine(x, y, x, y - h, Color.GREEN);
+        }
     }
 
     private void DrawLineChart(int startX, int startY, int width)
