@@ -1,9 +1,21 @@
 # TNTSim
 A Simulator/Calculator for m^3's Orbital Strike Cannon 2.0
 
-## Building and running
+## Installation
+
+1. Go to the [Releases](https://github.com/Techcraft7/TNTSim/releases) page and download the `.zip` file for your platform
+2. Extract the `.zip` file
+3. Run TNTSim
+
+### My platform is not listed!
+
+Create a release build using the instructions below
+
+## Building and Testing
 
 > Requires .NET SDK 7+
+
+⚠ The following commands assume you are in the same folder as `TNTSim.csproj`, otherwise you will need to specify where it is using the `--project` option.
 
 ### Release mode
 ```
