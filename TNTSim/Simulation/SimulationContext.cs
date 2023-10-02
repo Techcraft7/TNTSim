@@ -32,7 +32,7 @@ internal sealed class SimulationContext
 
     public void LogExplosion(Vec3 center)
     {
-        if (center.Y < 10 && explosions.All(x => center.SquareDistanceTo(x) >= 16))
+        if (center.Y < 10)
         {
             explosions.Add(center);
         }

@@ -2,7 +2,7 @@
 
 namespace TNTSim.Util;
 
-internal struct Vec3B
+internal struct Vec3B : IComparable<Vec3B>
 {
     private const int SIZE = 16;
     private const double RANGE = SIZE * 127;
@@ -40,4 +40,20 @@ internal struct Vec3B
 
     public override readonly bool Equals([NotNullWhen(true)] object? obj) => obj is Vec3B other && this == other;
     public override readonly int GetHashCode() => X.GetHashCode() ^ Y.GetHashCode() ^ Z.GetHashCode();
+
+	public readonly int CompareTo(Vec3B other)
+	{
+		int dx = X - other.X;
+        int dy = Y - other.Y;
+        int dz = Z - other.Z;
+        if (dx != 0)
+        {
+            return dx;
+        }
+        if (dy != 0)
+        {
+            return dy;
+        }
+        return dz;
+	}
 }

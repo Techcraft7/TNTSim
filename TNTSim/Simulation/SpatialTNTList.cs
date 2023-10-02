@@ -5,7 +5,7 @@ namespace TNTSim.Simulation;
 
 internal sealed class SpatialTNTList : IReadOnlyCollection<TNT>
 {
-    private readonly Dictionary<Vec3B, SortedList<uint, TNT>> groups = new();
+    private readonly SortedDictionary<Vec3B, SortedList<uint, TNT>> groups = new();
     private readonly LinkedList<TNT> inOrder;
 
     public int Count => inOrder.Count;
