@@ -78,6 +78,10 @@ internal sealed class Analysis : Component
 		for (int i = 0; i < data.Count; i++)
 		{
 			double x = (data[i] - min) / (max - min) * (heights.Length + 2);
+			if (!double.IsFinite(x))
+			{
+				continue;
+			}
 			int j = (int)double.Clamp(x, 0, heights.Length - 1e-9);
 			heights[j]++;
 			if (heights[j] > maxH)
@@ -111,11 +115,11 @@ internal sealed class Analysis : Component
 		int textX = startX - (MeasureText(text, AXIS_FONT_SIZE) / 2);
 		DrawText(text, textX, startY, AXIS_FONT_SIZE, PrimaryColor);
 
-		text = data.Order().ElementAt(first).ToString("F0");
+		text = data.Order().ElementAtOrDefault(first).ToString("F0");
 		textX = startX - (MeasureText(text, AXIS_FONT_SIZE) / 2);
 		DrawText(text, textX, bottomY, AXIS_FONT_SIZE, PrimaryColor);
 
-		text = data.Order().ElementAt(last).ToString("F0");
+		text = data.Order().ElementAtOrDefault(last).ToString("F0");
 		textX = startX + width - (MeasureText(text, AXIS_FONT_SIZE) / 2);
 		DrawText(text, textX, bottomY, AXIS_FONT_SIZE, PrimaryColor);
 
