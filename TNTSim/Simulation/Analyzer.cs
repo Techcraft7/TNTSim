@@ -7,6 +7,11 @@ internal class Analyzer
 	public double PercentComplete => currentTick / 80.0;
 	public IReadOnlyList<double> MSPT => mspt;
 	public IReadOnlyList<int> TNTCounts => tntCounts;
+	public double CenterX { get; private set; } = double.NaN;
+	public double CenterZ { get; private set; } = double.NaN;
+	public double DamageRadiusX { get; private set; } = double.NaN;
+	public double DamageRadiusZ { get; private set; } = double.NaN;
+	public double DamagePercentage { get; private set; } = double.NaN;
 
 	private readonly SimulationContext context;
 	private readonly Task task;
@@ -29,6 +34,12 @@ internal class Analyzer
 
 	private void CalculateExplosionMetrics()
 	{
+		CenterX = CenterZ = DamageRadiusX = DamageRadiusZ = DamagePercentage = double.NaN;
+		if (context.Explosions.Count == 0)
+		{
+			return;
+		}
+
 		var onGround = context.Explosions.Where(static v => Math.Abs(v.Y) <= EXPLOSION_SIZE);
 
 		double minX = onGround.Min(static v => v.X);
@@ -36,19 +47,16 @@ internal class Analyzer
 		double maxX = onGround.Max(static v => v.X);
 		double maxZ = onGround.Max(static v => v.Z);
 
-		double damageRadiusX = (maxX - minX) / 2.0;
-		double damageRadiusZ = (maxZ - minZ) / 2.0;
+		DamageRadiusX = (maxX - minX) / 2.0;
+		DamageRadiusZ = (maxZ - minZ) / 2.0;
 
-		double centerX = (minX + maxX) / 2.0;
-		double centerZ = (minZ + maxZ) / 2.0;
+		CenterX = (minX + maxX) / 2.0;
+		CenterZ = (minZ + maxZ) / 2.0;
 
 		double damagedArea = onGround.Sum(static v => Math.PI * Math.Pow(Math.Sqrt((EXPLOSION_SIZE * EXPLOSION_SIZE) - v.Y), 2));
-		double totalArea = Math.PI * damageRadiusX * damageRadiusZ;
+		double totalArea = Math.PI * DamageRadiusX * DamageRadiusZ;
 
-		double damagePercent = damagedArea / totalArea;
-
-		// TODO: store these
-		Console.WriteLine($"R: ({damageRadiusX:F0}, {damageRadiusZ:F0}) C: ({centerX:F0}, {centerZ:F0}) D: {damagePercent * 100:F2}%");
+		DamagePercentage = damagedArea / totalArea;
 	}
 
 	private void MeasureMSPTAndTNTCount()
