@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Security.Cryptography;
 
 namespace TNTSim.Simulation;
 
@@ -53,9 +54,9 @@ internal class Analyzer
 		CenterX = (minX + maxX) / 2.0;
 		CenterZ = (minZ + maxZ) / 2.0;
 
-		double damagedArea = onGround.Sum(static v => Math.PI * Math.Pow(Math.Sqrt((EXPLOSION_SIZE * EXPLOSION_SIZE) - v.Y), 2));
+		// TODO: account for overlapping
+		double damagedArea = 0;
 		double totalArea = Math.PI * DamageRadiusX * DamageRadiusZ;
-
 		DamagePercentage = damagedArea / totalArea;
 	}
 
