@@ -22,7 +22,37 @@ internal class Analyzer
 
 	private void Analyze()
 	{
-		// Measure TNT counts and MSPT
+		MeasureMSPTAndTNTCount();
+
+		CalculateExplosionMetrics();
+	}
+
+	private void CalculateExplosionMetrics()
+	{
+		var onGround = context.Explosions.Where(static v => Math.Abs(v.Y) <= EXPLOSION_SIZE);
+
+		double minX = onGround.Min(static v => v.X);
+		double minZ = onGround.Min(static v => v.Z);
+		double maxX = onGround.Max(static v => v.X);
+		double maxZ = onGround.Max(static v => v.Z);
+
+		double damageRadiusX = (maxX - minX) / 2.0;
+		double damageRadiusZ = (maxZ - minZ) / 2.0;
+
+		double centerX = (minX + maxX) / 2.0;
+		double centerZ = (minZ + maxZ) / 2.0;
+
+		double damagedArea = onGround.Sum(static v => Math.PI * Math.Pow(Math.Sqrt((EXPLOSION_SIZE * EXPLOSION_SIZE) - v.Y), 2));
+		double totalArea = Math.PI * damageRadiusX * damageRadiusZ;
+
+		double damagePercent = damagedArea / totalArea;
+
+		// TODO: store these
+		Console.WriteLine($"R: ({damageRadiusX:F0}, {damageRadiusZ:F0}) C: ({centerX:F0}, {centerZ:F0}) D: {damagePercent * 100:F2}%");
+	}
+
+	private void MeasureMSPTAndTNTCount()
+	{
 		Stopwatch sw = new();
 		while (currentTick < 80)
 		{
@@ -36,9 +66,6 @@ internal class Analyzer
 
 			currentTick++;
 		}
-
-		// Analyze explosions
-		// TODO
 	}
 
 	public bool IsComplete() => task.IsCompleted;
