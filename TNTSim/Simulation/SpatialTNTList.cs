@@ -70,9 +70,12 @@ internal sealed class SpatialTNTList : IReadOnlyCollection<TNT>
         for (int i = 0; i < list.Count; i++)
         {
             TNT r = list.Values[i];
+            if (!r.Removed)
+            {
             func(ref r);
-            list.Values[i] = r;
+				list[r.order] = r;
         }
+	}
 	}
 
 	public void ModifyInOrder(TNTModifier func)
