@@ -12,41 +12,41 @@ Button nextTabButton = new(">", WINDOW_WIDTH - PADDING - CONTROL_HEIGHT, PADDING
 
 while (!WindowShouldClose())
 {
-    BeginDrawing();
-    ClearBackground(Color.RAYWHITE);
+	BeginDrawing();
+	ClearBackground(Color.RAYWHITE);
 
-    switch (screen)
-    {
-        case Screen.CHARGES:
-            ChargeEditorScreen.UpdateAndDraw(ref settings);
-            break;
-        case Screen.BREADBOARDS:
-            BreadboardEditorScreen.UpdateAndDraw(ref settings);
-            break;
-        case Screen.SIMULATION:
-            SimulationScreen.UpdateAndDraw(ref settings);
-            break;
-        case Screen.HELP:
-            HelpScreen.UpdateAndDraw();
-            break;
-        default:
-            screen = Screen.CHARGES;
-            break;
-    }
+	switch (screen)
+	{
+		case Screen.CHARGES:
+			ChargeEditorScreen.UpdateAndDraw(ref settings);
+			break;
+		case Screen.BREADBOARDS:
+			BreadboardEditorScreen.UpdateAndDraw(ref settings);
+			break;
+		case Screen.SIMULATION:
+			SimulationScreen.UpdateAndDraw(ref settings);
+			break;
+		case Screen.HELP:
+			HelpScreen.UpdateAndDraw();
+			break;
+		default:
+			screen = Screen.CHARGES;
+			break;
+	}
 
-    nextTabButton.UpdateAndDraw();
-    if (nextTabPressed || IsKeyPressed(KeyboardKey.KEY_TAB))
-    {
-        nextTabPressed = false;
-        screen = screen.Next();
-        if (IsCursorHidden())
-        {
-            EnableCursor();
-        }
-    }
+	nextTabButton.UpdateAndDraw();
+	if (nextTabPressed || IsKeyPressed(KeyboardKey.KEY_TAB))
+	{
+		nextTabPressed = false;
+		screen = screen.Next();
+		if (IsCursorHidden())
+		{
+			EnableCursor();
+		}
+	}
 
-    DrawFPS(PADDING, PADDING);
-    EndDrawing();
+	DrawFPS(PADDING, PADDING);
+	EndDrawing();
 }
 
 CloseWindow();

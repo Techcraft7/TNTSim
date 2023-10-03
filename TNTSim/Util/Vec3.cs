@@ -28,7 +28,7 @@ internal struct Vec3
 	public Vec3 Normalize()
 	{
 		double l = Length();
-        X /= l;
+		X /= l;
 		Y /= l;
 		Z /= l;
 		return this;
@@ -63,7 +63,7 @@ internal struct Vec3
 
 	public readonly double DistanceTo(Vec3 v) => Math.Sqrt(SquareDistanceTo(v));
 
-    public static Vec3 operator *(Vec3 v, double x)
+	public static Vec3 operator *(Vec3 v, double x)
 	{
 		v.X *= x;
 		v.Y *= x;
