@@ -44,7 +44,7 @@ internal sealed class SpatialTNTList : IReadOnlyCollection<TNT>
         {
             fromList.TrimExcess();
         }
-        
+
         if (tnt.Removed)
         {
             return;
@@ -61,16 +61,21 @@ internal sealed class SpatialTNTList : IReadOnlyCollection<TNT>
         toList.Add(tnt.order, tnt);
     }
 
-    public IList<TNT> GetBucket(Vec3B bucket)
-    {
-        if (groups.TryGetValue(bucket, out var list))
+	public void ModifyInBucket(Vec3B bucket, TNTModifier func)
+	{
+		if (!groups.TryGetValue(bucket, out var list))
         {
-            return list.Values;
+            return;
         }
-        return Array.Empty<TNT>();  
-    }
+        for (int i = 0; i < list.Count; i++)
+        {
+            TNT r = list.Values[i];
+            func(ref r);
+            list.Values[i] = r;
+        }
+	}
 
-    public void ModifyInOrder(TNTModifier func)
+	public void ModifyInOrder(TNTModifier func)
     {
         LinkedListNode<TNT>? n = inOrder.First;
         while (n is not null)

@@ -15,16 +15,7 @@ internal sealed class SimulationContext
 		this.tnt = new(tnt);
 	}
 
-    public void ModifyEntitiesInBucket(Vec3B bucket, TNTModifier func)
-    {
-        var list = tnt.GetBucket(bucket);
-        for (int i = 0; i < list.Count; i++)
-        {
-            TNT x = list[i];
-            func(ref x);
-        }
-    }
-
+    public void ModifyEntitiesInBucket(Vec3B bucket, TNTModifier func) => tnt.ModifyInBucket(bucket, func);
     public void MoveToSpatialBucket(TNT tnt, Vec3B to) => this.tnt.MoveTo(tnt, to);
 
 
