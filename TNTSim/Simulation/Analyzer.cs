@@ -41,7 +41,7 @@ internal class Analyzer
 			return;
 		}
 
-		var onGround = context.Explosions.Where(static v => Math.Abs(v.Y) <= EXPLOSION_SIZE);
+		List<Vec3> onGround = context.Explosions.Where(static v => Math.Abs(v.Y) <= EXPLOSION_SIZE).ToList();
 
 		double minX = onGround.Min(static v => v.X);
 		double minZ = onGround.Min(static v => v.Z);
