@@ -93,7 +93,7 @@ internal static class SimulationFactory
 	private static void TickOnceAndCap(Simulation context)
 	{
 		context.Tick(true);
-		context.ModifyEntitiesInOrder((ref TNT tnt) =>
+		context.ModifyEntitiesInOrder((TNT tnt) =>
 		{
 			if (Math.Abs(tnt.velocity.X) > 10)
 			{

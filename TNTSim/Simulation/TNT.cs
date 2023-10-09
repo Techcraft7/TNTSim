@@ -71,7 +71,7 @@ internal sealed class TNT
 				Y = (sbyte)((i / 3 % 3) - 1),
 				Z = (sbyte)((i / 9) - 1),
 			};
-			context.ModifyEntitiesInBucket(spatialBucket + offset, (ref TNT other) =>
+			context.ModifyEntitiesInBucket(spatialBucket + offset, (TNT other) =>
 			{
 				if (other.order == thisID || !other.loaded)
 				{

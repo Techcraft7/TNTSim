@@ -35,9 +35,8 @@ internal sealed class Simulation
 		tnt.RemoveExploded();
 	}
 
-	// Adding method to prevent closure
-	private void TickTNT(ref TNT tnt) => tnt.Tick(this);
-	private void TickTNTFirstTime(ref TNT tnt) => tnt.Tick(this, true);
+	private void TickTNT(TNT tnt) => tnt.Tick(this);
+	private void TickTNTFirstTime(TNT tnt) => tnt.Tick(this, true);
 }
 
-internal delegate void TNTModifier(ref TNT other);
+internal delegate void TNTModifier(TNT other);

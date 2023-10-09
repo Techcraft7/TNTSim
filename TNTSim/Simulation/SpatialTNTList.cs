@@ -69,11 +69,10 @@ internal sealed class SpatialTNTList : IReadOnlyCollection<TNT>
 		}
 		for (int i = 0; i < list.Count; i++)
 		{
-			TNT r = list.Values[i];
-			if (!r.Removed)
+			TNT tnt = list.Values[i];
+			if (!tnt.Removed)
 			{
-				func(ref r);
-				list[r.order] = r;
+				func(tnt);
 			}
 		}
 	}
@@ -83,9 +82,7 @@ internal sealed class SpatialTNTList : IReadOnlyCollection<TNT>
 		LinkedListNode<TNT>? n = inOrder.First;
 		while (n is not null)
 		{
-			TNT tnt = n.Value;
-			func(ref tnt);
-			n.Value = tnt;
+			func(n.Value);
 			n = n.Next;
 		}
 	}
