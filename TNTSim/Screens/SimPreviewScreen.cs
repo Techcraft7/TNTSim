@@ -14,7 +14,7 @@ internal static class SimPreviewScreen
 
 	private static readonly Stopwatch TIMER = new();
 	private static Camera3D camera;
-	private static SimulationContext? current = null;
+	private static Simulation.Simulation? current = null;
 	private static double lastMSPT = 0;
 	static float cameraYaw, cameraPitch;
 
@@ -29,7 +29,7 @@ internal static class SimPreviewScreen
 			up = Vector3.UnitY,
 			projection = CameraProjection.CAMERA_PERSPECTIVE
 		};
-		current = Simulator.Create(settings);
+		current = SimulationFactory.Create(settings);
 		cameraPitch = MathF.PI / 4f;
 		cameraYaw = 5f * MathF.PI / 4f;
 	}

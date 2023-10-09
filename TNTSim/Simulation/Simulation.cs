@@ -1,6 +1,6 @@
 ﻿namespace TNTSim.Simulation;
 
-internal sealed class SimulationContext
+internal sealed class Simulation
 {
 	public IReadOnlyCollection<TNT> TNT => tnt;
 	public ICollection<Vec3> Explosions => explosions;
@@ -9,7 +9,7 @@ internal sealed class SimulationContext
 	private readonly SpatialTNTList tnt;
 	private readonly List<Vec3> explosions = new();
 
-	public SimulationContext(SimulationSettings settings, List<TNT> tnt)
+	public Simulation(SimulationSettings settings, List<TNT> tnt)
 	{
 		Settings = settings;
 		this.tnt = new(tnt);

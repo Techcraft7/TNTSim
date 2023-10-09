@@ -1,12 +1,12 @@
 ﻿namespace TNTSim.Simulation;
 
-internal static class Simulator
+internal static class SimulationFactory
 {
-	public static SimulationContext Create(SimulationSettings settings)
+	public static Simulation Create(SimulationSettings settings)
 	{
 		List<TNT> payload = CreatePayload(settings);
 
-		SimulationContext context = new(settings, payload);
+		Simulation context = new(settings, payload);
 
 		TickOnceAndCap(context);
 
@@ -90,7 +90,7 @@ internal static class Simulator
 	/// <summary>
 	/// Simulates the teleportation of the payload. Steps 1 tick, then cancels velocity greater than 10m/s (component-wise)
 	/// </summary>
-	private static void TickOnceAndCap(SimulationContext context)
+	private static void TickOnceAndCap(Simulation context)
 	{
 		context.Tick(true);
 		context.ModifyEntitiesInOrder((ref TNT tnt) =>

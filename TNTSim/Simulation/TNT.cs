@@ -20,7 +20,7 @@ internal sealed class TNT
 		this.order = order;
 	}
 
-	public void Tick(SimulationContext context, bool firstTick = false)
+	public void Tick(Simulation context, bool firstTick = false)
 	{
 		loaded = true;
 		velocity.Y -= 0.04;
@@ -58,7 +58,7 @@ internal sealed class TNT
 		}
 	}
 
-	private void Explode(SimulationContext context)
+	private void Explode(Simulation context)
 	{
 		Vec3 center = position + new Vec3(0, CENTER_OFFSET, 0);
 		context.LogExplosion(center);

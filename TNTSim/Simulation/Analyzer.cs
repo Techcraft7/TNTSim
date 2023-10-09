@@ -14,7 +14,7 @@ internal class Analyzer
 	public double DamageRadiusZ { get; private set; } = double.NaN;
 	public double DamagePercentage { get; private set; } = double.NaN;
 
-	private readonly SimulationContext context;
+	private readonly Simulation context;
 	private readonly Task task;
 	private readonly double[] mspt = new double[80];
 	private readonly int[] tntCounts = new int[80];
@@ -22,7 +22,7 @@ internal class Analyzer
 
 	public Analyzer(SimulationSettings settings)
 	{
-		context = Simulator.Create(settings);
+		context = SimulationFactory.Create(settings);
 		task = Task.Run(Analyze);
 	}
 
