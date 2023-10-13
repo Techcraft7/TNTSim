@@ -106,6 +106,11 @@ internal static class SimPreviewScreen
 		}
 		foreach (Vec3 exp in current.Explosions)
 		{
+			Vector2 onScreen = GetWorldToScreen(exp, camera);
+			if (onScreen.X is < -100 or >= (WINDOW_WIDTH + 100) || onScreen.Y is < -100 or >= (WINDOW_HEIGHT + 100))
+			{
+				continue;
+			}
 			DrawCircle3D(exp, EXPLOSION_SIZE, Vector3.UnitX, 90f, Color.ORANGE);
 		}
 	}
