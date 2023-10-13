@@ -5,6 +5,7 @@ namespace TNTSim.Screens;
 
 internal static class SimPreviewScreen
 {
+	private const float FOV = 90f;
 	private const string RUNNING = "Running";
 	private const string PAUSED = "Paused";
 	private const string CONTROLS = "WASD - Move\nSpace - Up\nShift - Down\nArrows - Rotate\nP - Pause/Play\nT - Step 1 tick\nEscape - Exit";
@@ -23,7 +24,7 @@ internal static class SimPreviewScreen
 		TIMER.Reset();
 		camera = new()
 		{
-			fovy = 90f,
+			fovy = FOV,
 			position = new Vector3(25, (float)settings.payloadY + 20, 25),
 			target = default,
 			up = Vector3.UnitY,
@@ -90,6 +91,12 @@ internal static class SimPreviewScreen
 		{
 			Vec3 offset = tnt.velocity * (TIMER.ElapsedTicks / (50.0 * TimeSpan.TicksPerMillisecond));
 			Vec3 pos = tnt.position + offset;
+
+			Vector2 onScreen = GetWorldToScreen(pos, camera);
+			if (onScreen.X is < -100 or >= (WINDOW_WIDTH + 100) || onScreen.Y is < -100 or >= (WINDOW_HEIGHT + 100))
+			{
+				continue;
+			}
 
 			DrawCube(pos, 0.98f, 0.98f, 0.98f, tnt.fuse / 5 % 2 == 0 ? Color.WHITE : Color.RED);
 			if (current.Settings.showVelocity)
