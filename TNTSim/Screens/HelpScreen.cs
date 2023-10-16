@@ -5,10 +5,18 @@ namespace TNTSim.Screens;
 internal static class HelpScreen
 {
 	private const string TITLE = "Help";
-	private const string TEXT = "TODO";
 	private const int START_Y = CONTROL_HEIGHT + (PADDING * 10);
 	private const int START_X = 50;
 	private const int MAX_WIDTH = WINDOW_WIDTH - (2 * START_X);
+	private static readonly string TEXT = string.Join("\n", new string[]
+	{
+		"Welcome to TNTSim, the high-performance Minecraft TNT physics simulation designed for cubicmeter's Orbital Strike Cannon v2",
+		"",
+		"-- Charge Menu --",
+		"TODO",
+		"-- Breadboard Menu --",
+		"TODO"
+	});
 	private static readonly string[] PARTS;
 	private static readonly int TITLE_X = (WINDOW_WIDTH - MeasureText(TITLE, FONT_SIZE)) / 2;
 
