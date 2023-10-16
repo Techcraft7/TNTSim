@@ -18,4 +18,13 @@ internal static class ScreenExt
 		Screen.HELP => Screen.CHARGES,
 		_ => Screen.CHARGES
 	};
+
+	public static Screen Prev(this Screen s) => s switch
+	{
+		Screen.CHARGES => Screen.HELP,
+		Screen.BREADBOARDS => Screen.CHARGES,
+		Screen.SIMULATION => Screen.BREADBOARDS,
+		Screen.HELP => Screen.SIMULATION,
+		_ => Screen.CHARGES
+	};
 }

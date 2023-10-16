@@ -38,7 +38,7 @@ while (!WindowShouldClose())
 	if (nextTabPressed || IsKeyPressed(KeyboardKey.KEY_TAB))
 	{
 		nextTabPressed = false;
-		screen = screen.Next();
+		screen = IsKeyDown(KeyboardKey.KEY_LEFT_SHIFT) ? screen.Prev() : screen.Next();
 		if (IsCursorHidden())
 		{
 			EnableCursor();
