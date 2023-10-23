@@ -41,6 +41,8 @@ internal static class HelpScreen
 	});
 	private static readonly string[] PARTS;
 	private static readonly int TITLE_X = (WINDOW_WIDTH - MeasureText(TITLE, FONT_SIZE)) / 2;
+	private static readonly int MAX_SCROLL;
+	private static int scroll = 0;
 
 
 	static HelpScreen()
@@ -72,18 +74,26 @@ internal static class HelpScreen
 		}
 
 		PARTS = parts.ToArray();
+
+		MAX_SCROLL = ((PARTS.Length + 1) * (FONT_SIZE + PADDING)) - (WINDOW_HEIGHT - START_Y);
 	}
 
 	public static void UpdateAndDraw()
 	{
-		DrawText(TITLE, TITLE_X, 2 * PADDING, FONT_SIZE, Color.GRAY);
-		DrawLine(0, CONTROL_HEIGHT + PADDING, WINDOW_WIDTH, CONTROL_HEIGHT + PADDING, Color.GRAY);
-
 		for (int i = 0; i < PARTS.Length; i++)
 		{
-			DrawText(PARTS[i], START_X, START_Y + (i * (FONT_SIZE + PADDING)), FONT_SIZE, Color.GRAY);
+			DrawText(PARTS[i], START_X, START_Y + (i * (FONT_SIZE + PADDING)) - scroll, FONT_SIZE, Color.GRAY);
 		}
 
-		// TODO: add scrolling
+		float wheel = GetMouseWheelMoveV().Y;
+		if (Math.Abs(wheel) > 0.1f)
+		{
+			scroll -= (int)(5 * wheel);
+		}
+		scroll = Math.Clamp(scroll, 0, MAX_SCROLL);
+
+		DrawRectangle(0, 0, WINDOW_WIDTH, CONTROL_HEIGHT + PADDING, Color.RAYWHITE);
+		DrawText(TITLE, TITLE_X, 2 * PADDING, FONT_SIZE, Color.GRAY);
+		DrawLine(0, CONTROL_HEIGHT + PADDING, WINDOW_WIDTH, CONTROL_HEIGHT + PADDING, Color.GRAY);
 	}
 }
