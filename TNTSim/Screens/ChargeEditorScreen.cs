@@ -5,7 +5,7 @@ internal static class ChargeEditorScreen
 	private const int START_Y = CONTROL_HEIGHT + PADDING + PADDING;
 	private const int CHARGE_LABEL_WIDTH = 100;
 	private const string TITLE = "Charge Editor";
-	private const string DEFAULTS_TEXT = "Defaults";
+	private const string DEFAULTS_TEXT = "Preset: Empty";
 	private const string NUKE_DEFAULTS_TEXT = "Preset: Nuclear Explosion";
 	private static readonly int TITLE_X = (WINDOW_WIDTH - MeasureText(TITLE, FONT_SIZE)) / 2;
 	private static readonly int START_X = (WINDOW_WIDTH - CHARGE_LABEL_WIDTH - ChargeEditor.WIDTH) / 2;

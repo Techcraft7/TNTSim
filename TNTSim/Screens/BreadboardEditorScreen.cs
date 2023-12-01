@@ -11,8 +11,8 @@ internal static class BreadboardEditorScreen
 	private const string TITLE = "Breadboard Editor";
 	private const string SCHEDULING_TEXT = "Scheduling Breadboard";
 	private const string CONTINUATION_TEXT = "Continuation Breadboard";
-	private const string DEFAULTS_TEXT = "Defaults";
-	private const string NUKE_DEFAULTS_TEXT = "Nuclear Explosion";
+	private const string DEFAULTS_TEXT = "Preset: Empty";
+	private const string NUKE_DEFAULTS_TEXT = "Preset: Nuclear Explosion";
 	private static readonly int TITLE_X = (WINDOW_WIDTH - MeasureText(TITLE, FONT_SIZE)) / 2;
 	private static readonly int SCHEDULING_X = (WINDOW_WIDTH - MeasureText(SCHEDULING_TEXT, FONT_SIZE)) / 2;
 	private static readonly int CONTINUATION_X = (WINDOW_WIDTH - MeasureText(CONTINUATION_TEXT, FONT_SIZE)) / 2;
