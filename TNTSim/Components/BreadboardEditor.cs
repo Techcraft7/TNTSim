@@ -51,7 +51,9 @@ internal sealed class BreadboardEditor : Component
 	{
 		if (IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_LEFT))
 		{
-			breadboard[slice, charge] = breadboard[slice, charge].Next();
+			bool shift = IsKeyDown(KeyboardKey.KEY_LEFT_SHIFT) || IsKeyDown(KeyboardKey.KEY_RIGHT_SHIFT);
+			Connection c = breadboard[slice, charge];
+			breadboard[slice, charge] = shift ? c.Previous() : c.Next();
 		}
 
 		scroller.Update();
