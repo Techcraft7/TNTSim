@@ -12,17 +12,21 @@ internal static class BreadboardEditorScreen
 	private const string SCHEDULING_TEXT = "Scheduling Breadboard";
 	private const string CONTINUATION_TEXT = "Continuation Breadboard";
 	private const string DEFAULTS_TEXT = "Defaults";
+	private const string NUKE_DEFAULTS_TEXT = "Nuclear Explosion";
 	private static readonly int TITLE_X = (WINDOW_WIDTH - MeasureText(TITLE, FONT_SIZE)) / 2;
 	private static readonly int SCHEDULING_X = (WINDOW_WIDTH - MeasureText(SCHEDULING_TEXT, FONT_SIZE)) / 2;
 	private static readonly int CONTINUATION_X = (WINDOW_WIDTH - MeasureText(CONTINUATION_TEXT, FONT_SIZE)) / 2;
 	private static readonly int DEFAULTS_X = (WINDOW_WIDTH - Button.GetMinWidth(DEFAULTS_TEXT)) / 2;
+	private static readonly int NUKE_DEFAULTS_X = (WINDOW_WIDTH - Button.GetMinWidth(NUKE_DEFAULTS_TEXT)) / 2;
 
 	private static readonly BreadboardEditor schedEditor = new(BREADBOARD_X, START_Y + CONTROL_HEIGHT, BREADBOARD_WIDTH_REAL, BUTTON_SIZE * 6);
 	private static readonly BreadboardEditor contEditor = new(BREADBOARD_X, schedEditor.GetBottomSide() + CONTROL_HEIGHT, BREADBOARD_WIDTH_REAL, BUTTON_SIZE * 6);
 	private static readonly Button defaultsButton = new(DEFAULTS_TEXT, DEFAULTS_X, contEditor.GetBottomSide(), Button.GetMinWidth(DEFAULTS_TEXT), () => loadDefaults = true);
+	private static readonly Button nukeDefaultsButton = new(NUKE_DEFAULTS_TEXT, NUKE_DEFAULTS_X, defaultsButton.GetBottomSide() + PADDING, Button.GetMinWidth(NUKE_DEFAULTS_TEXT), () => loadNukeDefaults = true);
 
 	private static bool first = true;
 	private static bool loadDefaults = false;
+	private static bool loadNukeDefaults = false;
 
 	public static void UpdateAndDraw(ref CannonSettings settings)
 	{
@@ -46,6 +50,19 @@ internal static class BreadboardEditorScreen
 			contEditor.Load(cont);
 		}
 
+		if (loadNukeDefaults)
+		{
+			loadNukeDefaults = false;
+			schedEditor.Load(NukeSettings.SCHED_BREADBOARD);
+			Breadboard cont = new();
+			for (int i = 0; i < 5; i++)
+			{
+				cont[i, i] = Connection.INPUT;
+				cont[i, i + 1] = Connection.NEXT_CHARGE_OUT;
+			}
+			contEditor.Load(cont);
+		}
+
 		DrawText(TITLE, TITLE_X, 2 * PADDING, FONT_SIZE, Color.GRAY);
 		DrawLine(0, CONTROL_HEIGHT + PADDING, WINDOW_WIDTH, CONTROL_HEIGHT + PADDING, Color.GRAY);
 
@@ -57,5 +74,6 @@ internal static class BreadboardEditorScreen
 		settings.continuationBoard = contEditor.Breadboard;
 
 		defaultsButton.UpdateAndDraw();
+		nukeDefaultsButton.UpdateAndDraw();
 	}
 }
