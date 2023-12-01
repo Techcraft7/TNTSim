@@ -57,6 +57,25 @@ internal sealed class NumberBox : Component
 			Value = min;
 		}
 
+		if (IsMouseOverSelf() && !dragger.IsDragging)
+		{
+			if (IsKeyPressed(KeyboardKey.KEY_MINUS))
+			{
+				Value *= -1;
+			}
+			if (IsKeyPressed(KeyboardKey.KEY_BACKSPACE))
+			{
+				Value /= 10;
+			}
+			for (int i = 0; i <= 9; i++)
+			{
+				if (IsKeyPressed(KeyboardKey.KEY_ZERO + i))
+				{
+					Value = i + (Value * 10);
+				}
+			}
+		}
+
 		DrawOutline(true);
 		DrawText(valueText, X + PADDING, Y + PADDING, FONT_SIZE, PrimaryColor);
 	}
