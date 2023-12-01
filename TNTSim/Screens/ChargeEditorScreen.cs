@@ -68,6 +68,6 @@ internal static class ChargeEditorScreen
 		DEFAULTS_BUTTON.UpdateAndDraw();
 		NUKE_DEFAULTS_BUTTON.UpdateAndDraw();
 
-		DrawText("*Mutally exclusive with any random momentum", PADDING, WINDOW_HEIGHT - FONT_SIZE - PADDING, FONT_SIZE, Color.GRAY);
+		DrawText("*Mutally exclusive with any random momentum", PADDING, WINDOW_HEIGHT - FONT_SIZE - PADDING, FONT_SIZE, Color.RED);
 	}
 }
