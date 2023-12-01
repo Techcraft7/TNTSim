@@ -42,23 +42,26 @@ while (!WindowShouldClose())
 
 	nextTabButton.UpdateAndDraw();
 	prevTabButton.UpdateAndDraw();
+	Screen oldScreen = screen;
 	if (nextTabPressed)
 	{
 		nextTabPressed = false;
 		screen = screen.Next();
-		if (IsCursorHidden())
-		{
-			EnableCursor();
-		}
 	}
 	if (prevTabPressed)
 	{
 		prevTabPressed = false;
 		screen = screen.Previous();
-		if (IsCursorHidden())
-		{
-			EnableCursor();
-		}
+		
+	}
+	if (IsKeyPressed(KeyboardKey.KEY_TAB))
+	{
+		bool shift = IsKeyDown(KeyboardKey.KEY_LEFT_SHIFT) || IsKeyDown(KeyboardKey.KEY_RIGHT_SHIFT);
+		screen = shift ? screen.Previous() : screen.Next();
+	}
+	if (oldScreen != screen && IsCursorHidden())
+	{
+		EnableCursor();
 	}
 
 	DrawFPS(PADDING, PADDING);
