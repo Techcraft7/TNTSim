@@ -70,6 +70,7 @@ internal static class SimPreviewScreen
 
 		DrawText($"MSPT: {lastMSPT}ms", PADDING, WINDOW_HEIGHT - FONT_SIZE - PADDING, FONT_SIZE, Color.BLACK);
 		DrawText($"TNT: {current.TNT.Count}", PADDING, WINDOW_HEIGHT - FONT_SIZE - PADDING - CONTROL_HEIGHT - PADDING, FONT_SIZE, Color.BLACK);
+		DrawText($"FPS: {(int)(1 / GetFrameTime())}", PADDING, WINDOW_HEIGHT - FONT_SIZE - PADDING - (2 * (CONTROL_HEIGHT + PADDING)), FONT_SIZE, Color.BLACK);
 
 		UpdateCameraControls();
 		UpdateSimulationControls();

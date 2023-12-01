@@ -64,7 +64,6 @@ while (!WindowShouldClose())
 		EnableCursor();
 	}
 
-	DrawFPS(PADDING, PADDING);
 	EndDrawing();
 }
 
