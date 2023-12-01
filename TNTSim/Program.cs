@@ -8,7 +8,9 @@ CannonSettings settings = new();
 settings.LoadDefaults();
 
 bool nextTabPressed = false;
-Button nextTabButton = new(">", WINDOW_WIDTH - PADDING - CONTROL_HEIGHT, PADDING / 2, CONTROL_HEIGHT, () => nextTabPressed = true);
+const string NEXT_TEXT = "Next Page >";
+int NEXT_TEXT_W = MeasureText(NEXT_TEXT, FONT_SIZE);
+Button nextTabButton = new(NEXT_TEXT, WINDOW_WIDTH - (3 * PADDING) - NEXT_TEXT_W, PADDING / 2, NEXT_TEXT_W + (2 * PADDING), () => nextTabPressed = true);
 
 while (!WindowShouldClose())
 {
