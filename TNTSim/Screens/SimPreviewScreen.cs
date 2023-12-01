@@ -208,12 +208,17 @@ internal static class SimPreviewScreen
 			}
 			else
 			{
+				TIMER.Reset();
 				TIMER.Start();
 			}
 		}
 		if (IsKeyPressed(KeyboardKey.KEY_T))
 		{
+			TIMER.Reset();
+			TIMER.Start();
 			current.Tick();
+			TIMER.Stop();
+			lastMSPT = TIMER.Elapsed.TotalMilliseconds;
 		}
 	}
 }
