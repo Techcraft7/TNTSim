@@ -22,4 +22,8 @@
     <PackageReference Include="Raylib-cs" Version="4.5.0.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\LibTNT\LibTNT.csproj" />
+  </ItemGroup>
+
 </Project>
