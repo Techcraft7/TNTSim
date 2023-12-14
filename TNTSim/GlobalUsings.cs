@@ -5,4 +5,5 @@ global using Microsoft.Extensions.Hosting;
 global using Microsoft.Extensions.Options;
 
 global using TNTSim;
+global using TNTSim.Application;
 global using Raylib_cs;
