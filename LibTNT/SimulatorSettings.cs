@@ -1,6 +1,6 @@
 ﻿namespace LibTNT;
 
-public struct SimulationSettings
+public struct SimulatorSettings
 {
 	public double payloadY;
 }

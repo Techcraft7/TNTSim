@@ -2,7 +2,7 @@
 
 namespace LibTNT;
 
-public sealed class TNT(uint order, Simulation context)
+public sealed class TNT(uint order)
 {
 	private const double CENTER_OFFSET = 0.98F * 0.0625D;
 
@@ -14,7 +14,7 @@ public sealed class TNT(uint order, Simulation context)
 	public bool loaded;
 	public Vec3B spatialBucket;
 
-	public void Tick(bool firstTick = false)
+	public void Tick(Simulator context, bool firstTick = false)
 	{
 		loaded = true;
 		velocity.Y -= 0.04;
@@ -48,11 +48,11 @@ public sealed class TNT(uint order, Simulation context)
 		if (fuse <= 0)
 		{
 			Removed = true;
-			Explode();
+			Explode(context);
 		}
 	}
 
-	private void Explode()
+	private void Explode(Simulator context)
 	{
 		Vec3 center = position + new Vec3(0, CENTER_OFFSET, 0);
 		context.LogExplosion(center);

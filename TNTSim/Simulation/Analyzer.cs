@@ -8,15 +8,15 @@ internal class Analyzer
 	public IReadOnlyList<double> MSPT => mspt;
 	public IReadOnlyList<int> TNTCounts => tntCounts;
 
-	private readonly Simulation context;
+	private readonly Simulator context;
 	private readonly Task task;
 	private readonly double[] mspt = new double[80];
 	private readonly int[] tntCounts = new int[80];
 	private int currentTick = 0;
 
-	public Analyzer(SimulationSettings settings)
+	public Analyzer(Settings settings)
 	{
-		context = SimulationFactory.Create(settings);
+		context = SimulatorFactory.Create(settings);
 		task = Task.Run(Analyze);
 	}
 

@@ -31,7 +31,7 @@ internal static class SimulationScreen
 			case Subscreen.PREVIEW:
 				if (first)
 				{
-					SimulationSettings settings = GetSimSettings(cannonSettings);
+					Settings settings = GetSimSettings(cannonSettings);
 					SimPreviewScreen.Start(settings);
 					first = false;
 				}
@@ -43,7 +43,7 @@ internal static class SimulationScreen
 			case Subscreen.ANALYZER:
 				if (first)
 				{
-					SimulationSettings settings = GetSimSettings(cannonSettings);
+					Settings settings = GetSimSettings(cannonSettings);
 					SimAnalyzerScreen.Start(settings);
 					first = false;
 				}
@@ -59,10 +59,13 @@ internal static class SimulationScreen
 		DrawLine(0, CONTROL_HEIGHT + PADDING, WINDOW_WIDTH, CONTROL_HEIGHT + PADDING, Color.GRAY);
 	}
 
-	private static SimulationSettings GetSimSettings(CannonSettings cannonSettings) => new()
+	private static Settings GetSimSettings(CannonSettings cannonSettings) => new()
 	{
 		cannonSettings = cannonSettings,
-		payloadY = SETTINGS.GetComponent<NumberBox>(3).Value,
+		simulatorSettings = new()
+		{
+			payloadY = SETTINGS.GetComponent<NumberBox>(3).Value
+		},
 		evenSpacing = SETTINGS.GetComponent<CheckBox>(4).Value,
 		showVelocity = SETTINGS.GetComponent<CheckBox>(5).Value,
 	};
