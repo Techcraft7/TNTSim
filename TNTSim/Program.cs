@@ -1,6 +1,8 @@
-﻿var builder = Host.CreateApplicationBuilder(args);
+﻿using TNTSim.Renderer;
 
-builder.Services.AddHostedService<Renderer>();
+var builder = Host.CreateApplicationBuilder(args);
+
+builder.Services.AddHostedService<RendererService>();
 
 var app = builder.Build();
 
