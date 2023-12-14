@@ -28,4 +28,10 @@
     <ProjectReference Include="..\TNTSim.Application\TNTSim.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="settings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
