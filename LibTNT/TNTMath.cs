@@ -2,6 +2,9 @@
 
 public static class TNTMath
 {
+	public const double TNT_GRAVITY = 0.04;
+	public const double TNT_DRAG = 0.02;
+
 	public static Vec3 GetVelocity(Vec3 explosionCenter, Vec3 entityPos)
 	{
 		double distanceNormalized = (double)(entityPos.DistanceTo(explosionCenter) / 8f);
@@ -21,5 +24,19 @@ public static class TNTMath
 		dir *= 1 / dir.Length();
 		// Velocity magnitude is (1 - distance/2power) * exposure (exposure is always one bc we are in the air)
 		return dir * (1.0D - distanceNormalized);
+	}
+
+	public static (Vec3 position, Vec3 velocity) PredictMovement(Vec3 r0, Vec3 v0, double t)
+	{
+		double totalDragMultiplier = Math.Pow(1 - TNT_DRAG, t);
+		Vec3 a = new(0, -TNT_GRAVITY, 0);
+
+		// Formula taken from wiki
+		Vec3 vt = v0 + (a * (1 - totalDragMultiplier) / TNT_DRAG * (1 - TNT_DRAG));
+
+		// Above formula integrated from 0 to t
+		Vec3 rt = r0 + (v0 * t) + (a * (TNT_DRAG - 1) * (((totalDragMultiplier - 1) / Math.Log(1 - TNT_DRAG)) - t) / TNT_DRAG);
+
+		return (rt, vt);
 	}
 }
