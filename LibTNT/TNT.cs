@@ -28,11 +28,6 @@ public sealed class TNT(uint order)
 			spatialBucket = newBucket;
 		}
 
-		if (firstTick)
-		{
-			velocity = default;
-		}
-
 		velocity *= 0.98;
 
 		// If on ground
