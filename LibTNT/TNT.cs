@@ -1,26 +1,20 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace TNTSim.Simulation;
+namespace LibTNT;
 
-internal sealed class TNT
+public sealed class TNT(uint order)
 {
 	private const double CENTER_OFFSET = 0.98F * 0.0625D;
 
 
 	public bool Removed { get; private set; } = false;
-	public uint order;
+	public readonly uint order = order;
 	public Vec3 position, velocity;
-	public int fuse;
+	public int fuse = 80;
 	public bool loaded;
 	public Vec3B spatialBucket;
 
-	public TNT(uint order)
-	{
-		fuse = 80;
-		this.order = order;
-	}
-
-	public void Tick(Simulation context, bool firstTick = false)
+	public void Tick(Simulator context, bool firstTick = false)
 	{
 		loaded = true;
 		velocity.Y -= 0.04;
@@ -58,7 +52,7 @@ internal sealed class TNT
 		}
 	}
 
-	private void Explode(Simulation context)
+	private void Explode(Simulator context)
 	{
 		Vec3 center = position + new Vec3(0, CENTER_OFFSET, 0);
 		context.LogExplosion(center);
@@ -77,7 +71,7 @@ internal sealed class TNT
 				{
 					return;
 				}
-				other.velocity += ExplosionCalculator.GetVelocity(center, other.position);
+				other.velocity += TNTMath.GetVelocity(center, other.position);
 			});
 		}
 	}

@@ -15,22 +15,24 @@ internal static class SimPreviewScreen
 
 	private static readonly Stopwatch TIMER = new();
 	private static Camera3D camera;
-	private static Simulation.Simulation? current = null;
+	private static Simulator? current = null;
+	private static Settings currentSettings;
 	private static double lastMSPT = 0;
 	static float cameraYaw, cameraPitch;
 
-	public static void Start(SimulationSettings settings)
+	public static void Start(Settings settings)
 	{
+		currentSettings = settings;
 		TIMER.Reset();
 		camera = new()
 		{
 			fovy = FOV,
-			position = new Vector3(25, (float)settings.payloadY + 20, 25),
+			position = new Vector3(25, (float)settings.simulatorSettings.payloadY + 20, 25),
 			target = default,
 			up = Vector3.UnitY,
 			projection = CameraProjection.CAMERA_PERSPECTIVE
 		};
-		current = SimulationFactory.Create(settings);
+		current = SimulatorFactory.Create(settings);
 		cameraPitch = MathF.PI / 4f;
 		cameraYaw = 5f * MathF.PI / 4f;
 	}
@@ -100,7 +102,7 @@ internal static class SimPreviewScreen
 			}
 
 			DrawCube(pos, 0.98f, 0.98f, 0.98f, tnt.fuse / 5 % 2 == 0 ? Color.WHITE : Color.RED);
-			if (current.Settings.showVelocity)
+			if (currentSettings.showVelocity)
 			{
 				DrawLine3D(pos, pos + tnt.velocity, Color.GREEN);
 			}

@@ -1,9 +1,9 @@
 ﻿namespace TNTSim.Simulation;
 
-internal struct SimulationSettings
+internal struct Settings
 {
+	public SimulatorSettings simulatorSettings;
 	public CannonSettings cannonSettings;
-	public double payloadY;
 	public bool evenSpacing;
 	public bool showVelocity;
 }

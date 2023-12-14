@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	<PublishSingleFile>true</PublishSingleFile>
@@ -20,6 +20,10 @@
 
   <ItemGroup>
     <PackageReference Include="Raylib-cs" Version="4.5.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LibTNT\LibTNT.csproj" />
   </ItemGroup>
 
 </Project>

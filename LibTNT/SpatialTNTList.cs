@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Diagnostics;
 
-namespace TNTSim.Simulation;
+namespace LibTNT;
 
 internal sealed class SpatialTNTList : IReadOnlyCollection<TNT>
 {

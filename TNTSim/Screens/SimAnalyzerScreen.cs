@@ -46,7 +46,7 @@ internal static class SimAnalyzerScreen
 		return true;
 	}
 
-	public static void Start(SimulationSettings settings)
+	public static void Start(Settings settings)
 	{
 		firstAfterDone = true;
 		current = new(settings);

@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace TNTSim.Util;
+namespace LibTNT;
 
-internal struct Vec3B : IComparable<Vec3B>
+public struct Vec3B : IComparable<Vec3B>
 {
 	private const int SIZE = 16;
 	private const double RANGE = SIZE * 127;

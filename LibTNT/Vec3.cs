@@ -1,6 +1,6 @@
-﻿namespace TNTSim.Util;
+﻿namespace LibTNT;
 
-internal struct Vec3
+public struct Vec3
 {
 	public double X, Y, Z;
 

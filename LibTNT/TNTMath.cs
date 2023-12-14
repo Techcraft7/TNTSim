@@ -1,6 +1,6 @@
-﻿namespace TNTSim.Simulation;
+﻿namespace LibTNT;
 
-internal static class ExplosionCalculator
+public static class TNTMath
 {
 	public static Vec3 GetVelocity(Vec3 explosionCenter, Vec3 entityPos)
 	{

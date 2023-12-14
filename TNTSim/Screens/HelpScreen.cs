@@ -32,7 +32,7 @@ internal static class HelpScreen
 		"The 'O' + 'X' represents two observers facing down, it passes the input straight down to the bottom line of rails.",
 		"",
 		"-- Scheduling Algorithm --",
-		$"* NOTE: If you can read C# code, then read {nameof(SimulationFactory)}.cs for the exact details. *",
+		$"* NOTE: If you can read C# code, then read {nameof(SimulatorFactory)}.cs for the exact details. *",
 		"Create TNT for the current charge",
 		"Decrement its schedule count by 0.5 (each item represents 2 iterations for some reason).",
 		"If the schedule count is greater than 0, follow the scheduling breadboard. If this fails, see below.",

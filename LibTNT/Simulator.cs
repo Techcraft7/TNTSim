@@ -1,15 +1,15 @@
-﻿namespace TNTSim.Simulation;
+﻿namespace LibTNT;
 
-internal sealed class Simulation
+public sealed class Simulator
 {
 	public IReadOnlyCollection<TNT> TNT => tnt;
 	public ICollection<Vec3> Explosions => explosions;
-	public SimulationSettings Settings { get; init; }
+	public SimulatorSettings Settings { get; init; }
 
 	private readonly SpatialTNTList tnt;
 	private readonly List<Vec3> explosions = new();
 
-	public Simulation(SimulationSettings settings, List<TNT> tnt)
+	public Simulator(SimulatorSettings settings, List<TNT> tnt)
 	{
 		Settings = settings;
 		this.tnt = new(tnt);
@@ -39,4 +39,4 @@ internal sealed class Simulation
 	private void TickTNTFirstTime(TNT tnt) => tnt.Tick(this, true);
 }
 
-internal delegate void TNTModifier(TNT other);
+public delegate void TNTModifier(TNT other);

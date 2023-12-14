@@ -1,12 +1,12 @@
 ﻿namespace TNTSim.Simulation;
 
-internal static class SimulationFactory
+internal static class SimulatorFactory
 {
-	public static Simulation Create(SimulationSettings settings)
+	public static Simulator Create(Settings settings)
 	{
 		List<TNT> payload = CreatePayload(settings);
 
-		Simulation context = new(settings, payload);
+		Simulator context = new(settings.simulatorSettings, payload);
 
 		TickOnceAndCap(context);
 
@@ -16,7 +16,7 @@ internal static class SimulationFactory
 	/// <summary>
 	/// Spawns the TNT of the payload
 	/// </summary>
-	private static List<TNT> CreatePayload(SimulationSettings settings)
+	private static List<TNT> CreatePayload(Settings settings)
 	{
 		List<TNT> list = new();
 
@@ -50,7 +50,7 @@ internal static class SimulationFactory
 				{
 					// Random momentum and fuse timer are mutually exclusive
 					fuse = 80 - (charge.cancelX && charge.cancelZ ? charge.fuse : 1),
-					position = new(0, settings.payloadY, 0)
+					position = new(0, settings.simulatorSettings.payloadY, 0)
 				};
 
 				if (!charge.cancelX)
@@ -90,7 +90,7 @@ internal static class SimulationFactory
 	/// <summary>
 	/// Simulates the teleportation of the payload. Steps 1 tick, then cancels velocity greater than 10m/s (component-wise)
 	/// </summary>
-	private static void TickOnceAndCap(Simulation context)
+	private static void TickOnceAndCap(Simulator context)
 	{
 		context.Tick(true);
 		context.ModifyEntitiesInOrder((TNT tnt) =>
