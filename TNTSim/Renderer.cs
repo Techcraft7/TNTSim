@@ -11,6 +11,7 @@ internal sealed class Renderer(ILogger<Renderer> logger, IHostApplicationLifetim
 
 		logger.LogInformation("Creating window");
 		InitWindow(800, 600, "TNT Cannon Simulator");
+		SetWindowState(ConfigFlags.FLAG_WINDOW_RESIZABLE);
 
 		while (!WindowShouldClose() && !stoppingToken.IsCancellationRequested)
 		{
