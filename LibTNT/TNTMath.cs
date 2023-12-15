@@ -26,7 +26,8 @@ public static class TNTMath
 		return dir * (1.0D - distanceNormalized);
 	}
 
-	public static (Vec3 position, Vec3 velocity) PredictMovement(Vec3 r0, Vec3 v0, double t)
+	// TODO: determine if this is correct
+	public static (Vec3 position, Vec3 velocity) PredictMovement(Vec3 r0, Vec3 v0, int t)
 	{
 		double totalDragMultiplier = Math.Pow(1 - TNT_DRAG, t);
 		Vec3 a = new(0, -TNT_GRAVITY, 0);
@@ -38,5 +39,17 @@ public static class TNTMath
 		Vec3 rt = r0 + (v0 * t) + (a * (TNT_DRAG - 1) * (((totalDragMultiplier - 1) / Math.Log(1 - TNT_DRAG)) - t) / TNT_DRAG);
 
 		return (rt, vt);
+	}
+
+	// TODO: determine if this is correct
+	public static (Vec3 position, Vec3 velocity) UnpredictMovement(Vec3 r, Vec3 v, int ticks)
+	{
+		for (int i = 0; i < ticks; i++)
+		{
+			v.Y += TNT_GRAVITY;
+			r -= v;
+			v /= 1 - TNT_DRAG;
+		}
+		return (r, v);
 	}
 }
