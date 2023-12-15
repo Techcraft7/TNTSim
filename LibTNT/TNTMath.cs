@@ -46,9 +46,9 @@ public static class TNTMath
 	{
 		for (int i = 0; i < ticks; i++)
 		{
-			v.Y += TNT_GRAVITY;
-			r -= v;
 			v /= 1 - TNT_DRAG;
+			r -= v;
+			v.Y += TNT_GRAVITY;
 		}
 		return (r, v);
 	}
