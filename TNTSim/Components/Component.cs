@@ -9,10 +9,10 @@ internal abstract class Component
 	public int Height { get; init; }
 	protected Color SeconaryColor => new()
 	{
-		r = (byte)Math.Min(PrimaryColor.r + 70, 255),
-		g = (byte)Math.Min(PrimaryColor.g + 70, 255),
-		b = (byte)Math.Min(PrimaryColor.b + 70, 255),
-		a = PrimaryColor.a
+		R = (byte)Math.Min(PrimaryColor.R + 70, 255),
+		G = (byte)Math.Min(PrimaryColor.G + 70, 255),
+		B = (byte)Math.Min(PrimaryColor.B + 70, 255),
+		A = PrimaryColor.A
 	};
 
 	public Component(int x, int y, int w, int h)

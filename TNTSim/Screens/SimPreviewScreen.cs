@@ -26,11 +26,11 @@ internal static class SimPreviewScreen
 		TIMER.Reset();
 		camera = new()
 		{
-			fovy = FOV,
-			position = new Vector3(25, (float)settings.simulatorSettings.payloadY + 20, 25),
-			target = default,
-			up = Vector3.UnitY,
-			projection = CameraProjection.CAMERA_PERSPECTIVE
+			FovY = FOV,
+			Position = new Vector3(25, (float)settings.simulatorSettings.payloadY + 20, 25),
+			Target = default,
+			Up = Vector3.UnitY,
+			Projection = CameraProjection.CAMERA_PERSPECTIVE
 		};
 		current = SimulatorFactory.Create(settings);
 		cameraPitch = MathF.PI / 4f;
@@ -157,7 +157,7 @@ internal static class SimPreviewScreen
 			cameraYaw -= rotSpeed;
 		}
 
-		camera.up = Vector3.UnitY;
+		camera.Up = Vector3.UnitY;
 		cameraPitch = float.Clamp(cameraPitch, -(MathF.PI / 2) + 0.001f, (MathF.PI / 2) - 0.001f);
 #if DEBUG
 		cameraYaw -= MathF.Tau * MathF.Floor(cameraYaw / MathF.Tau); // Wrap at 2pi so it looks nicer in debugger
@@ -169,30 +169,30 @@ internal static class SimPreviewScreen
 
 		if (space && !shift)
 		{
-			camera.position += Vector3.UnitY * moveSpeed;
+			camera.Position += Vector3.UnitY * moveSpeed;
 		}
 		else if (shift && !space)
 		{
-			camera.position -= Vector3.UnitY * moveSpeed;
+			camera.Position -= Vector3.UnitY * moveSpeed;
 		}
 		if (w && !s)
 		{
-			camera.position += fwd * moveSpeed;
+			camera.Position += fwd * moveSpeed;
 		}
 		if (s && !w)
 		{
-			camera.position -= fwd * moveSpeed;
+			camera.Position -= fwd * moveSpeed;
 		}
 		if (a && !d)
 		{
-			camera.position -= side * moveSpeed;
+			camera.Position -= side * moveSpeed;
 		}
 		if (d && !a)
 		{
-			camera.position += side * moveSpeed;
+			camera.Position += side * moveSpeed;
 		}
 
-		camera.target = fwd + camera.position;
+		camera.Target = fwd + camera.Position;
 	}
 
 	private static void UpdateSimulationControls()
