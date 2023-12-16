@@ -8,6 +8,7 @@ internal sealed class RendererService(ILogger<RendererService> logger, IHostAppl
     {
         logger.LogInformation("Initializing Raylib");
         SetTraceLogLevel(TraceLogLevel.LOG_ERROR);
+        SetExitKey(KeyboardKey.KEY_NULL);
 
         logger.LogInformation("Creating window");
         InitWindow(800, 600, "TNT Cannon Simulator");
