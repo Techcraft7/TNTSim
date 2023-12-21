@@ -14,6 +14,8 @@ builder.Services.AddHostedService<RendererService>();
 
 builder.Services.AddSingleton<IInput, RaylibInput>();
 
+builder.Services.AddSingleton<AppState>();
+
 var app = builder.Build();
 
 app.Run();
