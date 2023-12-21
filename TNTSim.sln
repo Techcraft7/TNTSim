@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibTNT", "LibTNT\LibTNT.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TNTSim.Application", "TNTSim.Application\TNTSim.Application.csproj", "{4B51C20F-F3C3-411A-9473-7A927D75302A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TNTSim.Application.Tests", "TNTSim.Application.Tests\TNTSim.Application.Tests.csproj", "{865EB954-EDAB-4AD5-8467-EF4F75AE1714}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{4B51C20F-F3C3-411A-9473-7A927D75302A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B51C20F-F3C3-411A-9473-7A927D75302A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B51C20F-F3C3-411A-9473-7A927D75302A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{865EB954-EDAB-4AD5-8467-EF4F75AE1714}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{865EB954-EDAB-4AD5-8467-EF4F75AE1714}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{865EB954-EDAB-4AD5-8467-EF4F75AE1714}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{865EB954-EDAB-4AD5-8467-EF4F75AE1714}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
