@@ -14,7 +14,7 @@ public sealed class TNT(uint order)
 	public bool loaded;
 	public Vec3B spatialBucket;
 
-	public void Tick(Simulator context, bool firstTick = false)
+	public void Tick(Simulator simulator, bool firstTick = false)
 	{
 		loaded = true;
 		velocity.Y -= 0.04;
@@ -24,7 +24,7 @@ public sealed class TNT(uint order)
 		Vec3B newBucket = Vec3B.FromPosition(position);
 		if (newBucket != oldBucket)
 		{
-			context.MoveToSpatialBucket(this, newBucket);
+			simulator.MoveToSpatialBucket(this, newBucket);
 			spatialBucket = newBucket;
 		}
 
@@ -48,14 +48,14 @@ public sealed class TNT(uint order)
 		if (fuse <= 0)
 		{
 			Removed = true;
-			Explode(context);
+			Explode(simulator);
 		}
 	}
 
-	private void Explode(Simulator context)
+	private void Explode(Simulator simulator)
 	{
 		Vec3 center = position + new Vec3(0, CENTER_OFFSET, 0);
-		context.LogExplosion(center);
+		simulator.LogExplosion(center);
 		uint thisID = order;
 		for (int i = 0; i < 27; i++)
 		{
@@ -65,7 +65,7 @@ public sealed class TNT(uint order)
 				Y = (sbyte)((i / 3 % 3) - 1),
 				Z = (sbyte)((i / 9) - 1),
 			};
-			context.ModifyEntitiesInBucket(spatialBucket + offset, (TNT other) =>
+			simulator.ModifyEntitiesInBucket(spatialBucket + offset, (TNT other) =>
 			{
 				if (other.order == thisID || !other.loaded)
 				{
